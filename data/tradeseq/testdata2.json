@@ -1,0 +1,9 @@
+{"stock_symbol":"AAPL","trade_time":30,"trade_price":440.4,"sequence_num":{"int":1}}
+{"stock_symbol":"AAPL","trade_time":50,"trade_price":480.08,"sequence_num":{"int":2}}
+{"stock_symbol":"AAPL","trade_time":90,"trade_price":534.97,"sequence_num":{"int":3}}
+{"stock_symbol":"GOOG","trade_time":10,"trade_price":95.0,"sequence_num":{"int":1}}
+{"stock_symbol":"GOOG","trade_time":40,"trade_price":100.0,"sequence_num":{"int":2}}
+{"stock_symbol":"GOOG","trade_time":80,"trade_price":105.0,"sequence_num":{"int":3}}
+{"stock_symbol":"MSFT","trade_time":20,"trade_price":34.1,"sequence_num":{"int":1}}
+{"stock_symbol":"MSFT","trade_time":60,"trade_price":34.3,"sequence_num":{"int":2}}
+{"stock_symbol":"MSFT","trade_time":70,"trade_price":34.2,"sequence_num":{"int":3}}

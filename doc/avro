@@ -1,0 +1,171 @@
+Avro序列化
+	http://www.iteblog.com/archives/1008
+	http://7543154.blog.51cto.com/7533154/1251552
+	https://github.com/miguno/avro-cli-examples
+
+Avro IPC
+	http://gqm.iteye.com/blog/1936110
+	http://www.cnblogs.com/agoodegg/p/3309041.html
+
+Avro MapReduce
+	http://www.michael-noll.com/blog/2013/07/04/using-avro-in-mapreduce-jobs-with-hadoop-pig-hive/
+	http://java.dzone.com/articles/mapreduce-avro-data-files
+
+go-avro
+	  |--com.zqh.avro
+			  		|--demo	
+	  |--example
+				|--avro
+				|--proto
+	
++++++++++++++++++++++++++++++++++
+AVRO SERIALIZE: TestSerialization
++++++++++++++++++++++++++++++++++
+1. compile
+# cd 到user.avsc的位置. 比如放在工程的src/main/java下
+# 指定avro-tools.jar的文件路径
+# java -jar ~/bin/avro-tools-1.7.7.jar compile schema user.avsc .
+
+-- script just for simple use. no need to execute this if u don't want to do it.
+compile.sh
+#!/usr/bin/env bash
+javac -classpath /usr/local/hadoop/lib/avro-1.7.4.jar:/usr/local/hadoop/lib/avro-tools-1.7.4.jar:/usr/local/hadoop/lib/jackson-core-asl-1.9.13.jar:/usr/local/hadoop/lib/jackson-mapper-asl-1.9.13.jar example/avro/User.java Test.java
+
+run.sh
+#!/usr/bin/env bash
+java -classpath /usr/local/hadoop/lib/avro-1.7.4.jar:/usr/local/hadoop/lib/avro-tools-1.7.4.jar:/usr/local/hadoop/lib/jackson-core-asl-1.9.13.jar:/usr/local/hadoop/lib/jackson-mapper-asl-1.9.13.jar:User.jar:. Test
+
+2. 编写测试类TestSerialization
+运行测试类， 会在指定的avroPath下生成avro文件
+
+3. 查看avro二进制文件
+zqhxuyuan@zqh:~$ strings users.avro 
+avro.schema
+{"type":"record","name":"User","namespace":"example.avro","fields":[{"name":"name","type":"string"},{"name":"favorite_number","type":["int","null"]},{"name":"favorite_color","type":["string","null"]}]}
+Alyssa
+Charlie
+blue
+Jimmy
+yellow
+在data目录下有avro二进制文件的拷贝。
+
+4. TestSerialization的code会序列化数据成avro文件, 反序列化会读取文件。数据的内容在这个过程不会丢失.
+
+5. 控制台的日志输出:
+{"name": "Alyssa", "favorite_number": 256, "favorite_color": null}
+{"name": "Ben", "favorite_number": 7, "favorite_color": "red"}
+{"name": "Charlie", "favorite_number": null, "favorite_color": "blue"}
+{"name": "Jimmy", "favorite_number": 7, "favorite_color": "yellow"}
+
++++++++++++++++++++++++++++++++++
+AVRO IPC:
++++++++++++++++++++++++++++++++++
+
+备注：avro的ipc实现在https://github.com/phunt/avro-rpc-quickstart中
+使用avro-maven-plugin在pom.xml中会报错，直接忽略掉这个错误。
+	<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>  
+	<outputDirectory>${project.basedir}/src/main/java/</outputDirectory>  
+
+1. 创建avpr脚本。放在/src/main/avro下。对应pom.xml中的configuration
+   注意必须是以avpr结尾的文件. 否则无法生成文件
+   		                
+2. compile
+# cd 到项目根目录
+# mvn clean compile
+[INFO] ------------------------------------------------------------------------
+[INFO] Building bigdata-mvn 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ bigdata-mvn ---
+[INFO] Deleting /home/zqhxuyuan/workspace2/bigdata-mvn/target
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:schema (schemas) @ bigdata-mvn ---
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:protocol (schemas) @ bigdata-mvn ---
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:idl-protocol (schemas) @ bigdata-mvn ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ bigdata-mvn ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ bigdata-mvn ---
+[INFO] Compiling 8 source files to /home/zqhxuyuan/workspace2/bigdata-mvn/target/classes
+
+会在example.proto下生成三个类Greeting, HelloWorld, Curse
+
+3. 编写业务类HelloWorldImpl, 实现接口HelloWorld
+
+4. 编写客户端和服务器Server,Client
+
+5. 分别启动服务器和客户端
+   客户端模拟发送RPC调用，服务器执行具体的业务逻辑。返回调用后的执行结果响应给客户端。
+   
+6. 日志输出
+服务端：
+Starting server
+Server started
+
+客户端：
+Client built, got proxy
+Calling proxy.hello with message: {"message": "how are you"}
+Result: {"message": "not too bad"}
+ 
+RPC的另一个示例使用mail.avpr, 测试用例的业务类,客户端,服务器都在TestRPC里. 
+
+Update: 
+使用多模块(go-bigdata下新建一个Maven Module:go-avro). 编译的时候仍然是在go-bigdata下执行mvn clean compile
+[INFO] ------------------------------------------------------------------------
+[INFO] Building go-bigdata 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ go-bigdata ---
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building go-avro 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ go-avro ---
+[INFO] Deleting /home/zqhxuyuan/workspace2/go-bigdata/go-avro/target
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:schema (schemas) @ go-avro ---
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:protocol (schemas) @ go-avro ---
+[INFO] 
+[INFO] --- avro-maven-plugin:1.7.5:idl-protocol (schemas) @ go-avro ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ go-avro ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/zqhxuyuan/workspace2/go-bigdata/go-avro/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ go-avro ---
+[INFO] Compiling 11 source files to /home/zqhxuyuan/workspace2/go-bigdata/go-avro/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] go-bigdata ........................................ SUCCESS [0.265s]
+[INFO] go-avro ........................................... SUCCESS [3.048s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.445s
+[INFO] Finished at: Wed Sep 17 16:54:35 CST 2014
+[INFO] Final Memory: 8M/245M
+[INFO] ------------------------------------------------------------------------
+
+
+
++++++++++++++++++++++++++++++++++
+AVRO Python
++++++++++++++++++++++++++++++++++
+下载avro-1.7.7.tar.gz解压后执行sudo setup.py install
+cd到go-avro的src/main/python, 执行python命令： 
+zqhxuyuan@zqh:~/workspace2/go-bigdata/go-avro/src/main/python$ python TestSerialization.py 
+{u'favorite_color': None, u'favorite_number': 256, u'name': u'Alyssa'}
+{u'favorite_color': u'red', u'favorite_number': 7, u'name': u'Ben'}
+{u'favorite_color': u'blue', u'favorite_number': None, u'name': u'Charlie'}
+{u'favorite_color': u'yellow', u'favorite_number': 7, u'name': u'Jimmy'}
+
+可以正常读取数据。 

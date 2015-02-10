@@ -1,0 +1,159 @@
+------------------------------------------
+1. Wrong Config of Driven cause local run
+------------------------------------------
+hadoop@hadoop:~/github-example/Impatient/part1$ hadoop jar ./build/libs/impatient.jar /input/cascading/impatient/rain.txt /output/cascading/rain2
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/hadoop/soft/cdh5.2.0/hadoop-2.5.0-cdh5.2.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/hadoop/github/apache/tez/tez-dist/target/tez-0.7.0-SNAPSHOT/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+15/01/22 17:47:00 INFO util.HadoopUtil: resolving application jar from found main method on: impatient.Main
+15/01/22 17:47:00 INFO planner.HadoopPlanner: using application jar: /home/hadoop/github-example/Impatient/part1/./build/libs/impatient.jar
+15/01/22 17:47:00 INFO property.AppProps: using app.id: 97703E817FE74A69BC98634F923CB1D8
+15/01/22 17:47:00 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+15/01/22 17:47:01 INFO management.CascadingServices: loading properties: cascading-service.properties
+15/01/22 17:47:01 INFO management.CascadingServices: loading properties: cascading/management/service.properties, from jar: file:/home/hadoop/bin/driven-plugin-1.1.1-eap-13-shaded.jar
+15/01/22 17:47:01 INFO mapred.FileInputFormat: Total input paths to process : 1
+15/01/22 17:47:01 INFO provider.ServiceLoader: loading services from library: file:/home/hadoop/bin/driven-plugin-1.1.1-eap-13-shaded.jar
+15/01/22 17:47:01 INFO rest.BulkUploadClient: using api key 1C756DAA814A40228B0142BDA3FBD4BE
+15/01/22 17:47:01 INFO rest.DrivenDocumentService: starting service. sending telemetry to https://driven.cascading.io from plugin /home/hadoop/bin/driven-plugin-1.1.1-eap-13-shaded.jar
+15/01/22 17:47:01 INFO rest.BufferedWriter: archive recording is not enabled
+15/01/22 17:47:12 WARN rest.BulkUploadClient: server version: '1.2-eap-5' does not match plugin version: '1.1.1-eap-13'
+15/01/22 17:47:12 INFO rest.BulkUploadClient: resolved protocol config: {driven.protocol.tolerance.plugin.action=allow}
+15/01/22 17:47:14 INFO rest.BulkUploadClient: available https://driven.cascading.io
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.used.genericoptionsparser is deprecated. Instead, use mapreduce.client.genericoptionsparser.used
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.output.compress is deprecated. Instead, use mapreduce.output.fileoutputformat.compress
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.map.child.java.opts is deprecated. Instead, use mapreduce.map.java.opts
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.reduce.child.java.opts is deprecated. Instead, use mapreduce.reduce.java.opts
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.job.map.memory.mb is deprecated. Instead, use mapreduce.map.memory.mb
+15/01/22 17:47:14 INFO Configuration.deprecation: mapred.job.reduce.memory.mb is deprecated. Instead, use mapreduce.reduce.memory.mb
+15/01/22 17:47:14 INFO util.Version: Concurrent, Inc - Cascading 2.6.1
+15/01/22 17:47:14 INFO flow.Flow: [] starting
+15/01/22 17:47:14 INFO flow.Flow: []  source: Hfs["TextDelimited[['doc_id', 'text']]"]["/input/cascading/impatient/rain.txt"]
+15/01/22 17:47:14 INFO flow.Flow: []  sink: Hfs["TextDelimited[['doc_id', 'text']]"]["/output/cascading/rain2"]
+15/01/22 17:47:14 INFO flow.Flow: []  parallel execution is enabled: true
+15/01/22 17:47:14 INFO flow.Flow: []  starting jobs: 1
+15/01/22 17:47:14 INFO flow.Flow: []  allocating threads: 1
+15/01/22 17:47:14 INFO flow.FlowStep: [] starting step: (1/1) /output/cascading/rain2
+15/01/22 17:47:14 INFO client.RMProxy: Connecting to ResourceManager at localhost/127.0.0.1:8032
+15/01/22 17:47:14 INFO client.RMProxy: Connecting to ResourceManager at localhost/127.0.0.1:8032
+15/01/22 17:47:14 INFO mapred.FileInputFormat: Total input paths to process : 1
+15/01/22 17:47:14 INFO mapreduce.JobSubmitter: number of splits:2
+15/01/22 17:47:15 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1421920014974_0001
+15/01/22 17:47:15 INFO impl.YarnClientImpl: Submitted application application_1421920014974_0001
+15/01/22 17:47:15 INFO mapreduce.Job: The url to track the job: http://localhost:8088/proxy/application_1421920014974_0001/
+15/01/22 17:47:15 INFO flow.FlowStep: [] submitted hadoop job: job_1421920014974_0001
+15/01/22 17:47:15 INFO flow.FlowStep: [] tracking url: http://localhost:8088/proxy/application_1421920014974_0001/
+15/01/22 17:47:18 INFO rest.DrivenDocumentService: https://driven.cascading.io/driven/97703E817FE74A69BC98634F923CB1D8
+15/01/22 17:47:18 INFO rest.DrivenDocumentService: plugin version 1.1.1-eap-13
+15/01/22 17:47:31 INFO util.Hadoop18TapUtil: deleting temp path /output/cascading/rain2/_temporary
+15/01/22 17:47:31 INFO state.AppStats: shutdown finalizing app status
+15/01/22 17:47:31 INFO state.AppStats: shutdown hook finished.
+15/01/22 17:47:31 INFO rest.DrivenDocumentService: https://driven.cascading.io/driven/97703E817FE74A69BC98634F923CB1D8
+15/01/22 17:47:31 INFO rest.DrivenDocumentService: plugin version 1.1.1-eap-13
+15/01/22 17:47:31 INFO rest.DrivenDocumentService: stopped document service
+
+
+------------------------------------------
+2. Driven config right
+------------------------------------------
+/home/hadoop/soft/jdk1.7.0_67/bin/java -Didea.launcher.port=7536 -Didea.launcher.bin......jar:/home/hadoop/repo/cascading/cascading-local/2.6.2/cascading-local-2.6.2.jar:/home/hadoop/repo/cascading/cascading-hadoop2-mr1/2.6.2/cascading-hadoop2-mr1-2.6.2.jar:/home/hadoop/repo/cascading/cascading-xml/2.6.2/cascading-xml-2.6.2.jar:/home/hadoop/repo/org/ccil/cowan/tagsoup/tagsoup/1.2/tagsoup-1.2.jar:/home/hadoop/repo/cascading/cascading-platform/2.6.2/cascading-platform-2.6.2.jar:/home/hadoop/tool/idea-IU-139.225.3/lib/idea_rt.jar com.intellij.rt.execution.application.AppMain com.zqh.bigdata.demo.CascadingHello
+2015-01-23 13:58:40,605 INFO  [main] util.HadoopUtil (HadoopUtil.java:findMainClass(325)) - resolving application jar from found main method on: com.zqh.bigdata.demo.CascadingHello
+2015-01-23 13:58:40,609 INFO  [main] planner.HadoopPlanner (HadoopPlanner.java:initialize(225)) - using application jar: null
+2015-01-23 13:58:40,630 INFO  [main] property.AppProps (AppProps.java:getAppID(169)) - using app.id: 0FD8A4F9C9E24DB7977737A21836196C
+2015-01-23 13:58:41,049 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(62)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2015-01-23 13:58:41,228 INFO  [main] management.CascadingServices (CascadingServices.java:loadProperties(165)) - loading properties: cascading/management/service.properties, from jar: file:/home/hadoop/repo/driven/driven-plugin/1.2-eap-5/driven-plugin-1.2-eap-5.jar
+2015-01-23 13:58:41,505 INFO  [main] mapred.FileInputFormat (FileInputFormat.java:listStatus(247)) - Total input paths to process : 1
+2015-01-23 13:58:41,726 INFO  [main] provider.ServiceLoader (ProviderLoader.java:getClassLoader(100)) - loading services from library: file:/home/hadoop/repo/driven/driven-plugin/1.2-eap-5/driven-plugin-1.2-eap-5.jar
+2015-01-23 13:58:42,464 INFO  [main] rest.BulkUploadClient (BulkUploadClient.java:<init>(66)) - api key not supplied
+2015-01-23 13:58:42,465 INFO  [main] rest.DrivenDocumentService (DrivenDocumentService.java:doStartService(178)) - starting service. sending telemetry to https://driven.cascading.io from plugin /home/hadoop/repo/driven/driven-plugin/1.2-eap-5/driven-plugin-1.2-eap-5.jar
+2015-01-23 13:58:42,465 INFO  [main] rest.BufferedWriter (BufferedWriter.java:createRecorder(60)) - archive recording is not enabled
+2015-01-23 13:58:52,132 INFO  [main] rest.BulkUploadClient (RESTClient.java:handleServerHandshakeResponse(242)) - resolved protocol config: {driven.protocol.tolerance.plugin.action=allow}
+2015-01-23 13:58:52,470 INFO  [main] rest.BulkUploadClient (RESTClient.java:testConnectivity(202)) - available https://driven.cascading.io
+2015-01-23 13:58:52,653 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.used.genericoptionsparser is deprecated. Instead, use mapreduce.client.genericoptionsparser.used
+2015-01-23 13:58:52,672 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2015-01-23 13:58:52,675 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.output.compress is deprecated. Instead, use mapreduce.output.fileoutputformat.compress
+2015-01-23 13:58:52,737 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.map.child.java.opts is deprecated. Instead, use mapreduce.map.java.opts
+2015-01-23 13:58:52,738 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.reduce.child.java.opts is deprecated. Instead, use mapreduce.reduce.java.opts
+2015-01-23 13:58:52,740 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.job.map.memory.mb is deprecated. Instead, use mapreduce.map.memory.mb
+2015-01-23 13:58:52,740 INFO  [main] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.job.reduce.memory.mb is deprecated. Instead, use mapreduce.reduce.memory.mb
+2015-01-23 13:58:52,775 INFO  [flow] util.Version (Version.java:printBanner(82)) - Concurrent, Inc - Cascading 2.6.2
+2015-01-23 13:58:52,785 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - [] starting
+2015-01-23 13:58:52,785 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - []  source: Hfs["TextDelimited[['doc_id', 'text']]"]["/home/hadoop/github-example/Impatient/part1/data/rain.txt"]
+2015-01-23 13:58:52,786 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - []  sink: Hfs["TextDelimited[['doc_id', 'text']]"]["/home/hadoop/data/output/rain"]
+2015-01-23 13:58:52,786 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - []  parallel execution is enabled: false
+2015-01-23 13:58:52,786 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - []  starting jobs: 1
+2015-01-23 13:58:52,786 INFO  [flow] flow.Flow (BaseFlow.java:logInfo(1378)) - []  allocating threads: 1
+2015-01-23 13:58:52,788 INFO  [pool-1-thread-1] flow.FlowStep (BaseFlowStep.java:logInfo(834)) - [] starting step: (1/1) ...e/hadoop/data/output/rain
+2015-01-23 13:58:52,811 INFO  [pool-1-thread-1] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - session.id is deprecated. Instead, use dfs.metrics.session-id
+2015-01-23 13:58:52,821 INFO  [pool-1-thread-1] jvm.JvmMetrics (JvmMetrics.java:init(76)) - Initializing JVM Metrics with processName=JobTracker, sessionId=
+2015-01-23 13:58:52,836 INFO  [pool-1-thread-1] jvm.JvmMetrics (JvmMetrics.java:init(71)) - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2015-01-23 13:58:52,934 WARN  [pool-1-thread-1] mapreduce.JobSubmitter (JobSubmitter.java:copyAndConfigureFiles(259)) - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+2015-01-23 13:58:52,940 INFO  [pool-1-thread-1] mapred.FileInputFormat (FileInputFormat.java:listStatus(247)) - Total input paths to process : 1
+2015-01-23 13:58:53,011 INFO  [pool-1-thread-1] mapreduce.JobSubmitter (JobSubmitter.java:submitJobInternal(396)) - number of splits:1
+2015-01-23 13:58:53,488 INFO  [pool-1-thread-1] mapreduce.JobSubmitter (JobSubmitter.java:printTokens(479)) - Submitting tokens for job: job_local749891641_0001
+2015-01-23 13:58:53,512 WARN  [pool-1-thread-1] conf.Configuration (Configuration.java:loadProperty(2368)) - file:/tmp/hadoop-hadoop/mapred/staging/hadoop749891641/.staging/job_local749891641_0001/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+2015-01-23 13:58:53,518 WARN  [pool-1-thread-1] conf.Configuration (Configuration.java:loadProperty(2368)) - file:/tmp/hadoop-hadoop/mapred/staging/hadoop749891641/.staging/job_local749891641_0001/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+2015-01-23 13:58:53,741 WARN  [pool-1-thread-1] conf.Configuration (Configuration.java:loadProperty(2368)) - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local749891641_0001/job_local749891641_0001.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+2015-01-23 13:58:53,744 WARN  [pool-1-thread-1] conf.Configuration (Configuration.java:loadProperty(2368)) - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local749891641_0001/job_local749891641_0001.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+2015-01-23 13:58:53,749 INFO  [pool-1-thread-1] mapreduce.Job (Job.java:submit(1289)) - The url to track the job: http://localhost:8080/
+2015-01-23 13:58:53,750 INFO  [pool-1-thread-1] flow.FlowStep (BaseFlowStep.java:logInfo(834)) - [] submitted hadoop job: job_local749891641_0001
+2015-01-23 13:58:53,750 INFO  [pool-1-thread-1] flow.FlowStep (BaseFlowStep.java:logInfo(834)) - [] tracking url: http://localhost:8080/
+2015-01-23 13:58:53,757 INFO  [Thread-12] mapred.LocalJobRunner (LocalJobRunner.java:createOutputCommitter(471)) - OutputCommitter set in config null
+2015-01-23 13:58:53,759 INFO  [Thread-12] mapred.LocalJobRunner (LocalJobRunner.java:createOutputCommitter(489)) - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+2015-01-23 13:58:53,807 INFO  [Thread-12] mapred.LocalJobRunner (LocalJobRunner.java:runTasks(448)) - Waiting for map tasks
+2015-01-23 13:58:53,818 INFO  [LocalJobRunner Map Task Executor #0] mapred.LocalJobRunner (LocalJobRunner.java:run(224)) - Starting task: attempt_local749891641_0001_m_000000_0
+2015-01-23 13:58:53,893 INFO  [LocalJobRunner Map Task Executor #0] mapred.Task (Task.java:initialize(587)) -  Using ResourceCalculatorProcessTree : [ ]
+2015-01-23 13:58:53,900 INFO  [LocalJobRunner Map Task Executor #0] io.MultiInputSplit (MultiInputSplit.java:readFields(161)) - current split input path: file:/home/hadoop/github-example/Impatient/part1/data/rain.txt
+2015-01-23 13:58:53,900 INFO  [LocalJobRunner Map Task Executor #0] mapred.MapTask (MapTask.java:updateJobWithSplit(462)) - Processing split: cascading.tap.hadoop.io.MultiInputSplit@1fb26910
+2015-01-23 13:58:53,903 INFO  [LocalJobRunner Map Task Executor #0] mapred.MapTask (MapTask.java:runOldMapper(416)) - numReduceTasks: 0
+2015-01-23 13:58:53,922 INFO  [LocalJobRunner Map Task Executor #0] hadoop.FlowMapper (FlowMapper.java:configure(71)) - cascading version: 2.6.2
+2015-01-23 13:58:53,922 INFO  [LocalJobRunner Map Task Executor #0] hadoop.FlowMapper (FlowMapper.java:configure(72)) - child jvm opts: -Xmx200m
+2015-01-23 13:58:53,946 INFO  [LocalJobRunner Map Task Executor #0] Configuration.deprecation (Configuration.java:warnOnceIfDeprecated(1019)) - mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2015-01-23 13:58:53,946 INFO  [LocalJobRunner Map Task Executor #0] hadoop.FlowMapper (FlowMapper.java:configure(87)) - sourcing from: Hfs["TextDelimited[['doc_id', 'text']]"]["/home/hadoop/github-example/Impatient/part1/data/rain.txt"]
+2015-01-23 13:58:53,946 INFO  [LocalJobRunner Map Task Executor #0] hadoop.FlowMapper (FlowMapper.java:configure(90)) - sinking to: Hfs["TextDelimited[['doc_id', 'text']]"]["/home/hadoop/data/output/rain"]
+2015-01-23 13:58:53,960 INFO  [LocalJobRunner Map Task Executor #0] mapred.LocalJobRunner (LocalJobRunner.java:statusUpdate(591)) -
+2015-01-23 13:58:53,960 INFO  [LocalJobRunner Map Task Executor #0] mapred.Task (Task.java:done(1001)) - Task:attempt_local749891641_0001_m_000000_0 is done. And is in the process of committing
+2015-01-23 13:58:53,972 INFO  [LocalJobRunner Map Task Executor #0] mapred.LocalJobRunner (LocalJobRunner.java:statusUpdate(591)) -
+2015-01-23 13:58:53,972 INFO  [LocalJobRunner Map Task Executor #0] mapred.Task (Task.java:commit(1162)) - Task attempt_local749891641_0001_m_000000_0 is allowed to commit now
+2015-01-23 13:58:53,976 INFO  [LocalJobRunner Map Task Executor #0] output.FileOutputCommitter (FileOutputCommitter.java:commitTask(439)) - Saved output of task 'attempt_local749891641_0001_m_000000_0' to file:/home/hadoop/data/output/rain/_temporary/0/task_local749891641_0001_m_000000
+2015-01-23 13:58:53,982 INFO  [LocalJobRunner Map Task Executor #0] mapred.LocalJobRunner (LocalJobRunner.java:statusUpdate(591)) - file:/home/hadoop/github-example/Impatient/part1/data/rain.txt:0+510
+2015-01-23 13:58:53,982 INFO  [LocalJobRunner Map Task Executor #0] mapred.Task (Task.java:sendDone(1121)) - Task 'attempt_local749891641_0001_m_000000_0' done.
+2015-01-23 13:58:53,982 INFO  [LocalJobRunner Map Task Executor #0] mapred.LocalJobRunner (LocalJobRunner.java:run(249)) - Finishing task: attempt_local749891641_0001_m_000000_0
+2015-01-23 13:58:53,983 INFO  [Thread-12] mapred.LocalJobRunner (LocalJobRunner.java:runTasks(456)) - map task executor complete.
+2015-01-23 13:58:54,253 INFO  [ESBufferDaemon-Flusher-1421992722465] rest.DrivenDocumentService (DrivenDocumentService.java:handleProtocolAction(264)) - plugin protocol action: 'allow'
+2015-01-23 13:58:54,254 INFO  [ESBufferDaemon-Flusher-1421992722465] rest.DrivenDocumentService (BulkUploadClient.java:verboseAppLink(217)) -
+
+    ________        __    ________        .__
+   /  _____/  _____/  |_  \______ \_______|__|__  __ ____   ____
+  /   \  ____/ __ \   __\  |    |  \_  __ \  \  \/ // __ \ /    \
+  \    \_\  \  ___/|  |    |    `   \  | \/  |\   /\  ___/|   |  \
+   \______  /\_____>__|   /_______  /__|  |__| \_/  \_____>___|  /
+          \/                      \/                           \/
+   plugin version: 1.2-eap-5
+
+	Follow this link to view your application:
+
+	https://driven.cascading.io/driven/0FD8A4F9C9E24DB7977737A21836196C
+
+
+2015-01-23 13:58:59,031 INFO  [flow] util.Hadoop18TapUtil (Hadoop18TapUtil.java:cleanTempPath(219)) - deleting temp path /home/hadoop/data/output/rain/_temporary
+2015-01-23 13:58:59,031 INFO  [cascading shutdown hooks] state.AppStats (AppStats.java:execute(155)) - shutdown finalizing app status
+2015-01-23 13:58:59,037 INFO  [cascading shutdown hooks] state.AppStats (AppStats.java:blockUntilFinished(188)) - shutdown hook finished.
+2015-01-23 13:58:59,534 INFO  [cascading shutdown hooks] rest.DrivenDocumentService (BulkUploadClient.java:verboseAppLink(217)) -
+
+    ________        __    ________        .__
+   /  _____/  _____/  |_  \______ \_______|__|__  __ ____   ____
+  /   \  ____/ __ \   __\  |    |  \_  __ \  \  \/ // __ \ /    \
+  \    \_\  \  ___/|  |    |    `   \  | \/  |\   /\  ___/|   |  \
+   \______  /\_____>__|   /_______  /__|  |__| \_/  \_____>___|  /
+          \/                      \/                           \/
+   plugin version: 1.2-eap-5
+
+	Follow this link to view your application:
+
+	https://driven.cascading.io/driven/0FD8A4F9C9E24DB7977737A21836196C
+
+
+2015-01-23 13:58:59,534 INFO  [cascading shutdown hooks] rest.DrivenDocumentService (DrivenDocumentService.java:doStopService(223)) - stopped document service
+

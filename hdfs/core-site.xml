@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <!-- 	
+  <property>
+     <name>fs.default.name</name>
+     <value>hdfs://172.17.212.67:8020</value>
+  </property>
+  <property>
+     <name>fs.defaultFS</name>
+     <value>hdfs://172.17.212.67:8020</value>
+  </property>
+
+  <property>
+     <name>fs.defaultFS</name>
+     <value>hdfs://fzcluster</value>
+  </property>
+
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/home/conan/hadoop/tmp</value>
+  </property>
+  <property>
+    <name>io.sort.mb</name>
+    <value>256</value>
+  </property>
+  -->
+
+    <property>
+        <name>fs.default.name</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>

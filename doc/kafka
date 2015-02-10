@@ -1,0 +1,120 @@
+一. Kafka Quick Start
+=====================
+Ref: http://kafka.apache.org/documentation.html#quickstart
+
+1. 启动ZooKeeper和Kafka服务
+# cd kafka_2.10-0.8.1
+# bin/zookeeper-server-start.sh config/zookeeper.properties
+# bin/kafka-server-start.sh config/server.properties
+
+2. 创建一个主题
+# bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+# bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+3. 发送消息
+# bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+This is a message
+
+4. 消费消息
+# bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
+This is a message
+
+二. Kafka Producer Example
+==========================
+Ref: https://cwiki.apache.org/confluence/display/KAFKA/0.8.0+Producer+Example
+
+1. 修改代码中的主题为test
+2. 运行TestProducer类,生产消息
+3. 命令行消费消息
+# bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
+1416385241085,www.example.com,192.168.2.167
+1416385241263,www.example.com,192.168.2.173
+1416385241267,www.example.com,192.168.2.85
+1416385241271,www.example.com,192.168.2.181
+1416385241275,www.example.com,192.168.2.212
+1416385241279,www.example.com,192.168.2.59
+1416385241283,www.example.com,192.168.2.228
+1416385241287,www.example.com,192.168.2.121
+1416385241292,www.example.com,192.168.2.47
+1416385241296,www.example.com,192.168.2.23
+
+三. Kafka Cluster: 单机多服务模拟Kafka集群
+=======================================
+1. 复制三个server.properties文件,并修改配置信息
+server1.properties
+    broker.id=0
+    port=9092
+    log.dirs=/home/hadoop/data/kafka1
+server2.properties
+    broker.id=1
+    port=9093
+    log.dirs=/home/hadoop/data/kafka2
+server3.properties
+    broker.id=2
+    port=9094
+    log.dirs=/home/hadoop/data/kafka3
+
+3. 启动Zookeeper
+# cd kafka_2.10-0.8.1.1
+# bin/zookeeper-server-start.sh config/zookeeper.properties
+
+4. 启动Kafka集群
+# bin/kafka-server-start.sh config/server1.properties
+# bin/kafka-server-start.sh config/server2.properties
+# bin/kafka-server-start.sh config/server3.properties
+
+5. 查看注册在ZooKeeper上的Kafka brokers:
+# zkCli.sh
+[zk: localhost:2181(CONNECTED) 2] ls /brokers/ids
+[2, 1, 0]
+[zk: localhost:2181(CONNECTED) 3] get /brokers/ids/0
+{"jmx_port":-1,"timestamp":"1416387728997","host":"localhost","version":1,"port":9092}
+[zk: localhost:2181(CONNECTED) 3] get /brokers/ids/1
+{"jmx_port":-1,"timestamp":"1416387728997","host":"localhost","version":1,"port":9093}
+[zk: localhost:2181(CONNECTED) 3] get /brokers/ids/2
+{"jmx_port":-1,"timestamp":"1416387728997","host":"localhost","version":1,"port":9094}
+
+6. 创建主题: 副本数量=3，因为有3台Kafka. 分区只有一个.
+# bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic
+# bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic
+Topic:my-replicated-topic	PartitionCount:1	ReplicationFactor:3	Configs:
+	Topic: my-replicated-topic	Partition: 0	Leader: 2	Replicas: 2,0,1	Isr: 2,0,1
+
+7. 测试生产和消费消息
+# bin/kafka-console-producer.sh --broker-list localhost:9092,localhost:9093,localhost:9094 --topic my-replicated-topic
+# bin/kafka-console-consumer.sh --zookeeper localhost:2181 --from-beginning --topic my-replicated-topic
+
+8. 测试容错
+1) 找出现在集群中的Leader: Leader: 2 即第三台Kafka服务器
+2) 找出Leader的进程,杀死
+# jps -lm
+6677 org.apache.zookeeper.server.quorum.QuorumPeerMain config/zookeeper.properties
+6938 kafka.consumer.ConsoleConsumer --zookeeper localhost:2181 --from-beginning --topic my-replicated-topic
+6743 kafka.Kafka config/server2.properties
+6700 kafka.Kafka config/server1.properties
+6786 kafka.Kafka config/server3.properties
+# kill -9 6786
+
+3) 关闭Leader, 过几秒后，重新查看Leader变成了第一台，即id=0
+# bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic
+Topic:my-replicated-topic	PartitionCount:1	ReplicationFactor:3	Configs:
+	Topic: my-replicated-topic	Partition: 0	Leader: 0	Replicas: 2,0,1	Isr: 0,1
+
+四. Kafka Consumer Example
+==========================
+Ref: https://cwiki.apache.org/confluence/display/KAFKA/0.8.0+SimpleConsumer+Example
+     https://cwiki.apache.org/confluence/display/KAFKA/Consumer+Group+Example
+
+1. 先创建topic, 然后用命令行或者TestProducer代码生产一些消息
+执行demo里的SimpleConsumerExample 或者quickstart的ConsumerGroupExample最简单的API消费消息
+
+2.
+
+
+
+
+
+
+https://github.com/thilinamb/flume-ng-kafka-sink
+https://github.com/zqhxuyuan/flume-kafka-storm
+https://github.com/miguno/kafka-storm-starter

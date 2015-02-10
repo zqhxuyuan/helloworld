@@ -1,0 +1,631 @@
+ INFO - io.sort.mb is deprecated. Instead, use mapreduce.task.io.sort.mb
+ WARN - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Delete: hdfs://localhost:9000/input/hadoop/week05//step1
+Delete: hdfs://localhost:9000/input/hadoop/week05/
+Create: hdfs://localhost:9000/input/hadoop/week05/
+copy from: /home/hadoop/IdeaProjects/go-bigdata/helloworld/data/hadoop/small.csv to hdfs://localhost:9000/input/hadoop/week05/
+ INFO - session.id is deprecated. Instead, use dfs.metrics.session-id
+ INFO - Initializing JVM Metrics with processName=JobTracker, sessionId=
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ WARN - Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+ WARN - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+ INFO - Total input paths to process : 1
+ INFO - number of splits:1
+ INFO - Submitting tokens for job: job_local293595794_0001
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop293595794/.staging/job_local293595794_0001/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop293595794/.staging/job_local293595794_0001/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local293595794_0001/job_local293595794_0001.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local293595794_0001/job_local293595794_0001.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ INFO - The url to track the job: http://localhost:8080/
+ INFO - OutputCommitter set in config null
+ INFO - Running job: job_local293595794_0001
+ INFO - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+ INFO - Waiting for map tasks
+ INFO - Starting task: attempt_local293595794_0001_m_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/small.csv:0+209
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Spilling map output
+ INFO - bufstart = 0; bufend = 252; bufvoid = 1073741824
+ INFO - kvstart = 268435452(1073741808); kvend = 268435372(1073741488); length = 81/67108864
+ INFO - Finished spill 0
+ INFO - Task:attempt_local293595794_0001_m_000000_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/small.csv:0+209
+ INFO - Task 'attempt_local293595794_0001_m_000000_0' done.
+ INFO - Finishing task: attempt_local293595794_0001_m_000000_0
+ INFO - map task executor complete.
+ INFO - Waiting for reduce tasks
+ INFO - Starting task: attempt_local293595794_0001_r_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@7ff2ad9c
+ INFO - MergerManager: memoryLimit=1503238528, maxSingleShuffleLimit=375809632, mergeThreshold=992137472, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+ INFO - attempt_local293595794_0001_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+ INFO - localfetcher#1 about to shuffle output of map attempt_local293595794_0001_m_000000_0 decomp: 200 len: 204 to MEMORY
+ INFO - Read 200 bytes from map-output for attempt_local293595794_0001_m_000000_0
+ INFO - closeInMemoryFile -> map-output of size: 200, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->200
+ INFO - EventFetcher is interrupted.. Returning
+ INFO - 1 / 1 copied.
+ INFO - finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 194 bytes
+ INFO - Merged 1 segments, 200 bytes to disk to satisfy reduce memory limit
+ INFO - Merging 1 files, 204 bytes from disk
+ INFO - Merging 0 segments, 0 bytes from memory into reduce
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 194 bytes
+ INFO - 1 / 1 copied.
+ INFO - Task:attempt_local293595794_0001_r_000000_0 is done. And is in the process of committing
+ INFO - 1 / 1 copied.
+ INFO - Task attempt_local293595794_0001_r_000000_0 is allowed to commit now
+ INFO - Saved output of task 'attempt_local293595794_0001_r_000000_0' to hdfs://localhost:9000/input/hadoop/week05/step1/_temporary/0/task_local293595794_0001_r_000000
+ INFO - reduce > reduce
+ INFO - Task 'attempt_local293595794_0001_r_000000_0' done.
+ INFO - Finishing task: attempt_local293595794_0001_r_000000_0
+ INFO - reduce task executor complete.
+ INFO - Job job_local293595794_0001 running in uber mode : false
+ INFO -  map 100% reduce 100%
+ INFO - Job job_local293595794_0001 completed successfully
+ INFO - Counters: 38
+	File System Counters
+		FILE: Number of bytes read=1174
+		FILE: Number of bytes written=464684
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=418
+		HDFS: Number of bytes written=596
+		HDFS: Number of read operations=31
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=12
+	Map-Reduce Framework
+		Map input records=21
+		Map output records=21
+		Map output bytes=252
+		Map output materialized bytes=204
+		Input split bytes=103
+		Combine input records=21
+		Combine output records=5
+		Reduce input groups=5
+		Reduce shuffle bytes=204
+		Reduce input records=5
+		Reduce output records=5
+		Spilled Records=10
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=12
+		CPU time spent (ms)=0
+		Physical memory (bytes) snapshot=0
+		Virtual memory (bytes) snapshot=0
+		Total committed heap usage (bytes)=2564816896
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=209
+	File Output Format Counters
+		Bytes Written=178
+ INFO - io.sort.mb is deprecated. Instead, use mapreduce.task.io.sort.mb
+Delete: hdfs://localhost:9000/input/hadoop/week05//step2
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ WARN - Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+ WARN - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+ INFO - Total input paths to process : 1
+ INFO - number of splits:1
+ INFO - Submitting tokens for job: job_local1615695018_0002
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1615695018/.staging/job_local1615695018_0002/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1615695018/.staging/job_local1615695018_0002/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1615695018_0002/job_local1615695018_0002.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1615695018_0002/job_local1615695018_0002.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ INFO - The url to track the job: http://localhost:8080/
+ INFO - Running job: job_local1615695018_0002
+ INFO - OutputCommitter set in config null
+ INFO - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+ INFO - Waiting for map tasks
+ INFO - Starting task: attempt_local1615695018_0002_m_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/step1/part-00000:0+178
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Spilling map output
+ INFO - bufstart = 0; bufend = 1116; bufvoid = 1073741824
+ INFO - kvstart = 268435452(1073741808); kvend = 268435084(1073740336); length = 369/67108864
+ INFO - Finished spill 0
+ INFO - Task:attempt_local1615695018_0002_m_000000_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/step1/part-00000:0+178
+ INFO - Task 'attempt_local1615695018_0002_m_000000_0' done.
+ INFO - Finishing task: attempt_local1615695018_0002_m_000000_0
+ INFO - map task executor complete.
+ INFO - Waiting for reduce tasks
+ INFO - Starting task: attempt_local1615695018_0002_r_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@7c5f922c
+ INFO - MergerManager: memoryLimit=1503238528, maxSingleShuffleLimit=375809632, mergeThreshold=992137472, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+ INFO - attempt_local1615695018_0002_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+ INFO - localfetcher#2 about to shuffle output of map attempt_local1615695018_0002_m_000000_0 decomp: 604 len: 608 to MEMORY
+ INFO - Read 604 bytes from map-output for attempt_local1615695018_0002_m_000000_0
+ INFO - closeInMemoryFile -> map-output of size: 604, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->604
+ INFO - EventFetcher is interrupted.. Returning
+ INFO - 1 / 1 copied.
+ INFO - finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 594 bytes
+ INFO - Merged 1 segments, 604 bytes to disk to satisfy reduce memory limit
+ INFO - Merging 1 files, 608 bytes from disk
+ INFO - Merging 0 segments, 0 bytes from memory into reduce
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 594 bytes
+ INFO - 1 / 1 copied.
+ INFO - Task:attempt_local1615695018_0002_r_000000_0 is done. And is in the process of committing
+ INFO - 1 / 1 copied.
+ INFO - Task attempt_local1615695018_0002_r_000000_0 is allowed to commit now
+ INFO - Saved output of task 'attempt_local1615695018_0002_r_000000_0' to hdfs://localhost:9000/input/hadoop/week05/step2/_temporary/0/task_local1615695018_0002_r_000000
+ INFO - reduce > reduce
+ INFO - Task 'attempt_local1615695018_0002_r_000000_0' done.
+ INFO - Finishing task: attempt_local1615695018_0002_r_000000_0
+ INFO - reduce task executor complete.
+ INFO - Job job_local1615695018_0002 running in uber mode : false
+ INFO -  map 100% reduce 100%
+ INFO - Job job_local1615695018_0002 completed successfully
+ INFO - Counters: 38
+	File System Counters
+		FILE: Number of bytes read=3192
+		FILE: Number of bytes written=931878
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=774
+		HDFS: Number of bytes written=1204
+		HDFS: Number of read operations=61
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=24
+	Map-Reduce Framework
+		Map input records=5
+		Map output records=93
+		Map output bytes=1116
+		Map output materialized bytes=608
+		Input split bytes=110
+		Combine input records=93
+		Combine output records=43
+		Reduce input groups=43
+		Reduce shuffle bytes=608
+		Reduce input records=43
+		Reduce output records=43
+		Spilled Records=86
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=144
+		CPU time spent (ms)=0
+		Physical memory (bytes) snapshot=0
+		Virtual memory (bytes) snapshot=0
+		Total committed heap usage (bytes)=3033530368
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=178
+	File Output Format Counters
+		Bytes Written=430
+ INFO - io.sort.mb is deprecated. Instead, use mapreduce.task.io.sort.mb
+Delete: hdfs://localhost:9000/input/hadoop/week05//step3_1
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ WARN - Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+ WARN - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+ INFO - Total input paths to process : 1
+ INFO - number of splits:1
+ INFO - Submitting tokens for job: job_local1431458024_0003
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1431458024/.staging/job_local1431458024_0003/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1431458024/.staging/job_local1431458024_0003/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1431458024_0003/job_local1431458024_0003.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1431458024_0003/job_local1431458024_0003.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ INFO - The url to track the job: http://localhost:8080/
+ INFO - Running job: job_local1431458024_0003
+ INFO - OutputCommitter set in config null
+ INFO - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+ INFO - Waiting for map tasks
+ INFO - Starting task: attempt_local1431458024_0003_m_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/step1/part-00000:0+178
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Spilling map output
+ INFO - bufstart = 0; bufend = 210; bufvoid = 1073741824
+ INFO - kvstart = 268435452(1073741808); kvend = 268435372(1073741488); length = 81/67108864
+ INFO - Finished spill 0
+ INFO - Task:attempt_local1431458024_0003_m_000000_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/step1/part-00000:0+178
+ INFO - Task 'attempt_local1431458024_0003_m_000000_0' done.
+ INFO - Finishing task: attempt_local1431458024_0003_m_000000_0
+ INFO - map task executor complete.
+ INFO - Waiting for reduce tasks
+ INFO - Starting task: attempt_local1431458024_0003_r_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@4acaba7f
+ INFO - MergerManager: memoryLimit=1503238528, maxSingleShuffleLimit=375809632, mergeThreshold=992137472, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+ INFO - attempt_local1431458024_0003_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+ INFO - localfetcher#3 about to shuffle output of map attempt_local1431458024_0003_m_000000_0 decomp: 254 len: 258 to MEMORY
+ INFO - Read 254 bytes from map-output for attempt_local1431458024_0003_m_000000_0
+ INFO - closeInMemoryFile -> map-output of size: 254, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->254
+ INFO - EventFetcher is interrupted.. Returning
+ INFO - 1 / 1 copied.
+ INFO - finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 248 bytes
+ INFO - Merged 1 segments, 254 bytes to disk to satisfy reduce memory limit
+ INFO - Merging 1 files, 258 bytes from disk
+ INFO - Merging 0 segments, 0 bytes from memory into reduce
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 248 bytes
+ INFO - 1 / 1 copied.
+ INFO - Task:attempt_local1431458024_0003_r_000000_0 is done. And is in the process of committing
+ INFO - 1 / 1 copied.
+ INFO - Task attempt_local1431458024_0003_r_000000_0 is allowed to commit now
+ INFO - Saved output of task 'attempt_local1431458024_0003_r_000000_0' to hdfs://localhost:9000/input/hadoop/week05/step3_1/_temporary/0/task_local1431458024_0003_r_000000
+ INFO - reduce > reduce
+ INFO - Task 'attempt_local1431458024_0003_r_000000_0' done.
+ INFO - Finishing task: attempt_local1431458024_0003_r_000000_0
+ INFO - reduce task executor complete.
+ INFO - Job job_local1431458024_0003 running in uber mode : false
+ INFO -  map 100% reduce 100%
+ INFO - Job job_local1431458024_0003 completed successfully
+ INFO - Counters: 38
+	File System Counters
+		FILE: Number of bytes read=5318
+		FILE: Number of bytes written=1396490
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1130
+		HDFS: Number of bytes written=1844
+		HDFS: Number of read operations=91
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=36
+	Map-Reduce Framework
+		Map input records=5
+		Map output records=21
+		Map output bytes=210
+		Map output materialized bytes=258
+		Input split bytes=110
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=7
+		Reduce shuffle bytes=258
+		Reduce input records=21
+		Reduce output records=21
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=49
+		CPU time spent (ms)=0
+		Physical memory (bytes) snapshot=0
+		Virtual memory (bytes) snapshot=0
+		Total committed heap usage (bytes)=3433037824
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=178
+	File Output Format Counters
+		Bytes Written=210
+ INFO - io.sort.mb is deprecated. Instead, use mapreduce.task.io.sort.mb
+Delete: hdfs://localhost:9000/input/hadoop/week05//step3_2
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ WARN - Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+ WARN - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+ INFO - Total input paths to process : 1
+ INFO - number of splits:1
+ INFO - Submitting tokens for job: job_local1419026950_0004
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1419026950/.staging/job_local1419026950_0004/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1419026950/.staging/job_local1419026950_0004/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1419026950_0004/job_local1419026950_0004.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1419026950_0004/job_local1419026950_0004.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ INFO - The url to track the job: http://localhost:8080/
+ INFO - Running job: job_local1419026950_0004
+ INFO - OutputCommitter set in config null
+ INFO - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+ INFO - Waiting for map tasks
+ INFO - Starting task: attempt_local1419026950_0004_m_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/step2/part-00000:0+430
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Spilling map output
+ INFO - bufstart = 0; bufend = 516; bufvoid = 1073741824
+ INFO - kvstart = 268435452(1073741808); kvend = 268435284(1073741136); length = 169/67108864
+ INFO - Finished spill 0
+ INFO - Task:attempt_local1419026950_0004_m_000000_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/step2/part-00000:0+430
+ INFO - Task 'attempt_local1419026950_0004_m_000000_0' done.
+ INFO - Finishing task: attempt_local1419026950_0004_m_000000_0
+ INFO - map task executor complete.
+ INFO - Waiting for reduce tasks
+ INFO - Starting task: attempt_local1419026950_0004_r_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@4ca16872
+ INFO - MergerManager: memoryLimit=1503238528, maxSingleShuffleLimit=375809632, mergeThreshold=992137472, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+ INFO - attempt_local1419026950_0004_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+ INFO - localfetcher#4 about to shuffle output of map attempt_local1419026950_0004_m_000000_0 decomp: 604 len: 608 to MEMORY
+ INFO - Read 604 bytes from map-output for attempt_local1419026950_0004_m_000000_0
+ INFO - closeInMemoryFile -> map-output of size: 604, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->604
+ INFO - EventFetcher is interrupted.. Returning
+ INFO - 1 / 1 copied.
+ INFO - finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 594 bytes
+ INFO - Merged 1 segments, 604 bytes to disk to satisfy reduce memory limit
+ INFO - Merging 1 files, 608 bytes from disk
+ INFO - Merging 0 segments, 0 bytes from memory into reduce
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 594 bytes
+ INFO - 1 / 1 copied.
+ INFO - Task:attempt_local1419026950_0004_r_000000_0 is done. And is in the process of committing
+ INFO - 1 / 1 copied.
+ INFO - Task attempt_local1419026950_0004_r_000000_0 is allowed to commit now
+ INFO - Saved output of task 'attempt_local1419026950_0004_r_000000_0' to hdfs://localhost:9000/input/hadoop/week05/step3_2/_temporary/0/task_local1419026950_0004_r_000000
+ INFO - reduce > reduce
+ INFO - Task 'attempt_local1419026950_0004_r_000000_0' done.
+ INFO - Finishing task: attempt_local1419026950_0004_r_000000_0
+ INFO - reduce task executor complete.
+ INFO - Job job_local1419026950_0004 running in uber mode : false
+ INFO -  map 100% reduce 100%
+ INFO - Job job_local1419026950_0004 completed successfully
+ INFO - Counters: 38
+	File System Counters
+		FILE: Number of bytes read=7446
+		FILE: Number of bytes written=1861832
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1990
+		HDFS: Number of bytes written=2484
+		HDFS: Number of read operations=121
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=48
+	Map-Reduce Framework
+		Map input records=43
+		Map output records=43
+		Map output bytes=516
+		Map output materialized bytes=608
+		Input split bytes=110
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=43
+		Reduce shuffle bytes=608
+		Reduce input records=43
+		Reduce output records=43
+		Spilled Records=86
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=70
+		CPU time spent (ms)=0
+		Physical memory (bytes) snapshot=0
+		Virtual memory (bytes) snapshot=0
+		Total committed heap usage (bytes)=3843031040
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=430
+	File Output Format Counters
+		Bytes Written=430
+ INFO - io.sort.mb is deprecated. Instead, use mapreduce.task.io.sort.mb
+Delete: hdfs://localhost:9000/input/hadoop/week05//step4
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ INFO - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+ WARN - Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+ WARN - No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+ INFO - Total input paths to process : 2
+ INFO - number of splits:2
+ INFO - Submitting tokens for job: job_local1374846008_0005
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1374846008/.staging/job_local1374846008_0005/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/staging/hadoop1374846008/.staging/job_local1374846008_0005/job.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1374846008_0005/job_local1374846008_0005.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.retry.interval;  Ignoring.
+ WARN - file:/tmp/hadoop-hadoop/mapred/local/localRunner/hadoop/job_local1374846008_0005/job_local1374846008_0005.xml:an attempt to override final parameter: mapreduce.job.end-notification.max.attempts;  Ignoring.
+ INFO - The url to track the job: http://localhost:8080/
+ INFO - Running job: job_local1374846008_0005
+ INFO - OutputCommitter set in config null
+ INFO - OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+ INFO - Waiting for map tasks
+ INFO - Starting task: attempt_local1374846008_0005_m_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/step3_2/part-00000:0+430
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Task:attempt_local1374846008_0005_m_000000_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/step3_2/part-00000:0+430
+ INFO - Task 'attempt_local1374846008_0005_m_000000_0' done.
+ INFO - Finishing task: attempt_local1374846008_0005_m_000000_0
+ INFO - Starting task: attempt_local1374846008_0005_m_000001_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Processing split: hdfs://localhost:9000/input/hadoop/week05/step3_1/part-00000:0+210
+ INFO - numReduceTasks: 1
+ INFO - Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+ INFO - (EQUATOR) 0 kvi 268435452(1073741808)
+ INFO - mapreduce.task.io.sort.mb: 1024
+ INFO - soft limit at 858993472
+ INFO - bufstart = 0; bufvoid = 1073741824
+ INFO - kvstart = 268435452; length = 67108864
+ INFO -
+ INFO - Starting flush of map output
+ INFO - Spilling map output
+ INFO - bufstart = 0; bufend = 1656; bufvoid = 1073741824
+ INFO - kvstart = 268435452(1073741808); kvend = 268434916(1073739664); length = 537/67108864
+ INFO - Finished spill 0
+ INFO - Task:attempt_local1374846008_0005_m_000001_0 is done. And is in the process of committing
+ INFO - hdfs://localhost:9000/input/hadoop/week05/step3_1/part-00000:0+210
+ INFO - Task 'attempt_local1374846008_0005_m_000001_0' done.
+ INFO - Finishing task: attempt_local1374846008_0005_m_000001_0
+ INFO - map task executor complete.
+ INFO - Waiting for reduce tasks
+ INFO - Starting task: attempt_local1374846008_0005_r_000000_0
+ INFO -  Using ResourceCalculatorProcessTree : [ ]
+ INFO - Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@125b9ec1
+ INFO - MergerManager: memoryLimit=1503238528, maxSingleShuffleLimit=375809632, mergeThreshold=992137472, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+ INFO - attempt_local1374846008_0005_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+ INFO - localfetcher#5 about to shuffle output of map attempt_local1374846008_0005_m_000001_0 decomp: 524 len: 528 to MEMORY
+ INFO - Read 524 bytes from map-output for attempt_local1374846008_0005_m_000001_0
+ INFO - closeInMemoryFile -> map-output of size: 524, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->524
+ INFO - localfetcher#5 about to shuffle output of map attempt_local1374846008_0005_m_000000_0 decomp: 2 len: 6 to MEMORY
+ INFO - Read 2 bytes from map-output for attempt_local1374846008_0005_m_000000_0
+ INFO - closeInMemoryFile -> map-output of size: 2, inMemoryMapOutputs.size() -> 2, commitMemory -> 524, usedMemory ->526
+ INFO - EventFetcher is interrupted.. Returning
+ INFO - 2 / 2 copied.
+ INFO - finalMerge called with 2 in-memory map-outputs and 0 on-disk map-outputs
+ INFO - Merging 2 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 518 bytes
+ INFO - Merged 2 segments, 526 bytes to disk to satisfy reduce memory limit
+ INFO - Merging 1 files, 528 bytes from disk
+ INFO - Merging 0 segments, 0 bytes from memory into reduce
+ INFO - Merging 1 sorted segments
+ INFO - Down to the last merge-pass, with 1 segments left of total size: 518 bytes
+ INFO - 2 / 2 copied.
+ INFO - Task:attempt_local1374846008_0005_r_000000_0 is done. And is in the process of committing
+ INFO - 2 / 2 copied.
+ INFO - Task attempt_local1374846008_0005_r_000000_0 is allowed to commit now
+ INFO - Saved output of task 'attempt_local1374846008_0005_r_000000_0' to hdfs://localhost:9000/input/hadoop/week05/step4/_temporary/0/task_local1374846008_0005_r_000000
+ INFO - reduce > reduce
+ INFO - Task 'attempt_local1374846008_0005_r_000000_0' done.
+ INFO - Finishing task: attempt_local1374846008_0005_r_000000_0
+ INFO - reduce task executor complete.
+ INFO - Job job_local1374846008_0005 running in uber mode : false
+ INFO -  map 100% reduce 100%
+ INFO - Job job_local1374846008_0005 completed successfully
+ INFO - Counters: 38
+	File System Counters
+		FILE: Number of bytes read=15535
+		FILE: Number of bytes written=3493672
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=4695
+		HDFS: Number of bytes written=4753
+		HDFS: Number of read operations=238
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=89
+	Map-Reduce Framework
+		Map input records=64
+		Map output records=135
+		Map output bytes=1656
+		Map output materialized bytes=534
+		Input split bytes=224
+		Combine input records=135
+		Combine output records=35
+		Reduce input groups=5
+		Reduce shuffle bytes=534
+		Reduce input records=35
+		Reduce output records=35
+		Spilled Records=70
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=124
+		CPU time spent (ms)=0
+		Physical memory (bytes) snapshot=0
+		Virtual memory (bytes) snapshot=0
+		Total committed heap usage (bytes)=7032799232
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters
+		Bytes Read=640
+	File Output Format Counters
+		Bytes Written=382
+
+cat: /input/hadoop/week05/step4/part-00000
+1	107,5.0
+1	106,18.0
+1	105,15.5
+1	104,33.5
+1	103,39.0
+1	102,31.5
+1	101,44.0
+2	107,4.0
+2	106,20.5
+2	105,15.5
+2	104,36.0
+2	103,41.5
+2	102,32.5
+2	101,45.5
+3	107,15.5
+3	106,16.5
+3	105,26.0
+3	104,38.0
+3	103,24.5
+3	102,18.5
+3	101,40.0
+4	107,9.5
+4	106,33.0
+4	105,26.0
+4	104,55.0
+4	103,53.5
+4	102,37.0
+4	101,63.0
+5	107,11.5
+5	106,34.5
+5	105,32.0
+5	104,59.0
+5	103,56.5
+5	102,42.5
+5	101,68.0
