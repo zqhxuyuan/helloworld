@@ -21,6 +21,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Server端通过ChannelInboundHandler对Client发送的消息进行读取，通过ChannelOutboundHandler向client发送消息
  *
  * 简单来说: 对于Server而言, 读取Client为Inbound, 写入Client为Outbound
+ *
+ * ChannelInboundHandler之间的传递,通过调用ctx.fireChannelRead(msg)实现；
+ * 调用ctx.write(msg) 将传递到ChannelOutboundHandler
+ *
+ * ChannelOutboundHandler在注册的时候需要放在最后一个ChannelInboundHandler之前，否则将无法传递到ChannelOutboundHandler
  */
 public class HelloServer {
     public void start(int port) throws Exception {
@@ -38,6 +43,8 @@ public class HelloServer {
                             // 注册两个InboundHandler，执行顺序为注册顺序，所以应该是InboundHandler1 InboundHandler2
                             ch.pipeline().addLast(new InboundHandler1());
                             ch.pipeline().addLast(new InboundHandler2());
+
+                            // InboundHandler1 ==> InboundHandler2 ==> OutboundHandler2 ==> OutboundHandler1
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);

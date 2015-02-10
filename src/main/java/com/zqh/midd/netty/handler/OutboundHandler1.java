@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class OutboundHandler1 extends ChannelOutboundHandlerAdapter {
     private static Logger	logger	= LoggerFactory.getLogger(OutboundHandler1.class);
+
     @Override
     // 向client发送消息
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
@@ -20,6 +21,4 @@ public class OutboundHandler1 extends ChannelOutboundHandlerAdapter {
         ctx.write(encoded);
         ctx.flush();
     }
-
-
 }

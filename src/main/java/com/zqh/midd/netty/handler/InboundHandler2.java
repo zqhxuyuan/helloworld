@@ -27,6 +27,7 @@ public class InboundHandler2 extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         logger.info("InboundHandler2.channelReadComplete");
+        // ctx.write()方法执行后，需要调用flush()方法才能令它立即执行
         ctx.flush();
     }
 
