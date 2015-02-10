@@ -4,19 +4,20 @@
   cascading
   cassandra
   crunch
-  elastcisearch
   flink
   flume
   giraph
   hadoop
-  kafka
   mahout
   tez
   zookeeper
 
 **MiddleWare demo:**
-
+  
+  kafka
+  elasticsearch
   netty
+  akka
 
 **NoSQL demo:**
 

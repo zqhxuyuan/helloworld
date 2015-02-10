@@ -58,6 +58,15 @@ public class HelloServer {
         }
     }
 
+    /**
+     INFO - InboundHandler1.channelRead: ctx :io.netty.channel.DefaultChannelHandlerContext@ae9fecf
+     INFO - InboundHandler2.channelRead: ctx :io.netty.channel.DefaultChannelHandlerContext@46fd1ccc
+     Client said:Are you ok?
+     INFO - OutboundHandler2.write
+     INFO - OutboundHandler1.write
+     INFO - InboundHandler1.channelReadComplete
+     INFO - InboundHandler1.channelReadComplete
+     */
     public static void main(String[] args) throws Exception {
         HelloServer server = new HelloServer();
         server.start(8000);

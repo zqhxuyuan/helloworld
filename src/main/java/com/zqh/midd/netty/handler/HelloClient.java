@@ -33,6 +33,11 @@ public class HelloClient {
         }
     }
 
+    /**
+     INFO - HelloClientIntHandler.channelActive
+     INFO - HelloClientIntHandler.channelRead
+     Server said:I am ok!
+     */
     public static void main(String[] args) throws Exception {
         HelloClient client = new HelloClient();
         client.connect("127.0.0.1", 8000);
