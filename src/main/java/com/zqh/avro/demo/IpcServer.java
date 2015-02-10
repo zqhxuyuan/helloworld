@@ -14,8 +14,7 @@ public class IpcServer {
   
     public void startServer() throws IOException, InterruptedException {  
         server = new NettyServer(new SpecificResponder(HelloWorld.class,  
-                new HelloWorldImpl()), new InetSocketAddress(65000));  
-          
+                new HelloWorldImpl()), new InetSocketAddress(65000));
     }  
   
     public void stopServer() {  

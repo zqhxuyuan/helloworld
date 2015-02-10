@@ -31,7 +31,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hadoop.version>2.5.0</hadoop.version> <!--2.4.1, 2.5.0, 2.5.0-cdh5.2.0, 2.5.0-mr1-cdh5.2.0-->
         <hbase.version>0.98.6-cdh5.2.0</hbase.version> <!--0.98.6-cdh5.2.0-->
-        <crunch.version>0.11.0-cdh5.2.0</crunch.version>
+        <crunch.version>0.11.0-hadoop2</crunch.version> <!-- 0.11.0-cdh5.2.0, 0.11.0-hadoop2 -->
         <mahout.version>0.6</mahout.version> <!--0.9-cdh5.2.0-->
         <avro.version>1.7.7</avro.version>
         <cassandra.version>2.1.2</cassandra.version>
@@ -230,6 +230,11 @@
         <dependency>
             <groupId>org.apache.crunch</groupId>
             <artifactId>crunch-core</artifactId>
+            <version>${crunch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.crunch</groupId>
+            <artifactId>crunch-hbase</artifactId>
             <version>${crunch.version}</version>
         </dependency>
         <dependency>
@@ -482,6 +487,16 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-java</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-java8</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-scala</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
@@ -756,7 +771,15 @@
             <version>2.3.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.taobao.metamorphosis</groupId>
+            <artifactId>metamorphosis-client</artifactId>
+            <version>1.4.6.2</version>
+        </dependency>
+
     </dependencies>
+
+
 
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
