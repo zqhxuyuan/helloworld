@@ -1,4 +1,5 @@
-Hadoop EchoSystem Demo:
+**Hadoop EchoSystem Demo:**
+
   avro
   cascading
   cassandra
@@ -13,17 +14,20 @@ Hadoop EchoSystem Demo:
   tez
   zookeeper
 
-MiddleWare demo:
+**MiddleWare demo:**
+
   netty
 
-NoSQL demo:
+**NoSQL demo:**
+
   mongodb
   neo4j
   redis
   riak
   titan
 
-Storm & Spark
+**Storm & Spark:**
+
 
 
 and samples from offical project..
