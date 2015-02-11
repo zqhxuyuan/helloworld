@@ -1,4 +1,4 @@
-package com.zqh.avro.demo;
+package com.zqh.midd.avro.demo;
 
 import org.apache.avro.AvroRemoteException;
 

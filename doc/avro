@@ -12,7 +12,7 @@ Avro MapReduce
 	http://java.dzone.com/articles/mapreduce-avro-data-files
 
 go-avro
-	  |--com.zqh.avro
+	  |--com.zqh.midd.avro
 			  		|--demo	
 	  |--example
 				|--avro

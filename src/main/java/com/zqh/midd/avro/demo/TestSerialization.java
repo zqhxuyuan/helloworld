@@ -1,4 +1,4 @@
-package com.zqh.avro.demo;
+package com.zqh.midd.avro.demo;
 
 import java.io.File;
 import java.io.IOException;
