@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * http://shift-alt-ctrl.iteye.com/blog/1886831
  */
-public class SpringDataRedis {
+public class TestRedis {
 
     RedisTemplate redisTemplate;
     ClassPathXmlApplicationContext context;

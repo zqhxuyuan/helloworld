@@ -818,6 +818,13 @@
             <artifactId>spring-data-hadoop</artifactId>
             <version>2.1.0.RELEASE-hadoop25</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -10,7 +10,7 @@ import redis.clients.util.Hashing;
 import java.nio.charset.Charset;
 import java.util.*;
 
-public class HelloRedis {
+public class TestRedis {
 
     private Jedis jedis;
 
