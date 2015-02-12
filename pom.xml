@@ -50,6 +50,7 @@
         <tez.version>0.6.0</tez.version><!--0.5.3-->
         <paoding.version>2.0.4</paoding.version>
         <cascading.version>2.6.1</cascading.version>
+        <samza.version>0.8.0</samza.version>
 
         <riak.version>2.0.0</riak.version>
         <titan.version>0.5.3</titan.version>
@@ -476,13 +477,6 @@
             <version>${tachyon.version}</version>
         </dependency>
 
-        <!-- riak -->
-        <dependency>
-            <groupId>com.basho.riak</groupId>
-            <artifactId>riak-client</artifactId>
-            <version>${riak.version}</version>
-        </dependency>
-
         <!-- flink -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -542,64 +536,66 @@
 
         <!-- Samza -->
         <dependency>
+            <groupId>org.schwering</groupId>
+            <artifactId>irclib</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-api</artifactId>
-            <version>0.8.0</version>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-core_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.samza</groupId>
+            <artifactId>samza-log4j</artifactId>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-serializers_2.10</artifactId>
-            <version>0.8.0</version>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-shell</artifactId>
             <classifier>dist</classifier>
             <type>tgz</type>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-yarn_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-kv_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.samza</groupId>
-            <artifactId>samza-kv-leveldb_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-kv-rocksdb_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.samza</groupId>
+            <artifactId>samza-kv-leveldb_2.10</artifactId>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-kv-inmemory_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.samza</groupId>
             <artifactId>samza-kafka_2.10</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <version>${samza.version}</version>
         </dependency>
 
         <!-- tez -->
@@ -688,7 +684,6 @@
         </dependency>
 
 
-
         <!-- lucene -->
         <dependency>
             <groupId>net.paoding</groupId>
@@ -728,6 +723,13 @@
             <version>4.2.4</version>
         </dependency>
         -->
+
+        <!-- riak -->
+        <dependency>
+            <groupId>com.basho.riak</groupId>
+            <artifactId>riak-client</artifactId>
+            <version>${riak.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.thinkaurelius.titan</groupId>
@@ -775,8 +777,7 @@
             <artifactId>metamorphosis-client</artifactId>
             <version>1.4.6.2</version>
         </dependency>
-
-
+        
         <dependency>
             <groupId>com.alibaba.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
