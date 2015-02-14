@@ -48,4 +48,5 @@ object IntroScala extends App{
   val counts2 = words.foldLeft(emptyCounts)({(currentCounts: Map[String,Int], word: String) => currentCounts.updated(word, currentCounts(word) + 1)})
 
   println(counts2.take(10).mkString("\n"))
+  
 }
