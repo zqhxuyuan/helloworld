@@ -29,6 +29,7 @@ object IntroScala extends App{
   // create and populate a Map with words as keys and counts of the number of occurrences of the word as values.
   import scala.io.Source
   import collection.mutable.HashMap
+
   // load a text file as an array of lines
   val lines = Source.fromFile("/home/hadoop/data/README.md").getLines.toArray
 
@@ -48,5 +49,5 @@ object IntroScala extends App{
   val counts2 = words.foldLeft(emptyCounts)({(currentCounts: Map[String,Int], word: String) => currentCounts.updated(word, currentCounts(word) + 1)})
 
   println(counts2.take(10).mkString("\n"))
-  
+
 }
