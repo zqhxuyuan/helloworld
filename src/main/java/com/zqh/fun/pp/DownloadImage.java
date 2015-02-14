@@ -30,17 +30,15 @@ public class DownloadImage implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HHmmssSSS");
         try {
-
             while (!images.isEmpty()) {
                 new UseProxy();
                 imageUrl = new URL(images.remove(0));
                 imageUrl.openConnection().setConnectTimeout(12000);
                 imageUrl.openConnection().setReadTimeout(12000);
                 inputStream = new BufferedInputStream(imageUrl.openStream());
-                image = new File(Constant.IMAGE_PATH + "\\" /*+ dateFormat.format(new Date())*/+ getFileName(imageUrl));
+                image = new File(Constant.IMAGE_PATH + "" /*+ dateFormat.format(new Date())*/+ getFileName(imageUrl));
                 if (!image.getParentFile().exists()) {
                     image.getParentFile().mkdirs();
                 }

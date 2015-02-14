@@ -7,7 +7,9 @@ object HelloScala {
 
   def main(args : Array[String]){
     println("hello scala...")
-    testArray()
+
+    //testArray
+    testFlatMap
   }
 
   /**
@@ -37,4 +39,40 @@ object HelloScala {
     }
   }
 
+
+  //http://stackoverflow.com/questions/20215518/scala-map-flatten-and-flatmap-not-equivalent
+  def testFlatMap(){
+    case class CTest(v: Int)
+    val s = Set(Map(CTest(0) -> List(0, 3), CTest(1) -> List(0, 2)))
+
+    val possibilities = s flatMap { m =>
+      val mapping = m flatMap {
+        case (label, destNodes) => destNodes map {
+          case nodes => (label, nodes) }
+      }
+      mapping
+    }
+    //Set((CTest(0),3), (CTest(1),2))
+    println(possibilities)
+
+    val possibilities2 = s flatMap { m =>
+      val mapping = m map {
+        case (label, destNodes) => destNodes map {
+          case nodes => (label, nodes) }
+      }
+      mapping.flatten
+    }
+    //Set((CTest(0),0), (CTest(0),3), (CTest(1),0), (CTest(1),2))
+    println(possibilities2)
+
+    val possibilities3 = s flatMap { m =>
+      val mapping = m.toIterable.flatMap {
+        case (label, destNodes) => destNodes map {
+          case nodes => (label, nodes) }
+      }
+      mapping
+    }
+    //Set((CTest(0),0), (CTest(0),3), (CTest(1),0), (CTest(1),2))
+    println(possibilities3)
+  }
 }
