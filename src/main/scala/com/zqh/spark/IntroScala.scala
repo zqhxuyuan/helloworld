@@ -24,6 +24,7 @@ object IntroScala extends App{
   def factorial(n:Int):Int = if (n==0) 1 else n * factorial(n-1)
 
   myNumbers.map(factorial).sum
+
   
   // 7. Do a wordcount of a textfile.
   // create and populate a Map with words as keys and counts of the number of occurrences of the word as values.
