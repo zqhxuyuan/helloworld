@@ -36,4 +36,5 @@ object HelloScala {
       println("["+sendData.size + "]" + sendData)
     }
   }
+
 }
