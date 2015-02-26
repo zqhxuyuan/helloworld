@@ -228,6 +228,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.scala-stm</groupId>
+            <artifactId>scala-stm_2.10</artifactId>
+            <version>0.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.taobao.metamorphosis</groupId>
             <artifactId>metamorphosis-client</artifactId>
             <version>1.4.6.2</version>
