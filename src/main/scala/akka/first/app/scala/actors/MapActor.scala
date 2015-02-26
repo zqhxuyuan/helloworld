@@ -32,4 +32,14 @@ class MapActor(reduceActor: ActorRef) extends Actor {
     return new MapData(dataList)
   }
 
+  /**
+  def evaluateExpression(line: String): MapData = MapData {
+    line.split("""\s+""").foldLeft(ArrayBuffer.empty[WordCount]) {
+      (index, word) =>
+        if(!STOP_WORDS_LIST.contains(word.toLowerCase))
+          index += WordCount(word.toLowerCase, 1)
+        else
+          index
+    }
+  }*/
 }
