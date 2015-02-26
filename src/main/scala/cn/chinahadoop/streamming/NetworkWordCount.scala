@@ -1,5 +1,6 @@
 package cn.chinahadoop.streaming
 
+import com.zqh.spark.SparkUtil
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.StreamingContext._
 import org.apache.spark.streaming.Seconds
@@ -20,8 +21,8 @@ object NetworkWordCount {
     StreamingExamples.setStreamingLogLevels()
 
     // 新建StreamingContext
-    val ssc = new StreamingContext(args(0), "NetworkWordCount", Seconds(args(3).toInt),
-      System.getenv("SPARK_HOME"), StreamingContext.jarOfClass(this.getClass))
+    //val ssc = new StreamingContext(args(0), "NetworkWordCount", Seconds(args(3).toInt), System.getenv("SPARK_HOME"), StreamingContext.jarOfClass(this.getClass))
+    val ssc = SparkUtil.getStreamContext()
 
     val lines = ssc.socketTextStream(args(1), args(2).toInt, StorageLevel.MEMORY_ONLY_SER)
     val words = lines.flatMap(_.split(" "))

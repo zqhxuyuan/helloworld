@@ -154,12 +154,15 @@ object AmpCamp5 {
     counts.take(10)
   }
 
+  // TODO
   // http://ampcamp.berkeley.edu/5/exercises/data-exploration-using-spark-sql.html
   def sparkSQL {
 
 
   }
 
+
+  // TODO
   // http://spark.apache.org/docs/latest/streaming-programming-guide.html
   def streamming {
     // Create a local StreamingContext with two working thread and batch interval of 1 second.

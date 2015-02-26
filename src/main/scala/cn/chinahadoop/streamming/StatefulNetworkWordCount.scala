@@ -1,5 +1,6 @@
 package cn.chinahadoop.streaming
 
+import com.zqh.spark.SparkUtil
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.StreamingContext._
 
@@ -23,8 +24,8 @@ object StatefulNetworkWordCount {
     }
 
     //创建StreamingContext
-    val ssc = new StreamingContext(args(0), "StatefulNetworkWordCount",
-      Seconds(args(3).toInt), System.getenv("SPARK_HOME"), StreamingContext.jarOfClass(this.getClass))
+    //val ssc = new StreamingContext(args(0), "StatefulNetworkWordCount", Seconds(args(3).toInt), System.getenv("SPARK_HOME"), StreamingContext.jarOfClass(this.getClass))
+    val ssc = SparkUtil.getStreamContext()
     ssc.checkpoint(".")
 
     //创建NetworkInputDStream，需要指定ip和端口

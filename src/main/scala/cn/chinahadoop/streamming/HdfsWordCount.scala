@@ -1,5 +1,6 @@
 package cn.chinahadoop.streaming
 
+import com.zqh.spark.SparkUtil
 import org.apache.spark.streaming.StreamingContext._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
@@ -17,7 +18,7 @@ object HdfsWordCount {
 
     //新建StreamingContext
     //val ssc = new StreamingContext(args(0), "HdfsWordCount", Seconds(args(2).toInt), System.getenv("SPARK_HOME"), StreamingContext.jarOfClass(this.getClass))
-    val ssc = new StreamingContext(args(0), System.getenv("SPARK_HOME"))
+    val ssc = SparkUtil.getStreamContext()
 
     //创建FileInputDStream，并指向特定目录
     val lines = ssc.textFileStream(args(1))
