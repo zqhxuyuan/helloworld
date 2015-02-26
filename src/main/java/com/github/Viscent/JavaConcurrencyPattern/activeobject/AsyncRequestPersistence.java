@@ -14,19 +14,17 @@ import java.util.concurrent.atomic.AtomicLong;
  * 
  *         Active Object, Proxy Benefits of applying Active Object: Simplifying
  *         implementing fault isolation
- * 
+ *
  *         实际运用考虑： 队列监控:监控处理队列是否积压 KeepAliveTime:空闲线程清理 队列容量：做好存储规划
  *         处理过慢，队列满的问题:无论是自己实现度列还是直接使用ThreadPoolExecutor
  *         ，都需要处理该问题。而ThreadPoolExecutor了预置了一些队列满的处理策略。
- * 
+ *
  *         ThreadPoolExecutor：当线程池中工作线程数逐渐增加到核心工作线程数时，此时新提交的任务会被放入工作队列。
  *         当核心工作线程的处理速率小于工作任务的提交速率时，
  *         工作队列会逐渐积压。当工作队列满时，ThreadPoolExecutor会追加工作线程直到其数量到达线程池的最大大小
  *         。此时，新提交的工作任务会被拒绝（即提交失败）
- * 
- * 
+
  */
-// ActiveObjectPattern.Proxy
 public class AsyncRequestPersistence implements RequestPersistence {
 	private static final long ONE_MINUTE_IN_SECONDS = 60;
 	private final Logger logger;
