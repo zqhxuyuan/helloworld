@@ -19,11 +19,9 @@ object Counter extends App{
   val counter1 = system.actorOf(Props[Counter], name = "counter1")
   val counter2 = system.actorOf(Props[Counter], name = "counter2")
 
-  implicit val timeout = Timeout(10)
-
   counter1 ! Coordinated(Increment(Some(counter2)))
 
-  val count = Await.result(counter1 ? GetCount, timeout.duration)
+  val count = Await.result(counter1 ? GetCount, Timeout(10).duration)
   println(count)
 
   //---------------------------------------------------
