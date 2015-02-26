@@ -2,12 +2,12 @@ package org.zbus.ha;
 
 import java.io.IOException;
 
-import org.zbus.client.Broker;
-import org.zbus.client.Consumer;
-import org.zbus.client.broker.HaBroker;
-import org.zbus.client.broker.HaBrokerConfig;
-import org.zbus.common.MessageMode;
-import org.zbus.remoting.Message;
+import rushmore.zbus.client.Broker;
+import rushmore.zbus.client.Consumer;
+import rushmore.zbus.client.broker.HaBroker;
+import rushmore.zbus.client.broker.HaBrokerConfig;
+import rushmore.zbus.common.MessageMode;
+import rushmore.zbus.remoting.Message;
 
 public class SubExample {
 	public static void main(String[] args) throws IOException{  

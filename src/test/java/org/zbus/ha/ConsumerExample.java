@@ -1,10 +1,10 @@
 package org.zbus.ha;
 
-import org.zbus.client.Broker;
-import org.zbus.client.Consumer;
-import org.zbus.client.broker.HaBroker;
-import org.zbus.client.broker.HaBrokerConfig;
-import org.zbus.remoting.Message;
+import rushmore.zbus.client.Broker;
+import rushmore.zbus.client.Consumer;
+import rushmore.zbus.client.broker.HaBroker;
+import rushmore.zbus.client.broker.HaBrokerConfig;
+import rushmore.zbus.remoting.Message;
 
 public class ConsumerExample {
 	public static void main(String[] args) throws Exception{  

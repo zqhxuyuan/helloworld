@@ -3,11 +3,11 @@ package org.zbus.rpc;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.zbus.client.Broker;
-import org.zbus.client.broker.SingleBroker;
-import org.zbus.client.broker.SingleBrokerConfig;
-import org.zbus.client.rpc.RpcConfig;
-import org.zbus.client.rpc.RpcProxy;
+import rushmore.zbus.client.Broker;
+import rushmore.zbus.client.broker.SingleBroker;
+import rushmore.zbus.client.broker.SingleBrokerConfig;
+import rushmore.zbus.client.rpc.RpcConfig;
+import rushmore.zbus.client.rpc.RpcProxy;
 import org.zbus.rpc.biz.Interface;
 import org.zbus.rpc.biz.User;
 

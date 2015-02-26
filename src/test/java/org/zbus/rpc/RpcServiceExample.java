@@ -2,13 +2,13 @@ package org.zbus.rpc;
 
 import java.io.IOException;
 
-import org.zbus.client.Broker;
-import org.zbus.client.broker.SingleBroker;
-import org.zbus.client.broker.SingleBrokerConfig;
-import org.zbus.client.rpc.RpcServiceHandler;
-import org.zbus.client.service.Service;
-import org.zbus.client.service.ServiceConfig;
-import org.zbus.common.Helper;
+import rushmore.zbus.client.Broker;
+import rushmore.zbus.client.broker.SingleBroker;
+import rushmore.zbus.client.broker.SingleBrokerConfig;
+import rushmore.zbus.client.rpc.RpcServiceHandler;
+import rushmore.zbus.client.service.Service;
+import rushmore.zbus.client.service.ServiceConfig;
+import rushmore.zbus.common.Helper;
 import org.zbus.rpc.biz.InterfaceImpl;
 
 public class RpcServiceExample {
