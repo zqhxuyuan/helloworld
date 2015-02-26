@@ -1,4 +1,4 @@
-package com.zqh.akka.stm
+package com.zqh.scala.stm
 
 import scala.annotation.tailrec
 import scala.concurrent.stm._

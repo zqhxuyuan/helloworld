@@ -1,4 +1,4 @@
-package com.zqh.akka.stm
+package com.zqh.scala.stm
 
 /**
  * Created by hadoop on 15-2-26.

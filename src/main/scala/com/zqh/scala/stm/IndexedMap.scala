@@ -1,5 +1,5 @@
 /* scala-stm - (c) 2009-2010, Stanford University, PPL */
-package com.zqh.akka.stm
+package com.zqh.scala.stm
 
 import scala.concurrent.stm._
 import scala.util.Random
