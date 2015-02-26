@@ -1,8 +1,7 @@
-/* scala-stm - (c) 2009-2011, Stanford University, PPL */
+package com.zqh.akka.stm
 
-package com.zqh.scala.stm
+import scala.annotation.tailrec
 import scala.concurrent.stm._
-import annotation.tailrec
 
 /** This extends a solution to the dining philosopher's problem to include an
  *  outside perspective that occasionally examines everything that is

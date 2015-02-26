@@ -1,8 +1,8 @@
-/* scala-stm - (c) 2009-2010, Stanford University, PPL */
+package com.zqh.akka.stm
 
-package com.zqh.scala.stm
-import scala.concurrent.stm._
-
+/**
+ * Created by hadoop on 15-2-26.
+ */
 object SyntaxCheatSheet {
   import scala.concurrent.stm._
 
@@ -27,7 +27,7 @@ object SyntaxCheatSheet {
   atomic { implicit txn =>
     y() = y() + ", first alternative"
     if (x getWith { _ > 0 }) // read via a function
-      retry // try alternatives or block 
+      retry // try alternatives or block
   } orAtomic { implicit txn =>
     y() = y() + ", second alternative"
   }
