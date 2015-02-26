@@ -14,6 +14,7 @@ import scala.concurrent.stm._
  */
 object Counter extends App{
 
+  //-----------------------------
   val system = ActorSystem("app")
 
   val counter1 = system.actorOf(Props[Counter], name = "counter1")
