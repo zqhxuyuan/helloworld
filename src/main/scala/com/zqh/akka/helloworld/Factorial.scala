@@ -1,4 +1,4 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
 /**
  * Created by hadoop on 15-2-9.
@@ -6,9 +6,9 @@ package com.zqh.akka
  * http://www.reactive.io/tips/2014/04/08/parallel-computing-made-easy-with-scala-and-akka/
  * https://github.com/reactive-io/factorial-tip
  */
-import scala.annotation.tailrec
-
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+
+import scala.annotation.tailrec
 
 object Factorial extends App {
   val factorials = List(20, 18, 20, 22, 20, 19, 20, 21)

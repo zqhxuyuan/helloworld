@@ -1,16 +1,14 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
 /**
  * Created by hadoop on 15-2-2.
  */
-import akka.actor.Actor.Receive
 import akka.actor._
 import akka.routing.RoundRobinRouter
 
 import scala.collection.mutable
-import scala.concurrent.duration.Duration
 import scala.collection.mutable.HashMap
-import scala.concurrent.duration._
+import scala.concurrent.duration.{Duration, _}
 
 
 /**

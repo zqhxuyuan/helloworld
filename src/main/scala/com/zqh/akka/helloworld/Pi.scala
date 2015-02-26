@@ -1,10 +1,9 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
 import akka.actor._
 import akka.routing.RoundRobinRouter
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.duration._
+import scala.concurrent.duration.{Duration, _}
 
 /**
  * http://www.gtan.com/akka_doc/intro/getting-started-first-scala.html

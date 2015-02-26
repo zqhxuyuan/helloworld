@@ -1,6 +1,6 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
-import akka.actor.{Props, ActorSystem, Actor, ActorLogging}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 
 object HelloAkka extends App{
   // Msg

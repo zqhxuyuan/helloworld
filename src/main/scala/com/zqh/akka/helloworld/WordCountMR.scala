@@ -1,17 +1,11 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
-import java.io.{RandomAccessFile, File}
+import java.io.{File, RandomAccessFile}
 import java.nio.channels.FileChannel
 
-import akka.actor.Actor.Receive
 import akka.actor._
 import akka.routing.{Broadcast, RoundRobinRouter}
 import com.typesafe.config.ConfigFactory
-
-import scala.collection.mutable
-import scala.concurrent.duration.Duration
-import scala.collection.mutable.HashMap
-import scala.concurrent.duration._
 
 /**
  * Created by hadoop on 15-2-3.

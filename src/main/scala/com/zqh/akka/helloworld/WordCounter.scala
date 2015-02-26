@@ -1,11 +1,11 @@
-package com.zqh.akka
+package com.zqh.akka.helloworld
 
-import akka.actor.{ActorSystem, ActorRef, Actor, Props}
-import akka.event.Logging
-import akka.util.Timeout
-import scala.concurrent.duration._
-import akka.pattern.ask
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import akka.dispatch.ExecutionContexts._
+import akka.pattern.ask
+import akka.util.Timeout
+
+import scala.concurrent.duration._
 
 /**
  * Created by hadoop on 15-2-2.
