@@ -1,8 +1,7 @@
-package akka.first.app.scala.actors
+package com.zqh.akka.essentials.firstapp
 
 import akka.actor.{Actor, ActorRef, actorRef2Scala}
-import akka.first.app.scala.{MapData, ReduceData, Word}
-
+import com.zqh.akka.essentials.firstapp.ReduceData
 import scala.collection.immutable._
 
 class ReduceActor(aggregateActor: ActorRef) extends Actor {

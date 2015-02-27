@@ -1,11 +1,13 @@
-package com.zqh.akka.helloworld
+package com.zqh.akka.essentials.typedactor.hotswap
 
-import akka.actor.{Props, ActorSystem, Actor}
+import akka.actor.{Actor, ActorSystem, Props}
 
 object PingPong extends App{
-  val system = ActorSystem("MyActorSystem")
-  val myActor = system.actorOf(Props[PingPongActor], name = "myActor")
-  myActor ! PING
+  val _system = ActorSystem("BecomeUnbecome")
+  val pingPongActor = _system.actorOf(Props[PingPongActor])
+  pingPongActor ! PING
+  Thread.sleep(2000)
+  _system.shutdown
 
   case class PING()
   case class PONG()
@@ -21,6 +23,7 @@ object PingPong extends App{
         count = count + 1
         Thread.sleep(100)
         self ! PONG
+
         become {  //切换到pong的逻辑，ping的逻辑会暂时放在stack里面
           case PONG =>
             println("PONG")

@@ -1,11 +1,8 @@
-package akka.first.app.scala
+package com.zqh.akka.essentials.firstapp
+
+import akka.actor.{ActorSystem, Props, actorRef2Scala}
 
 import scala.collection.immutable._
-
-import akka.actor.ActorSystem
-import akka.actor.Props
-import akka.actor.actorRef2Scala
-import akka.first.app.scala.actors.MasterActor
 
 class Word(val word:String,val count:Int)
 case class Result()

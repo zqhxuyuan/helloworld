@@ -1,26 +1,60 @@
-package com.zqh.akka.helloworld
+package com.zqh.akka.essentials.supervisor
 
 import akka.actor._
-
+import akka.actor.OneForOneStrategy
+import akka.actor.SupervisorStrategy._
 import scala.collection.immutable.HashMap
+import akka.util.Timeout
+import scala.concurrent.duration._
 
 /**
  * Created by hadoop on 15-2-26.
  */
-object Monitor extends App{
-  val system = ActorSystem("MyActorSystem")
-  val monitor = system.actorOf(Props[MonitorActor], name = "monitor")
-  val worker = system.actorOf(Props[WorkerActor], name = "worker")
-  worker ! "DEAD"
-
+object MonitorWorker {
+  def main(args: Array[String]): Unit = {
+    val system = ActorSystem("faultTolerance")
+    val supervisor = system.actorOf(Props[SupervisorActor], name = "supervisor")
+    var mesg: Int = 8
+    supervisor ! mesg
+    supervisor ! "Do Something"
+    Thread.sleep(4000)
+    supervisor ! mesg
+    system.shutdown
+  }
 
   case class Result()
   case class DeadWorker()
   case class RegisterWorker(val worker: ActorRef, val supervisor: ActorRef)
 
-  class WorkerActor extends Actor with ActorLogging {
+  class SupervisorActor extends Actor with ActorLogging {
+    var childActor = context.actorOf(Props[WorkerActor], name = "workerActor")
+    val monitor = context.system.actorOf(Props[MonitorActor], name = "monitor")
 
+    override def preStart() {
+      monitor ! new RegisterWorker(childActor, self)
+    }
+
+    override val supervisorStrategy = OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 10 seconds) {
+      case _: ArithmeticException => Resume
+      case _: NullPointerException => Restart
+      case _: IllegalArgumentException => Stop
+      case _: Exception => Escalate
+    }
+
+    def receive = {
+      case result: Result =>
+        childActor.tell(result, sender)
+      case mesg: DeadWorker =>
+        log.info("Got a DeadWorker message, restarting the worker")
+        childActor = context.actorOf(Props[WorkerActor], name = "workerActor")
+      case msg: Object =>
+        childActor ! msg
+    }
+  }
+
+  class WorkerActor extends Actor with ActorLogging {
     var state: Int = 0
+
     override def preStart() {
       log.info("Starting WorkerActor instance hashcode # {}", this.hashCode())
     }
@@ -40,6 +74,7 @@ object Monitor extends App{
   //定义MonitorActor
   class MonitorActor extends Actor with ActorLogging {
     var monitoredActors = new HashMap[ActorRef, ActorRef]
+
     def receive: Receive = {
       case t: Terminated => //收到actor发来的terminated msg
         if (monitoredActors.contains(t.actor)) {

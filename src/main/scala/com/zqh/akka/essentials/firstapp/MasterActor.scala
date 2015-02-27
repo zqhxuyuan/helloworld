@@ -1,7 +1,7 @@
-package akka.first.app.scala.actors
+package com.zqh.akka.essentials.firstapp
 
 import akka.actor.{Actor, ActorRef, Props, actorRef2Scala}
-import akka.first.app.scala.Result
+import com.zqh.akka.essentials.firstapp.Result
 
 class MasterActor extends Actor {
 

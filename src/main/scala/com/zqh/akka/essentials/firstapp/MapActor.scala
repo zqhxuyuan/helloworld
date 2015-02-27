@@ -1,9 +1,9 @@
-package akka.first.app.scala.actors
+package com.zqh.akka.essentials.firstapp
 
 import java.util.StringTokenizer
 
 import akka.actor.{Actor, ActorRef, actorRef2Scala}
-import akka.first.app.scala.{MapData, Word}
+import com.zqh.akka.essentials.firstapp.MapData
 
 import scala.collection.immutable._
 

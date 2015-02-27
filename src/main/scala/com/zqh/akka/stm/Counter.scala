@@ -1,9 +1,10 @@
 package com.zqh.akka.stm
 
-import akka.util.Timeout
 import akka.pattern.ask
 import akka.actor._
 import akka.transactor._
+import akka.util.Timeout
+import scala.concurrent.duration._
 import scala.concurrent.Await
 import scala.concurrent.stm._
 
@@ -21,8 +22,9 @@ object Counter extends App{
   val counter2 = system.actorOf(Props[Counter], name = "counter2")
 
   counter1 ! Coordinated(Increment(Some(counter2)))
+  implicit val timeout = Timeout(10 seconds)
 
-  val count = Await.result(counter1 ? GetCount, Timeout(10).duration)
+  val count = Await.result(counter1 ? GetCount, timeout.duration)
   println(count)
 
   //---------------------------------------------------

@@ -40,12 +40,7 @@
         <avro.version>1.7.7</avro.version>
         <cassandra.version>2.1.2</cassandra.version>
         <flume.version>1.4.0</flume.version>
-        <scala.version>2.10.4</scala.version>
-        <kafka.version>0.8.1.1</kafka.version>
-        <spark.version>1.2.0</spark.version>
-        <scala.bin.version>2.10</scala.bin.version>
         <tachyon.version>0.5.0</tachyon.version>
-        <clojure.version>1.5.1</clojure.version>
         <storm.version>0.9.3</storm.version>
         <es.version>1.4.2</es.version>
         <es-hadoop.version>2.0.2</es-hadoop.version>
@@ -60,6 +55,15 @@
         <titan.version>0.5.3</titan.version>
         <neo4j.version>2.1.6</neo4j.version>
         <mongo-java.version>2.12.5</mongo-java.version>
+
+        <clojure.version>1.5.1</clojure.version>
+        <scala.version>2.10.4</scala.version>
+        <scala.bin.version>2.10</scala.bin.version>
+
+        <kafka.version>0.8.1.1</kafka.version>
+        <spark.version>1.2.0</spark.version>
+        <akka.version>2.3.9</akka.version>
+
     </properties>
 
     <dependencies>
@@ -237,12 +241,27 @@
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-actor_2.10</artifactId>
-            <version>2.3.9</version>
+            <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-transactor_2.10</artifactId>
-            <version>2.3.9</version>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-agent_2.10</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-remote_2.10</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-kernel_2.10</artifactId>
+            <version>${akka.version}</version>
         </dependency>
 
         <dependency>

@@ -1,9 +1,10 @@
-package akka.first.app.scala.actors
+package com.zqh.akka.essentials.firstapp
 
 import akka.actor.Actor
-import akka.first.app.scala.{ReduceData, Result}
 
 import scala.collection.immutable._
+import com.zqh.akka.essentials.firstapp.ReduceData
+import com.zqh.akka.essentials.firstapp.Result
 
 class AggregateActor extends Actor {
 
