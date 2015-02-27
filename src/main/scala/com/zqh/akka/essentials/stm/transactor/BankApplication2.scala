@@ -44,6 +44,9 @@ object BankApplication2 {
 
     val balance = Ref(inBalance)
 
+    //atomatically, 原子操作, 可以同时接收普通msg和coordinated msg
+    //对于coordinated msg对象, 会把自己加入到该transaction中去
+    //对于普通msg对象, 直接起单独的transaction运行
     def atomically = implicit txn => {
       case message: AccountDebit =>
         if (balance.single.get < message.amount)
@@ -54,6 +57,7 @@ object BankApplication2 {
         balance transform (_ + message.amount)
     }
 
+    //普通操作, 无论收到什么msg, 都完全bypass coordinated transactions
     override def normally: Receive = {
       case value: AccountBalance =>
         sender ! new AccountBalance(accountNumber, balance.single.get)

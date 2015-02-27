@@ -82,14 +82,15 @@ object BankApplication {
 
     def receive: Receive = {
       case message: TransferMsg =>
-        val coordinated = Coordinated()
-        coordinated atomic {
+        val coordinated = Coordinated() //创建Coordinated, 开始一个transaction
+        coordinated atomic {            //使用atomic将下面两个msg加入transaction
           implicit t =>
-            to ! coordinated(new AccountCredit(
+            to ! coordinated(new AccountCredit( //将coordinated对象发送给子actor
               message.amtToBeTransferred))
             from ! coordinated(new AccountDebit(
               message.amtToBeTransferred))
         }
+      //正常的读取操作, 不需要transaction
       case message: AccountBalance =>
         if (message.accountNumber.equalsIgnoreCase(fromAccount)) {
           from.tell(message, sender)
@@ -107,8 +108,10 @@ object BankApplication {
       case value: AccountBalance =>
         sender ! new AccountBalance(accountNumber, balance.single.get)
 
-      case coordinated@Coordinated(message: AccountDebit) =>
+      case coordinated@Coordinated(message: AccountDebit) => //@变量绑定, 从TransferActor得到的coordinated对象
         // coordinated atomic ...
+        // 通过atomic将下面的操作加到transaction
+        // 从TransferActor得到的coordinated对象, 一个coordinated对象代表一个transaction, 所以必须将所有transaction中的操作加到同一个coordinated对象中
         coordinated atomic {
           implicit t =>
             //check for funds availability
