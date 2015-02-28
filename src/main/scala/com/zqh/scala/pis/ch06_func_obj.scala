@@ -3,7 +3,7 @@ package com.zqh.scala.pis
 /**
  * Created by zqhxuyuan on 15-2-28.
  */
-object ch06_func {
+object ch06_func_obj {
 
   def main(args: Array[String]) {
     val oneHalf = new Rational(1, 2)

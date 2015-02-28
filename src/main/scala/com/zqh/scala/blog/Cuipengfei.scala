@@ -1,4 +1,4 @@
-package com.zqh.scala
+package com.zqh.scala.blog
 
 /**
  * Created by hadoop on 15-2-27.
