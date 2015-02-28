@@ -17,10 +17,10 @@ import static org.junit.Assert.assertNotNull;
 public class LocalRedisConfigTest {
 
 	@Inject
-	private JedisConnectionFactory jedisConnectionFactory;
+	JedisConnectionFactory jedisConnectionFactory;
 	
 	@Inject
-	private StringRedisTemplate redisTemplate;
+	StringRedisTemplate redisTemplate;
 	
 	@Test
 	public void testJedisConnectionFactory() {

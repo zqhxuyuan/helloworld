@@ -26,10 +26,10 @@ import static org.junit.matchers.JUnitMatchers.hasItems;
 public class DictionaryDaoTest {
 
 	@Inject
-	private DictionaryDao dictionaryDao;
+	DictionaryDao dictionaryDao;
 
 	@Inject
-	private StringRedisTemplate redisTemplate;
+	StringRedisTemplate redisTemplate;
 
 	@After
 	public void tearDown() {
