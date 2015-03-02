@@ -12,7 +12,7 @@ object QueueSimul extends App {
 
   // Read configuration
   val conf = ConfigFactory.load
-  lazy val timespan = (conf.getString("queue-sample.tubestation-lifespan")).toLong * 1000
+  lazy val timespan = (conf.getString("actor-sample.tubestation-lifespan")).toLong * 1000
 
   // Create the Tube Station and open it
   val station = system.actorOf(Props(new TubeStation), "tubeStation")
