@@ -273,7 +273,22 @@
             <artifactId>akka-kernel_2.10</artifactId>
             <version>${akka.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-testkit_2.10</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-slf4j_2.10</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.10</artifactId>
+            <version>2.2.4</version>
+        </dependency>
         <dependency>
             <groupId>org.scala-stm</groupId>
             <artifactId>scala-stm_2.10</artifactId>
