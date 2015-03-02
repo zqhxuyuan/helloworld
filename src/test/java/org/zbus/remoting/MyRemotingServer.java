@@ -2,16 +2,16 @@ package org.zbus.remoting;
 
 import java.io.IOException;
 
-import rushmore.zbus.common.json.JSON;
-import rushmore.zbus.remoting.Message;
-import rushmore.zbus.remoting.MessageHandler;
-import rushmore.zbus.remoting.RemotingServer;
-import rushmore.zbus.remoting.nio.Session;
+import org.zbus.common.json.JSON;
+import org.zbus.common.remoting.Message;
+import org.zbus.common.remoting.MessageHandler;
+import org.zbus.common.remoting.RemotingServer;
+import org.zbus.common.remoting.nio.Session;
 
 public class MyRemotingServer extends RemotingServer {
 	
 	@Override
-	public String findHandlerKey(Message msg) {
+	public String findHandlerKey(Message msg) { 
 		String cmd = msg.getCommand();
 		if(cmd == null){
 			cmd = msg.getPath();

@@ -5,16 +5,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import rushmore.zbus.client.Broker;
-import rushmore.zbus.client.broker.SingleBroker;
-import rushmore.zbus.client.broker.SingleBrokerConfig;
-import rushmore.zbus.client.service.ServiceConfig;
-import rushmore.zbus.client.service.ServiceHandler;
-import rushmore.zbus.client.service.ServiceLoader;
-import rushmore.zbus.client.service.ServiceProvider;
-import rushmore.zbus.common.logging.Logger;
-import rushmore.zbus.common.logging.LoggerFactory;
-import rushmore.zbus.remoting.Message;
+import org.zbus.client.Broker;
+import org.zbus.client.broker.SingleBroker;
+import org.zbus.client.broker.SingleBrokerConfig;
+import org.zbus.client.service.ServiceConfig;
+import org.zbus.client.service.ServiceHandler;
+import org.zbus.client.service.ServiceLoader;
+import org.zbus.client.service.ServiceProvider;
+import org.zbus.common.logging.Logger;
+import org.zbus.common.logging.LoggerFactory;
+import org.zbus.common.remoting.Message;
 
 public class ServiceProviderExample implements ServiceProvider, ServiceHandler {
 	private static final Logger log = LoggerFactory.getLogger(ServiceProviderExample.class);

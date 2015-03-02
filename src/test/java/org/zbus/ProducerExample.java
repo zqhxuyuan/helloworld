@@ -2,12 +2,12 @@ package org.zbus;
 
 import java.io.IOException;
 
-import rushmore.zbus.client.Broker;
-import rushmore.zbus.client.Producer;
-import rushmore.zbus.client.broker.SingleBroker;
-import rushmore.zbus.client.broker.SingleBrokerConfig;
-import rushmore.zbus.remoting.Message;
-import rushmore.zbus.remoting.ticket.ResultCallback;
+import org.zbus.client.Broker;
+import org.zbus.client.Producer;
+import org.zbus.client.broker.SingleBroker;
+import org.zbus.client.broker.SingleBrokerConfig;
+import org.zbus.common.remoting.Message;
+import org.zbus.common.remoting.ticket.ResultCallback;
 
 public class ProducerExample {
 	public static void main(String[] args) throws IOException{  
@@ -19,8 +19,8 @@ public class ProducerExample {
 		//2) 创建生产者
 		Producer producer = new Producer(broker, "MyMQ");
 		Message msg = new Message(); 
-		msg.setBody("hello world");
-		for(int i=0;i<1;i++)
+		msg.setBody("hello world"); 
+		for(int i=0;i<100;i++)
 		producer.send(msg, new ResultCallback() {
 			@Override
 			public void onCompleted(Message result) { 

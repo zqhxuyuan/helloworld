@@ -2,12 +2,14 @@ package org.zbus;
 
 import java.io.IOException;
 
-import rushmore.zbus.client.Broker;
-import rushmore.zbus.client.Consumer;
-import rushmore.zbus.client.MqConfig;
-import rushmore.zbus.client.broker.SingleBrokerConfig;
-import rushmore.zbus.client.broker.SingleBroker;
-import rushmore.zbus.remoting.Message;
+import org.zbus.client.Broker;
+import org.zbus.client.Consumer;
+import org.zbus.client.MqConfig;
+import org.zbus.client.broker.SingleBrokerConfig;
+import org.zbus.client.broker.SingleBroker;
+import org.zbus.common.remoting.Message;
+import org.zbus.common.remoting.callback.MessageCallback;
+import org.zbus.common.remoting.nio.Session;
 
 public class ConsumerExample {
 	public static void main(String[] args) throws IOException{  
@@ -22,11 +24,12 @@ public class ConsumerExample {
 		
 		//2) 创建消费者
 		Consumer c = new Consumer(config);
-		while(true){
-			Message msg = c.recv(10000);
-			if(msg == null) continue;
-			
-			System.out.println(msg);
-		}
+		
+		c.onMessage(new MessageCallback() {
+			@Override
+			public void onMessage(Message msg, Session sess) throws IOException {
+				System.out.println(msg);
+			}
+		});
 	} 
 }

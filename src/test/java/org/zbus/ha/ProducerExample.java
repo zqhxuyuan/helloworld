@@ -1,11 +1,11 @@
 package org.zbus.ha;
 
-import rushmore.zbus.client.Broker;
-import rushmore.zbus.client.Producer;
-import rushmore.zbus.client.broker.HaBroker;
-import rushmore.zbus.client.broker.HaBrokerConfig;
-import rushmore.zbus.remoting.Message;
-import rushmore.zbus.remoting.ticket.ResultCallback;
+import org.zbus.client.Broker;
+import org.zbus.client.Producer;
+import org.zbus.client.broker.HaBroker;
+import org.zbus.client.broker.HaBrokerConfig;
+import org.zbus.common.remoting.Message;
+import org.zbus.common.remoting.ticket.ResultCallback;
 
 public class ProducerExample {
 	public static void main(String[] args) throws Exception {
