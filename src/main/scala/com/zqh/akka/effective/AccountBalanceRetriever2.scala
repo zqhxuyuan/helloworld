@@ -14,10 +14,12 @@ class AccountBalanceRetriever2(savingsAccounts: ActorRef,
       savingsAccounts ! GetCustomerAccountBalances(id)
       checkingAccounts ! GetCustomerAccountBalances(id)
       moneyMarketAccounts ! GetCustomerAccountBalances(id)
+
     case AccountBalances(cBalances, sBalances, mmBalances) =>
       (checkingBalances, savingsBalances, mmBalances) match {
-        case (Some(c), Some(s), Some(m)) => originalSender.get ! AccountBalances(checkingBalances, savingsBalances,
-          mmBalances)
+        case (Some(c), Some(s), Some(m)) =>
+          originalSender.get !
+            AccountBalances(checkingBalances, savingsBalances,mmBalances)
         case _ =>
       }
   }
