@@ -2,9 +2,12 @@ package com.zqh.akka.effective
 
 import akka.actor.{Actor, ActorRef}
 
-class AccountBalanceRetriever2(savingsAccounts: ActorRef, checkingAccounts: ActorRef, moneyMarketAccounts: ActorRef) extends Actor {
+class AccountBalanceRetriever2(savingsAccounts: ActorRef,
+                               checkingAccounts: ActorRef,
+                               moneyMarketAccounts: ActorRef) extends Actor {
   val checkingBalances, savingsBalances, mmBalances: Option[List[(Long, BigDecimal)]] = None
   var originalSender: Option[ActorRef] = None
+
   def receive = {
     case GetCustomerAccountBalances(id) =>
       originalSender = Some(sender)
