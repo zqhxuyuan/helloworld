@@ -1,13 +1,16 @@
-package edu.princeton.cs.algs4;
-import edu.princeton.cs.algs4.ch60.GrahamScan;
-import  edu.princeton.cs.introcs.*;
+package edu.princeton.cs.algs4.ch12;
 
+import edu.princeton.cs.algs4.ch60.GrahamScan;
+import edu.princeton.cs.introcs.StdIn;
+import edu.princeton.cs.introcs.StdOut;
+
+import static edu.princeton.cs.introcs.StdIn.*;
 
 /*************************************************************************
  *  Compilation:  javac FarthestPair.java
  *  Execution:    java FarthestPair < input.txt
  *  Dependencies: GrahamScan.java Point2D.java
- *  
+ *
  *  Given a set of N points in the plane, find the farthest pair
  *  (equivalently, compute the diameter of the set of points).
  *
@@ -85,11 +88,11 @@ public class FarthestPair {
 
 
     public static void main(String[] args) {
-        int N = StdIn.readInt();
+        int N = readInt();
         Point2D[] points = new Point2D[N];
         for (int i = 0; i < N; i++) {
-            int x = StdIn.readInt();
-            int y = StdIn.readInt();
+            int x = readInt();
+            int y = readInt();
             points[i] = new Point2D(x, y);
         }
         FarthestPair farthest = new FarthestPair(points);
@@ -97,29 +100,3 @@ public class FarthestPair {
     }
 
 }
-
-
-/*************************************************************************
- *  Copyright 2002-2012, Robert Sedgewick and Kevin Wayne.
- *
- *  This file is part of algs4-package.jar, which accompanies the textbook
- *
- *      Algorithms, 4th edition by Robert Sedgewick and Kevin Wayne,
- *      Addison-Wesley Professional, 2011, ISBN 0-321-57351-X.
- *      http://algs4.cs.princeton.edu
- *
- *
- *  algs4-package.jar is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  algs4-package.jar is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
-
- *  You should have received a copy of the GNU General Public License
- *  along with algs4-package.jar.  If not, see http://www.gnu.org/licenses.
- *************************************************************************/
-

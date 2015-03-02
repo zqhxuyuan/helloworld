@@ -1,5 +1,5 @@
 package edu.princeton.cs.algs4.ch60;
-import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.ch12.Point2D;
 import edu.princeton.cs.algs4.ch13.Stack;
 import  edu.princeton.cs.introcs.*;
 

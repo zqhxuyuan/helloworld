@@ -1,5 +1,6 @@
 package edu.princeton.cs.algs4.ch55;
 import edu.princeton.cs.algs4.ch13.Bag;
+import edu.princeton.cs.algs4.ch15.UF;
 import edu.princeton.cs.algs4.ch43.Edge;
 import edu.princeton.cs.algs4.ch43.EdgeWeightedGraph;
 import  edu.princeton.cs.introcs.*;

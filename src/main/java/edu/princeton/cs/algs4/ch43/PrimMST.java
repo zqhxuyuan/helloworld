@@ -1,5 +1,6 @@
 package edu.princeton.cs.algs4.ch43;
 import edu.princeton.cs.algs4.ch13.Queue;
+import edu.princeton.cs.algs4.ch15.UF;
 import edu.princeton.cs.algs4.ch24.IndexMinPQ;
 import  edu.princeton.cs.introcs.*;
 

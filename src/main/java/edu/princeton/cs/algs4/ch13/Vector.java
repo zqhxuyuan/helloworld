@@ -1,4 +1,4 @@
-package edu.princeton.cs.algs4;
+package edu.princeton.cs.algs4.ch13;
 import  edu.princeton.cs.introcs.*;
 
 /*************************************************************************
