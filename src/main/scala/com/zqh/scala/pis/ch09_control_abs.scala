@@ -129,7 +129,7 @@ object ch09_control_abs {
 
 
   // 使用贷出模式写文件, curry
-  def withPrintWriter(file: File)(op: PrintWriter => Unit) {
+  def withPrintWriter2(file: File)(op: PrintWriter => Unit) {
     val writer = new PrintWriter(file)
     try {
       op(writer)
@@ -140,7 +140,7 @@ object ch09_control_abs {
 
   // 现在参数只有一个了
   val file = new File("date.txt")
-  withPrintWriter(file) {
+  withPrintWriter2(file) {
     writer => writer.println(new java.util.Date)
   }
 
