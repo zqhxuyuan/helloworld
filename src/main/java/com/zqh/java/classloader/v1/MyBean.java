@@ -1,4 +1,4 @@
-package com.zqh.interview.v1;
+package com.zqh.java.classloader.v1;
 
 /**
  * Created by zqhxuyuan on 15-2-28.

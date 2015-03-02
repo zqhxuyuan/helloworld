@@ -4,6 +4,8 @@ import com.zqh.midd.netty.gameserver.common.Config;
 import com.zqh.midd.netty.gameserver.manager.SocketServer;
 
 /**
+ * https://github.com/iwinstar/gameserver
+ *
  * 服务器端
  *
  * User: mengmeng.cheng

@@ -1,4 +1,4 @@
-package com.zqh.interview;
+package com.zqh.java.classloader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.zqh.interview.v2.MyBean;
+import com.zqh.java.classloader.v2.MyBean;
 import org.junit.Test;
 
 public class ClassLoaderTest {
