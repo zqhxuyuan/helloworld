@@ -2,6 +2,9 @@ package edu.princeton.cs.algs4.ch24;
 import edu.princeton.cs.algs4.ch13.Stack;
 import  edu.princeton.cs.introcs.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*************************************************************************
  *  Compilation:  javac TopM.java
  *  Execution:    java TopM M < input.txt
@@ -45,17 +48,58 @@ public class TopM {
      *  transactions in descending order.
      */
     public static void main(String[] args) {
-        int M = Integer.parseInt(args[0]); 
+        //cmdTest(args);
+
+        int M = 5;
+        MinPQ<Transaction> pq = new MinPQ<Transaction>(M+1);
+
+        List<Transaction> list = new ArrayList<Transaction>();
+
+        list.add(new Transaction("Turing      6/17/1990   644.08"));
+        list.add(new Transaction("vonNeumann  3/26/2002  4121.85"));
+        list.add(new Transaction("Dijkstra    8/22/2007  2678.40"));
+        list.add(new Transaction("vonNeumann  1/11/1999  4409.74"));
+        list.add(new Transaction("Dijkstra   11/18/1995   837.42"));
+        list.add(new Transaction("Hoare       5/10/1993  3229.27"));
+        list.add(new Transaction("vonNeumann  2/12/1994  4732.35"));
+        list.add(new Transaction("Hoare       8/18/1992  4381.21"));
+        list.add(new Transaction("Turing      1/11/2002    66.10"));
+        list.add(new Transaction("Thompson    2/27/2000  4747.08"));
+        list.add(new Transaction("Turing      2/11/1991  2156.86"));
+        list.add(new Transaction("Hoare       8/12/2003  1025.70"));
+        list.add(new Transaction("vonNeumann 10/13/1993  2520.97"));
+        list.add(new Transaction("Dijkstra    9/10/2000   708.95"));
+        list.add(new Transaction("Turing     10/12/1993  3532.36"));
+        list.add(new Transaction("Hoare       2/10/2005  4050.20"));
+
+        for(Transaction s : list){
+            pq.insert(s);
+
+            // remove minimum if M+1 entries on the PQ
+            if (pq.size() > M)
+                pq.delMin();
+        }
+
+        // print entries on PQ in reverse order
+        Stack<Transaction> stack = new Stack<Transaction>();
+        for (Transaction transaction : pq)
+            stack.push(transaction);
+        for (Transaction transaction : stack)
+            StdOut.println(transaction);
+    }
+
+    public static void cmdTest(String[] args){
+        int M = Integer.parseInt(args[0]);
         MinPQ<Transaction> pq = new MinPQ<Transaction>(M+1);
 
         while (StdIn.hasNextLine()) {
-            // Create an entry from the next line and put on the PQ. 
+            // Create an entry from the next line and put on the PQ.
             String line = StdIn.readLine();
             Transaction transaction = new Transaction(line);
-            pq.insert(transaction); 
+            pq.insert(transaction);
 
             // remove minimum if M+1 entries on the PQ
-            if (pq.size() > M) 
+            if (pq.size() > M)
                 pq.delMin();
         }   // top M entries are on the PQ
 
@@ -65,7 +109,7 @@ public class TopM {
             stack.push(transaction);
         for (Transaction transaction : stack)
             StdOut.println(transaction);
-    } 
+    }
 } 
 
 

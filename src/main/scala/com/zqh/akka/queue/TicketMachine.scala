@@ -15,10 +15,11 @@ class TicketMachine extends Actor with ActorLogging {
 	private var startTime = 0L
 	private var endTime = 0L
 	private var efficiency = 0.0
+
 	// Load configuration
 	var conf = ConfigFactory.load
 	//private val customerProcessingFrequency = 0.011f // One client every 1mn30 on average
-	lazy val customerProcessingFrequency = conf.getDouble("actor-sample.avg-customer-processing-duration")
+	lazy val customerProcessingFrequency = conf.getDouble("queue-sample.avg-customer-processing-duration")
 
 	// Initialization
 	override def preStart(): Unit = {

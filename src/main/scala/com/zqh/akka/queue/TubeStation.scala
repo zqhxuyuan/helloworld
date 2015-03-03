@@ -24,11 +24,12 @@ class TubeStation extends Actor with ActorLogging {
 	private val sampleDurations = ArrayBuffer(8043, 12308, 36047, 146671, 155191, 39570, 103982, 195214, 35533, 11971, 139932, 59791, 36952, 64827, 83796, 20263, 115964, 10883, 24533, 11967)
 	// This is a sample of 10 customer inter-arrivals
 	private val sampleIntervals = ArrayBuffer(9896, 2230, 13853, 22139, 16476, 4730, 19479, 34878, 14512, 5774)
+
 	// Load configuration
 	var conf = ConfigFactory.load
-	lazy val useSampleDuration = conf.getString("actor-sample.use-sample-duration")
-	lazy val customerArrivalFrequency = conf.getDouble("actor-sample.avg-customer-arrival-rate")
-	lazy val useSampleArrival = conf.getString("actor-sample.use-sample-arrival")
+	lazy val useSampleDuration = conf.getString("queue-sample.use-sample-duration")
+	lazy val customerArrivalFrequency = conf.getDouble("queue-sample.avg-customer-arrival-rate")
+	lazy val useSampleArrival = conf.getString("queue-sample.use-sample-arrival")
 
 	// Initialization
 	override def preStart(): Unit = {

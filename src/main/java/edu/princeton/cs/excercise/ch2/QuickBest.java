@@ -53,7 +53,7 @@ public class QuickBest {
 
     public static void main(String[] args) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        int N = Integer.parseInt(args[0]);
+        int N = 20;
         int[] a = best(N);
         for (int i = 0; i < N; i++)
             // StdOut.println(a[i]);

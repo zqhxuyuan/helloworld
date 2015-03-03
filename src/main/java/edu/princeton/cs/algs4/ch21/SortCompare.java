@@ -1,6 +1,7 @@
 package edu.princeton.cs.algs4.ch21;
 
 import edu.princeton.cs.algs4.ch14.Stopwatch;
+import edu.princeton.cs.algs4.ch24.Heap;
 import edu.princeton.cs.introcs.StdRandom;
 
 /**
