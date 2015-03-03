@@ -29,8 +29,6 @@ import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
 
 /**
- * https://github.com/hortonworks/simple-yarn-app
- *
  Simple YARN application to run n copies of a unix command - deliberately kept simple (with minimal error handling etc.)
 
  Usage:

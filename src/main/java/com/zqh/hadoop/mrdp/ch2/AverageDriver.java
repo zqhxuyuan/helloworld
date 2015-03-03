@@ -74,9 +74,7 @@ public class AverageDriver {
 		}
 	}
 
-	public static class SOAverageReducer
-			extends
-			Reducer<IntWritable, CountAverageTuple, IntWritable, CountAverageTuple> {
+	public static class SOAverageReducer extends Reducer<IntWritable, CountAverageTuple, IntWritable, CountAverageTuple> {
 		private CountAverageTuple result = new CountAverageTuple();
 
 		@Override
@@ -101,8 +99,7 @@ public class AverageDriver {
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 2) {
 			System.err.println("Usage: AverageDriver <in> <out>");
 			System.exit(2);
