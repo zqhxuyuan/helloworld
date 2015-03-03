@@ -41,12 +41,10 @@ public class SmarterMedianStdDevDriver {
 
 		@SuppressWarnings("deprecation")
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Grab the "CreationDate" field,
 			// since it is what we are grouping by
@@ -67,6 +65,11 @@ public class SmarterMedianStdDevDriver {
 				outHour.set(creationDate.getHours());
 
 				commentLength.set(text.length());
+
+                /**
+                 * 每个comment的长度分别是: 1, 1, 1, 1, 2, 2, 3, 4, 5, 5, 5
+                 * SortedMapWritable记录每种类别的长度和次数: 1→4, 2→2, 3→1, 4→1, 5→3
+                 */
 				SortedMapWritable outCommentLength = new SortedMapWritable();
 				outCommentLength.put(commentLength, ONE);
 
@@ -80,28 +83,44 @@ public class SmarterMedianStdDevDriver {
 		}
 	}
 
-	public static class SOMedianStdDevCombiner
-			extends
-			Reducer<IntWritable, SortedMapWritable, IntWritable, SortedMapWritable> {
+    /**
+     Combiner optimization. Unlike the previous examples, the combiner for this algorithm is
+     different from the reducer. While the reducer actually calculates the median and stan‐
+     dard deviation, the combiner aggregates the SortedMapWritable entries for each local
+     map’s intermediate key/value pairs. The code to parse through the entries and aggregate
+     them in a local map is identical to the reducer code in the previous section. Here, a
+     HashMap is used instead of a TreeMap , because sorting is unnecessary and a HashMap is
+     typically faster. While the reducer uses this map to calculate the median and standard
+     deviation, the combiner uses a SortedMapWritable in order to serialize it for the reduce phase.
+     */
+	public static class SOMedianStdDevCombiner extends
+            Reducer<IntWritable, SortedMapWritable, IntWritable, SortedMapWritable> {
 
 		@SuppressWarnings("rawtypes")
-		protected void reduce(IntWritable key,
-				Iterable<SortedMapWritable> values, Context context)
-				throws IOException, InterruptedException {
+		protected void reduce(IntWritable key, Iterable<SortedMapWritable> values, Context context) throws IOException, InterruptedException {
 
 			SortedMapWritable outValue = new SortedMapWritable();
 
+            /**
+             * Reduce的value是一个Map: <Comment'Length, Comment'Count>, 要返回的也是一个Map
+             * 不过不同的是要将多个Map汇聚成一个Map.
+             *
+             * Map1:<1,4>, <2,2>
+             * Map2:<1,3>, <3,2>  ==> 第一层for循环
+             * Map3:<2,1>, <3,1>
+             *
+             *     ==> Map<1,7>
+             *         Map<2,3>   ==> 第二层for循环
+             *         Map<3,3>
+             */
 			for (SortedMapWritable v : values) {
 				for (Entry<WritableComparable, Writable> entry : v.entrySet()) {
-					LongWritable count = (LongWritable) outValue.get(entry
-							.getKey());
+					LongWritable count = (LongWritable) outValue.get(entry.getKey());
 
 					if (count != null) {
-						count.set(count.get()
-								+ ((LongWritable) entry.getValue()).get());
+						count.set(count.get() + ((LongWritable) entry.getValue()).get());
 					} else {
-						outValue.put(entry.getKey(), new LongWritable(
-								((LongWritable) entry.getValue()).get()));
+						outValue.put(entry.getKey(), new LongWritable(((LongWritable) entry.getValue()).get()));
 					}
 				}
 			}
@@ -110,9 +129,9 @@ public class SmarterMedianStdDevDriver {
 		}
 	}
 
-	public static class SOMedianStdDevReducer
-			extends
-			Reducer<IntWritable, SortedMapWritable, IntWritable, MedianStdDevTuple> {
+	public static class SOMedianStdDevReducer extends
+            Reducer<IntWritable, SortedMapWritable, IntWritable, MedianStdDevTuple> {
+
 		private MedianStdDevTuple result = new MedianStdDevTuple();
 		private TreeMap<Integer, Long> commentLengthCounts = new TreeMap<Integer, Long>();
 
@@ -127,6 +146,12 @@ public class SmarterMedianStdDevDriver {
 			result.setMedian(0);
 			result.setStdDev(0);
 
+            /**
+             * 1→4, 2→2, 3→1, 4→1, 5→3
+             * Key是长度, Value是出现的次数
+             * 总的Comments数量 = Value相加
+             * 总的长度 = Key*Value相加
+             */
 			for (SortedMapWritable v : values) {
 				for (Entry<WritableComparable, Writable> entry : v.entrySet()) {
 					int length = ((IntWritable) entry.getKey()).get();
@@ -135,24 +160,55 @@ public class SmarterMedianStdDevDriver {
 					totalComments += count;
 					sum += length * count;
 
+                    /**
+                     * commentLengthCounts要重新赋值. 因为不同Mapper之间可能存在相同的Key
+                     * 比如Mapper1: 1->4, 2->2
+                     *    Mapper2: 1->2, 3->4
+                     * 则要将相同长度的Comment汇聚在一起
+                     */
+
+                    /*
 					Long storedCount = commentLengthCounts.get(length);
 					if (storedCount == null) {
 						commentLengthCounts.put(length, count);
 					} else {
 						commentLengthCounts.put(length, storedCount + count);
 					}
+                    */
+                    commentLengthCounts.put(length, commentLengthCounts.get(length) == null ?
+                            count : commentLengthCounts.get(length)+count);
 				}
 			}
 
+            // 最中间元素的索引=总个数/2
 			long medianIndex = totalComments / 2L;
-			long previousComments = 0;
-			long comments = 0;
-			int prevKey = 0;
+			long previousCommentCount = 0;  // 前一个Comment的数量
+			long commentCount = 0;          // 目前为止, 所有Comment的数量
+			int prevKey = 0;                //前一个Comment的长度
+
+            /**
+             * 1→4, 2→2, 3→1, 4→1, 5→3
+             *
+             * 0  1  2  3  4  5  6  7  8  9  10  INDEX, TOTAL-LENGTH=11, SO, MID-INDEX=11/2=5
+             * 1, 1, 1, 1, 2, 2, 3, 4, 5, 5, 5   COMMENT'LENGTH
+             *                |
+             *             median
+             * medianIndex = totalComments/2 = 5
+             * 因为TreeMap的Key,Value其中的Value是Key出现的次数(数量)
+             * 第一个Key=1,value=4,则commentCount += 4 < 5, 则继续下一个key
+             * 第二个key=2,value=2,则commentCount = 4+2 = 6, 现在满足4<=5<6, 说明中位数就在key=2这里面
+             */
 			for (Entry<Integer, Long> entry : commentLengthCounts.entrySet()) {
-				comments = previousComments + entry.getValue();
-				if (previousComments <= medianIndex && medianIndex < comments) {
+				commentCount = previousCommentCount + entry.getValue();
+
+                // Iterated to find the keys that satisfy the condition
+                // previousCommentCount ≤ medianIndex < commentCount
+				if (previousCommentCount <= medianIndex && medianIndex < commentCount) {
+                    // if there is an even number of comments and medianIndex is equivalent to previousComment ,
+                    // the median is reset to the average of the previous length and current length.
+                    // Otherwise, the median is simply the current comment length.
 					if (totalComments % 2 == 0) {
-						if (previousComments == medianIndex) {
+						if (previousCommentCount == medianIndex) {
 							result.setMedian((float) (entry.getKey() + prevKey) / 2.0f);
 						} else {
 							result.setMedian(entry.getKey());
@@ -162,21 +218,20 @@ public class SmarterMedianStdDevDriver {
 					}
 					break;
 				}
-				previousComments = comments;
+				previousCommentCount = commentCount;
 				prevKey = entry.getKey();
 			}
 
-			// calculate standard deviation
-			float mean = sum / totalComments;
+			float mean = sum / totalComments; // 这个计算的是平均值
 
+            // calculate standard deviation 计算标准差
 			float sumOfSquares = 0.0f;
 			for (Entry<Integer, Long> entry : commentLengthCounts.entrySet()) {
-				sumOfSquares += (entry.getKey() - mean)
-						* (entry.getKey() - mean) * entry.getValue();
+                // 要乘上entry.value即次数, 实际上是多个相同长度的Comment相加 a+a+a = a*3
+				sumOfSquares += (entry.getKey() - mean) * (entry.getKey() - mean) * entry.getValue();
 			}
 
-			result.setStdDev((float) Math.sqrt(sumOfSquares
-					/ (totalComments - 1)));
+			result.setStdDev((float) Math.sqrt(sumOfSquares / (totalComments - 1)));
 
 			context.write(key, result);
 		}

@@ -74,8 +74,16 @@ public class MedianStdDevDriver {
 		}
 	}
 
+    /**
+     * A combiner cannot be used in this implementation. The reducer
+     requires all the values associated with a key in order to find the median and standard deviation.
+     Because a combiner runs only over a map’s locally output intermediate key/value pairs,
+     being able to calculate the full median and standard deviation is impossible.
+     */
+
 	public static class SOMedianStdDevReducer extends
 			Reducer<IntWritable, IntWritable, IntWritable, MedianStdDevTuple> {
+
 		private MedianStdDevTuple result = new MedianStdDevTuple();
 		private ArrayList<Float> commentLengths = new ArrayList<Float>();
 
@@ -100,17 +108,23 @@ public class MedianStdDevDriver {
 
 			// if commentLengths is an even value, average middle two elements
 			if (count % 2 == 0) {
-				result.setMedian((commentLengths.get((int) count / 2 - 1) + commentLengths
-						.get((int) count / 2)) / 2.0f);
+				result.setMedian((commentLengths.get((int) count / 2 - 1) + commentLengths.get((int) count / 2)) / 2.0f);
 			} else {
 				// else, set median to middle value
 				result.setMedian(commentLengths.get((int) count / 2));
 			}
 
+            // Median 中位数
+            // Mean/Average 平均值
+            // Standard deviation 标准方差
+
 			// calculate standard deviation
 			float mean = sum / count;
 
 			float sumOfSquares = 0.0f;
+            // A running sum of deviations is calculated by squaring
+            // the difference between each comment length and the mean.
+            // 对每个数,将该值和平均值相差,做平方
 			for (Float f : commentLengths) {
 				sumOfSquares += (f - mean) * (f - mean);
 			}
@@ -121,24 +135,27 @@ public class MedianStdDevDriver {
 		}
 	}
 
+    /**
+     * Given a list of user’s comments, determine the median and standard deviation of comment lengths per hour of day.
+     */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 2) {
 			System.err.println("Usage: MedianStdDevDriver <in> <out>");
 			System.exit(2);
 		}
-		Job job = new Job(conf,
-				"StackOverflow Comment Length Median StdDev By Hour");
+		Job job = new Job(conf, "StackOverflow Comment Length Median StdDev By Hour");
 		job.setJarByClass(MedianStdDevDriver.class);
 		job.setMapperClass(SOMedianStdDevMapper.class);
 		job.setReducerClass(SOMedianStdDevReducer.class);
-		job.setMapOutputKeyClass(IntWritable.class);
+
+        job.setMapOutputKeyClass(IntWritable.class);
 		job.setMapOutputValueClass(IntWritable.class);
 		job.setOutputKeyClass(IntWritable.class);
 		job.setOutputValueClass(MedianStdDevTuple.class);
-		FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
+
+        FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
 		FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}

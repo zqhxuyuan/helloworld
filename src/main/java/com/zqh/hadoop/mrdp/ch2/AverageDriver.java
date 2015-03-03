@@ -35,12 +35,9 @@ public class AverageDriver {
 
 		@SuppressWarnings("deprecation")
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
-
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Grab the "CreationDate" field,
 			// since it is what we are grouping by
@@ -78,9 +75,7 @@ public class AverageDriver {
 		private CountAverageTuple result = new CountAverageTuple();
 
 		@Override
-		public void reduce(IntWritable key, Iterable<CountAverageTuple> values,
-				Context context) throws IOException, InterruptedException {
-
+		public void reduce(IntWritable key, Iterable<CountAverageTuple> values, Context context) throws IOException, InterruptedException {
 			float sum = 0;
 			float count = 0;
 
@@ -97,6 +92,9 @@ public class AverageDriver {
 		}
 	}
 
+    /**
+     * Given a list of user’s comments, determine the average comment length per hour of day.
+     */
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
