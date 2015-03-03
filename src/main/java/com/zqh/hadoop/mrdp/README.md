@@ -14,3 +14,8 @@ The results of such a query can be preprocessed and ingested into a database.
 2-3 Counting with counters should be used when:
 • You have a desire to gather counts or summations over large data sets.
 • The number of counters you are going to create is small—in the double digits.
+
+3-1 Filtering is very widely applicable.
+The only requirement is that the data can be parsed into “records” that can
+be categorized through some well-specified criterion determining whether they are to be kept.
+
