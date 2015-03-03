@@ -21,6 +21,11 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 /**
  * Chapter2 Pattern3: Counting the Counters
+ *
+ * a map-only job to count the number of users in each state
+ * 只用一个Map计算每个州的用户数
+ *
+ * Problem: Count the number of users from each state using Hadoop custom counters.
  */
 public class CountNumUsersByStateDriver {
 
@@ -57,7 +62,12 @@ public class CountNumUsersByStateDriver {
 				for (String state : tokens) {
 					// Check if it is a state
 					if (states.contains(state)) {
-
+                        /**
+                         If a state is recognized, the counter for the state is incremented by one and the loop is broken.
+                         Counters are identified by both a group and a name.
+                         Here, the group is “State” (identified by a public String variable)
+                         and the counter name is the state abbreviation code.
+                         */
 						// If so, increment the state's counter by 1 and flag it as not unknown
 						context.getCounter(STATE_COUNTER_GROUP, state).increment(1);
 						unknown = false;
@@ -103,10 +113,8 @@ public class CountNumUsersByStateDriver {
 		int code = job.waitForCompletion(true) ? 0 : 1;
 
 		if (code == 0) {
-			for (Counter counter : job.getCounters().getGroup(
-					CountNumUsersByStateMapper.STATE_COUNTER_GROUP)) {
-				System.out.println(counter.getDisplayName() + "\t"
-						+ counter.getValue());
+			for (Counter counter : job.getCounters().getGroup(CountNumUsersByStateMapper.STATE_COUNTER_GROUP)) {
+				System.out.println(counter.getDisplayName() + "\t" + counter.getValue());
 			}
 		}
 
