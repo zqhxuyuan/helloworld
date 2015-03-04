@@ -10,6 +10,8 @@ public class Main {
      * @param args 第一引数に行列の長さ、第二引数に並列数をそれぞれ格納する配列
      */
     public static void main(String[] args) {
+        args = new String[]{"3","5"};
+
         int matrixSize = 128;
         double[][] matrixA;
         double[][] matrixB;
@@ -34,13 +36,12 @@ public class Main {
         }
         init(matrixB);
 
-        //	show(matrixA);
-        //	show(matrixB);
+        show(matrixA);
+        show(matrixB);
 
         MapReduce<Integer, double[], Integer, Double, Integer, Double> mmMR = new MapReduce<Integer, double[], Integer, Double, Integer, Double>(MapMM.class, ReduceMM.class, "MAP_REDUCE");
         mmMR.setResultOutput(false);
         mmMR.setParallelThreadNum(parallelNum);
-
 
         for(int i = 0; i < matrixSize; i++){
             for(int j = 0; j < matrixSize; j++){
@@ -52,15 +53,10 @@ public class Main {
         }
 
         System.out.println("Making matrix is finished.");
-
         long start = System.nanoTime();
-
         mmMR.run();
-
         long stop = System.nanoTime();
-
         System.out.println("MatrixMul time is " + String.valueOf((double)(stop - start) / 1000000000));
-
     }
 
 
@@ -71,8 +67,6 @@ public class Main {
     public static void init(double[][] matrix){
         Date d = new Date();
         Random rdm = new Random(d.getTime());
-//		System.out.println(d.getTime());
-
         for(int i = 0; i < matrix.length; i ++){
             for(int j = 0; j < matrix.length; j++){
                 matrix[i][j] = rdm.nextDouble();

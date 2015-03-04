@@ -44,8 +44,8 @@ public class Main {
         initializeVectorKM(vectors, 0, 0, 1, 1);
         initializeVectorKM(clusters, 0.4f, 0.4f, 0.6f, 0.6f);
 
-//		showVectorKM(vectors);
-//		showVectorKM(clusters);
+		showVectorKM(vectors);
+		showVectorKM(clusters);
 
         MapReduce<VectorKM, VectorKM[], VectorKM, VectorKM, VectorKM, VectorKM> mmKM = new MapReduce<VectorKM, VectorKM[], VectorKM, VectorKM, VectorKM, VectorKM>(MapKM.class, ReduceKM.class, "MAP_REDUCE");
         mmKM.setResultOutput(true);
@@ -94,15 +94,11 @@ public class Main {
     public static void kernelKMeans(MapReduce<VectorKM, VectorKM[], VectorKM, VectorKM, VectorKM, VectorKM> mmKM,
                                     VectorKM[] vectors,
                                     VectorKM[] clusters,
-                                    VectorKM[] tmpclusters
-    ){
-
+                                    VectorKM[] tmpclusters){
         for(VectorKM vkm : vectors){
             mmKM.addKeyValue(vkm, clusters);
         }
-
         mmKM.run();
-
         makeNewCluster(clusters, tmpclusters, mmKM.getKeys(), mmKM.getValues());
     }
 
@@ -169,8 +165,7 @@ public class Main {
      */
     public static boolean compareClusters(
             VectorKM[] clusters,
-            VectorKM[] tmpclusters
-    ){
+            VectorKM[] tmpclusters){
         int fixclusternum = 0;
         for(int i = 0; i < tmpclusters.length; i++){
             for(int j = i; j < clusters.length; j++){

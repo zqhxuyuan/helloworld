@@ -180,13 +180,15 @@ public class MapReduce<InputMapKey extends Comparable<InputMapKey> ,
      * 4.1.-3.を繰り返し行う
      */
     private void startReduce(){
-        List<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>> reducers =  new ArrayList<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>(this.parallelThreadNum);
-        List<FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>> reducetasks = new ArrayList<FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>>(this.parallelThreadNum);
+        List<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>> reducers =
+                new ArrayList<>(this.parallelThreadNum);
+        List<FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>> reducetasks =
+                new ArrayList<>(this.parallelThreadNum);
         ExecutorService executor = Executors.newFixedThreadPool(this.parallelThreadNum);
 
         for(int i = 0; i < this.parallelThreadNum; i ++){
             reducers.add(initializeReducer());
-            reducetasks.add(new FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>(new ReduceCallable<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>()));
+            reducetasks.add(new FutureTask<>(new ReduceCallable<>()));
         }
 
         int x = this.inputData.getReduceSize() / this.parallelThreadNum;
@@ -194,19 +196,18 @@ public class MapReduce<InputMapKey extends Comparable<InputMapKey> ,
             for(int j = 0; j < this.parallelThreadNum; j++){
                 reducers.set(j, initializeReducer());
                 reducers.get(j).setKeyValue(this.inputData.getReduceKey(i+j*x), this.inputData.getReduceValues(i+j*x));
-                reducetasks.set(j, new FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>(new ReduceCallable<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>(reducers.get(j))));
+                reducetasks.set(j, new FutureTask<>(new ReduceCallable<>(reducers.get(j))));
             }
 
             ReduceWork(reducers, reducetasks, executor);
         }
-
 
         if(this.inputData.getReduceSize() % this.parallelThreadNum != 0){
             int finishedsize = (this.inputData.getReduceSize() / this.parallelThreadNum) * this.parallelThreadNum;
             for(int i = 0; i < this.inputData.getReduceSize() % this.parallelThreadNum; i++){
                 reducers.set(i, initializeReducer());
                 reducers.get(i).setKeyValue(this.inputData.getReduceKey(finishedsize + i), this.inputData.getReduceValues(finishedsize + i));
-                reducetasks.set(i, new FutureTask<Reducer<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>>(new ReduceCallable<IntermediateKey, IntermediateValue,OutputReduceKey, OutputReduceValue>(reducers.get(i))));			}
+                reducetasks.set(i, new FutureTask<>(new ReduceCallable<>(reducers.get(i))));			}
 
             ReduceWork(reducers, reducetasks, executor);
         }
