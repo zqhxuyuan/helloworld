@@ -1,6 +1,8 @@
 qdb-kvstore
 ===========
 
+https://github.com/qdb-io/qdb-kvstore
+
 Transactional in memory key/value store. Writes the store to disk periodically in snapshot files. Uses a transaction
 log to replay from the last snapshot after a crash.
 
