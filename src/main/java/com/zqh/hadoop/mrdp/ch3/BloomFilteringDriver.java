@@ -23,6 +23,9 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.bloom.BloomFilter;
 import org.apache.hadoop.util.bloom.Key;
 
+/**
+ * Problem: Given a list of user’s comments, filter out a majority of the comments that do not contain a particular keyword
+ */
 public class BloomFilteringDriver {
 
 	public static class BloomFilteringMapper extends
@@ -30,27 +33,28 @@ public class BloomFilteringDriver {
 
 		private BloomFilter filter = new BloomFilter();
 
+        /**
+         * 在Map开始时,读取BloomFilter文件到BloomFilter中
+         * @param context
+         * @throws IOException
+         * @throws InterruptedException
+         */
 		@Override
-		protected void setup(Context context) throws IOException,
-				InterruptedException {
-			URI[] files = DistributedCache.getCacheFiles(context
-					.getConfiguration());
+		protected void setup(Context context) throws IOException, InterruptedException {
+			URI[] files = DistributedCache.getCacheFiles(context.getConfiguration());
 
 			// if the files in the distributed cache are set
 			if (files != null && files.length == 1) {
-				System.out.println("Reading Bloom filter from: "
-						+ files[0].getPath());
+				System.out.println("Reading Bloom filter from: " + files[0].getPath());
 
 				// Open local file for read.
-				DataInputStream strm = new DataInputStream(new FileInputStream(
-						files[0].getPath()));
+				DataInputStream strm = new DataInputStream(new FileInputStream(files[0].getPath()));
 
 				// Read into our Bloom filter.
 				filter.readFields(strm);
 				strm.close();
 			} else {
-				throw new IOException(
-						"Bloom filter file not set in the DistributedCache.");
+				throw new IOException("Bloom filter file not set in the DistributedCache.");
 			}
 		}
 
@@ -59,28 +63,22 @@ public class BloomFilteringDriver {
 				throws IOException, InterruptedException {
 
 			// Parse the input into a nice map.
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Get the value for the comment
 			String comment = parsed.get("Text");
 
 			// If it is null, skip this record
-			if (comment == null) {
-				return;
-			}
+			if (comment == null) return;
 
 			StringTokenizer tokenizer = new StringTokenizer(comment);
 			// For each word in the comment
 			while (tokenizer.hasMoreTokens()) {
-
 				// Clean up the words
-				String cleanWord = tokenizer.nextToken().replaceAll("'", "")
-						.replaceAll("[^a-zA-Z]", " ");
+				String cleanWord = tokenizer.nextToken().replaceAll("'", "").replaceAll("[^a-zA-Z]", " ");
 
 				// If the word is in the filter, output it and break
-				if (cleanWord.length() > 0
-						&& filter.membershipTest(new Key(cleanWord.getBytes()))) {
+				if (cleanWord.length() > 0 && filter.membershipTest(new Key(cleanWord.getBytes()))) {
 					context.write(value, NullWritable.get());
 					break;
 				}
@@ -90,8 +88,7 @@ public class BloomFilteringDriver {
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 3) {
 			System.err.println("Usage: BloomFiltering <in> <cachefile> <out>");
 			System.exit(1);

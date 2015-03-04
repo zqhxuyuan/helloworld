@@ -32,13 +32,11 @@ public class UniqueUserCount {
 		public void map(Object key, Text value, Context context)
 				throws IOException, InterruptedException {
 
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 			String userId = parsed.get("UserId");
-			if (userId == null) {
-				return;
-			}
+			if (userId == null) return;
 
+            // Key为用户ID, value为NULL
 			outUserId.set(userId);
 			context.write(outUserId, NullWritable.get());
 		}
@@ -48,8 +46,9 @@ public class UniqueUserCount {
 			Reducer<Text, NullWritable, Text, NullWritable> {
 
 		@Override
-		public void reduce(Text key, Iterable<NullWritable> values,
-				Context context) throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException {
+            // 对于多个Map, 如果有相同的key:用户ID, 在这里values多个都是NULL,
+            // 因此只要输出一次. 相当于distinct了!
 			context.write(key, NullWritable.get());
 		}
 	}
@@ -61,9 +60,7 @@ public class UniqueUserCount {
 		private static final IntWritable ONE = new IntWritable(1);
 
 		@Override
-		public void map(Text key, NullWritable value, Context context)
-				throws IOException, InterruptedException {
-
+		public void map(Text key, NullWritable value, Context context) throws IOException, InterruptedException {
 			context.write(DUMMY, ONE);
 		}
 	}

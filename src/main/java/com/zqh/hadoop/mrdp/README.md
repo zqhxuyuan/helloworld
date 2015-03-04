@@ -19,3 +19,17 @@ The results of such a query can be preprocessed and ingested into a database.
 The only requirement is that the data can be parsed into “records” that can
 be categorized through some well-specified criterion determining whether they are to be kept.
 
+3-2 Bloom Filter
+
+3-3 Top Ten
+• This pattern requires a comparator function ability between two records. That is,
+  we must be able to compare one record to another to determine which is “larger.”
+• The number of output records should be significantly fewer than the number of
+  input records because at a certain point it just makes more sense to do a total ordering of the data set.
+
+3-4 Distinct
+
+5-1 A reduce side join should be used when:
+• Multiple large data sets are being joined by a foreign key. If all but one of the data
+sets can be fit into memory, try using the replicated join.
+• You want the flexibility of being able to execute any join operation.

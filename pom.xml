@@ -995,11 +995,15 @@
             <artifactId>slf4s_2.9.1</artifactId>
             <version>1.0.7</version>
         </dependency>
-
         <dependency>
             <groupId>org.specs2</groupId>
             <artifactId>specs2_2.10</artifactId>
             <version>2.4.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-stm</groupId>
+            <artifactId>scala-stm_2.10</artifactId>
+            <version>0.7</version>
         </dependency>
 
         <dependency>
@@ -1016,12 +1020,6 @@
             <groupId>com.twitter</groupId>
             <artifactId>chill-bijection_2.10</artifactId>
             <version>0.5.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.scala-stm</groupId>
-            <artifactId>scala-stm_2.10</artifactId>
-            <version>0.7</version>
         </dependency>
 
         <dependency>
@@ -1044,6 +1042,12 @@
             <artifactId>dagger-compiler</artifactId>
             <version>1.2.2</version>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.zqh.hadoop.mrdp;
+package com.zqh.hadoop.mrdp.ch3;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,11 +18,9 @@ public class BloomFilterDriver {
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 4) {
-			System.err
-					.println("Usage: BloomFilterWriter <inputfile> <nummembers> <falseposrate> <bfoutfile>");
+			System.err.println("Usage: BloomFilterWriter <inputfile> <nummembers> <falseposrate> <bfoutfile>");
 			System.exit(1);
 		}
 
@@ -39,8 +37,7 @@ public class BloomFilterDriver {
 		int nbHash = getOptimalK(numMembers, vectorSize);
 
 		// create new Bloom filter
-		BloomFilter filter = new BloomFilter(vectorSize, nbHash,
-				Hash.MURMUR_HASH);
+		BloomFilter filter = new BloomFilter(vectorSize, nbHash, Hash.MURMUR_HASH);
 
 		// Open file for read
 
@@ -55,11 +52,9 @@ public class BloomFilterDriver {
 			BufferedReader rdr;
 			// if file is gzipped, wrap it in a GZIPInputStream
 			if (status.getPath().getName().endsWith(".gz")) {
-				rdr = new BufferedReader(new InputStreamReader(
-						new GZIPInputStream(fs.open(status.getPath()))));
+				rdr = new BufferedReader(new InputStreamReader(new GZIPInputStream(fs.open(status.getPath()))));
 			} else {
-				rdr = new BufferedReader(new InputStreamReader(fs.open(status
-						.getPath())));
+				rdr = new BufferedReader(new InputStreamReader(fs.open(status.getPath())));
 			}
 
 			System.out.println("Reading " + status.getPath());
@@ -71,8 +66,7 @@ public class BloomFilterDriver {
 			rdr.close();
 		}
 
-		System.out.println("Trained Bloom filter with " + numRecords
-				+ " entries.");
+		System.out.println("Trained Bloom filter with " + numRecords + " entries.");
 
 		System.out.println("Serializing Bloom filter to HDFS at " + bfFile);
 		FSDataOutputStream strm = fs.create(bfFile);
@@ -84,10 +78,8 @@ public class BloomFilterDriver {
 		System.out.println("Done training Bloom filter.");
 	}
 
-	public static int getOptimalBloomFilterSize(int numRecords,
-			float falsePosRate) {
-		int size = (int) (-numRecords * (float) Math.log(falsePosRate) / Math
-				.pow(Math.log(2), 2));
+	public static int getOptimalBloomFilterSize(int numRecords, float falsePosRate) {
+		int size = (int) (-numRecords * (float) Math.log(falsePosRate) / Math.pow(Math.log(2), 2));
 		return size;
 	}
 

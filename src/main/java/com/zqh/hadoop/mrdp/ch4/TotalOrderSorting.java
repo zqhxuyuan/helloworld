@@ -21,20 +21,19 @@ import org.apache.hadoop.mapreduce.lib.partition.InputSampler;
 import org.apache.hadoop.mapreduce.lib.partition.TotalOrderPartitioner;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * 全排序
+ */
 public class TotalOrderSorting {
 
-	public static class LastAccessDateMapper extends
-			Mapper<Object, Text, Text, Text> {
+	public static class LastAccessDateMapper extends Mapper<Object, Text, Text, Text> {
 
 		private Text outkey = new Text();
 
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
-
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			String date = parsed.get("LastAccessDate");
 			if (date != null) {
@@ -59,11 +58,9 @@ public class TotalOrderSorting {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 3) {
-			System.err
-					.println("Usage: TotalOrderSorting <user data> <out> <sample rate>");
+			System.err.println("Usage: TotalOrderSorting <user data> <out> <sample rate>");
 			System.exit(1);
 		}
 
@@ -114,8 +111,7 @@ public class TotalOrderSorting {
 			orderJob.setPartitionerClass(TotalOrderPartitioner.class);
 
 			// Set the partition file
-			TotalOrderPartitioner.setPartitionFile(orderJob.getConfiguration(),
-					partitionFile);
+			TotalOrderPartitioner.setPartitionFile(orderJob.getConfiguration(), partitionFile);
 
 			orderJob.setOutputKeyClass(Text.class);
 			orderJob.setOutputValueClass(Text.class);
@@ -128,8 +124,7 @@ public class TotalOrderSorting {
 			TextOutputFormat.setOutputPath(orderJob, outputOrder);
 
 			// Set the separator to an empty string
-			orderJob.getConfiguration().set(
-					"mapred.textoutputformat.separator", "");
+			orderJob.getConfiguration().set("mapred.textoutputformat.separator", "");
 
 			// Use the InputSampler to go through the output of the previous
 			// job, sample it, and create the partition file
