@@ -24,8 +24,7 @@ public class CompositeJoinDriver {
 
 		@Override
 		public void map(Text key, TupleWritable value,
-				OutputCollector<Text, Text> output, Reporter reporter)
-				throws IOException {
+				OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
 
 			// Get the first two elements in the tuple and output them
 			output.collect((Text) value.get(0), (Text) value.get(1));
@@ -35,11 +34,9 @@ public class CompositeJoinDriver {
 	public static void main(String[] args) throws Exception {
 		JobConf conf = new JobConf("CompositeJoin");
 		conf.setJarByClass(CompositeJoinDriver.class);
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 4) {
-			System.err
-					.println("Usage: CompositeJoin <user data> <comment data> <out> [inner|outer]");
+			System.err.println("Usage: CompositeJoin <user data> <comment data> <out> [inner|outer]");
 			System.exit(1);
 		}
 
@@ -47,8 +44,7 @@ public class CompositeJoinDriver {
 		Path commentPath = new Path(otherArgs[1]);
 		Path outputDir = new Path(otherArgs[2]);
 		String joinType = otherArgs[3];
-		if (!(joinType.equalsIgnoreCase("inner") || joinType
-				.equalsIgnoreCase("outer"))) {
+		if (!(joinType.equalsIgnoreCase("inner") || joinType.equalsIgnoreCase("outer"))) {
 			System.err.println("Join type not set to inner or outer");
 			System.exit(2);
 		}
