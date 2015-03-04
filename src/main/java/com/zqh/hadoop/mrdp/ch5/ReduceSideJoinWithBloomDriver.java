@@ -23,6 +23,12 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.bloom.BloomFilter;
 import org.apache.hadoop.util.bloom.Key;
 
+/**
+ * Using a Bloom filter is particularly useful with an inner join operation,
+ * and may not be useful at all with a full outer join operation or an antijoin.
+ * The latter two operations require all records to be sent to the reducer,
+ * so adding a Bloom filter has no value.
+ */
 public class ReduceSideJoinWithBloomDriver {
 
 	public static class UserJoinMapperWithBloom extends
@@ -36,18 +42,14 @@ public class ReduceSideJoinWithBloomDriver {
 				throws IOException, InterruptedException {
 
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			String userId = parsed.get("Id");
 			String reputation = parsed.get("Reputation");
 
-			if (userId == null || reputation == null) {
-				return;
-			}
+			if (userId == null || reputation == null) return;
 
-			// If the reputation is greater than 1,500, output the user ID with
-			// the value
+			// If the reputation is greater than 1,500, output the user ID with the value
 			if (Integer.parseInt(reputation) > 1500) {
 				outkey.set(parsed.get("Id"));
 				outvalue.set("A" + value.toString());
@@ -65,17 +67,14 @@ public class ReduceSideJoinWithBloomDriver {
 			@Override
 			public void setup(Context context) {
 				try {
-					Path[] files = DistributedCache.getLocalCacheFiles(context
-							.getConfiguration());
+					Path[] files = DistributedCache.getLocalCacheFiles(context.getConfiguration());
 
 					if (files.length != 0) {
 						DataInputStream strm = new DataInputStream(
-								new FileInputStream(new File(
-										files[0].toString())));
+                                new FileInputStream(new File(files[0].toString())));
 						bfilter.readFields(strm);
 					} else {
-						throw new RuntimeException(
-								"Bloom filter not set in DistributedCache");
+						throw new RuntimeException("Bloom filter not set in DistributedCache");
 					}
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -87,14 +86,10 @@ public class ReduceSideJoinWithBloomDriver {
 					throws IOException, InterruptedException {
 
 				// Parse the input string into a nice map
-				Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-						.toString());
+				Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 				String userId = parsed.get("UserId");
-
-				if (userId == null) {
-					return;
-				}
+				if (userId == null) return;
 
 				if (bfilter.membershipTest(new Key(userId.getBytes()))) {
 					outkey.set(userId);

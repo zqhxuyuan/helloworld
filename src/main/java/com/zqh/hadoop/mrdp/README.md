@@ -33,3 +33,18 @@ be categorized through some well-specified criterion determining whether they ar
 • Multiple large data sets are being joined by a foreign key. If all but one of the data
 sets can be fit into memory, try using the replicated join.
 • You want the flexibility of being able to execute any join operation.
+
+5-2 A replicated join should be used when:
+• The type of join to execute is an inner join or a left outer join, with the large input
+data set being the “left” part of the operation.
+• All of the data sets, except for the large one, can be fit into main memory of each map task.
+
+5-3 A composite join should be used when:
+• An inner or full outer join is desired.
+• All the data sets are sufficiently large.
+• All data sets can be read with the foreign key as the input key to the mapper.
+• All data sets have the same number of partitions.
+• Each partition is sorted by foreign key, and all the foreign keys reside in the
+associated partition of each data set. That is, partition X of data sets A and B contain
+the same foreign keys and these foreign keys are present only in partition X.
+• The data sets do not change often (if they have to be prepared).    
