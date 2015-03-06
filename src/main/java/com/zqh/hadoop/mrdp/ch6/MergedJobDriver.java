@@ -24,54 +24,46 @@ import org.apache.hadoop.util.GenericOptionsParser;
 
 /**
  * Job Merging
+ *
+ * Problem: Given a set of comments, generate an anonymized version of the data and a distinct set of user IDs.
  */
 public class MergedJobDriver {
 
 	public static final String MULTIPLE_OUTPUTS_ANONYMIZE = "anonymize";
 	public static final String MULTIPLE_OUTPUTS_DISTINCT = "distinct";
 
-	public static class AnonymizeDistinctMergedMapper extends
-			Mapper<Object, Text, TaggedText, Text> {
+	public static class AnonymizeDistinctMergedMapper extends Mapper<Object, Text, TaggedText, Text> {
 
 		private static final Text DISTINCT_OUT_VALUE = new Text();
 
 		private Random rndm = new Random();
-		private TaggedText anonymizeOutkey = new TaggedText(),
-				distinctOutkey = new TaggedText();
+		private TaggedText anonymizeOutkey = new TaggedText();
+		private TaggedText distinctOutkey = new TaggedText();
 		private Text anonymizeOutvalue = new Text();
 
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			anonymizeMap(key, value, context);
 			distinctMap(key, value, context);
 		}
 
-		private void anonymizeMap(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
+		private void anonymizeMap(Object key, Text value, Context context) throws IOException, InterruptedException {
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			if (parsed.size() > 0) {
 				StringBuilder bldr = new StringBuilder();
 				bldr.append("<row ");
 				for (Entry<String, String> entry : parsed.entrySet()) {
 
-					if (entry.getKey().equals("UserId")
-							|| entry.getKey().equals("Id")) {
+					if (entry.getKey().equals("UserId") || entry.getKey().equals("Id")) {
 						// ignore these fields
 					} else if (entry.getKey().equals("CreationDate")) {
-						// Strip out the time, anything after the 'T' in the
-						// value
-						bldr.append(entry.getKey()
-								+ "=\""
-								+ entry.getValue().substring(0,
-										entry.getValue().indexOf('T')) + "\" ");
+						// Strip out the time, anything after the 'T' in the value
+						bldr.append(entry.getKey() + "=\"" + entry.getValue().substring(0, entry.getValue().indexOf('T')) + "\" ");
 					} else {
 						// Otherwise, output this.
-						bldr.append(entry.getKey() + "=\"" + entry.getValue()
-								+ "\" ");
+						bldr.append(entry.getKey() + "=\"" + entry.getValue() + "\" ");
 					}
 
 				}
@@ -83,11 +75,9 @@ public class MergedJobDriver {
 			}
 		}
 
-		private void distinctMap(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
+		private void distinctMap(Object key, Text value, Context context) throws IOException, InterruptedException {
 			// Parse the input into a nice map.
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Get the value for the UserId attribute
 			String userId = parsed.get("UserId");
@@ -106,21 +96,17 @@ public class MergedJobDriver {
 		}
 	}
 
-	public static class AnonymizeDistinctMergedReducer extends
-			Reducer<TaggedText, Text, Text, NullWritable> {
+	public static class AnonymizeDistinctMergedReducer extends Reducer<TaggedText, Text, Text, NullWritable> {
 
 		private MultipleOutputs<Text, NullWritable> mos = null;
 
 		@Override
-		protected void setup(Context context) throws IOException,
-				InterruptedException {
+		protected void setup(Context context) throws IOException, InterruptedException {
 			mos = new MultipleOutputs<Text, NullWritable>(context);
 		}
 
 		@Override
-		protected void reduce(TaggedText key, Iterable<Text> values,
-				Context context) throws IOException, InterruptedException {
-
+		protected void reduce(TaggedText key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			if (key.getTag().equals("A")) {
 				anonymizeReduce(key.getText(), values, context);
 			} else {
@@ -128,33 +114,25 @@ public class MergedJobDriver {
 			}
 		}
 
-		private void anonymizeReduce(Text key, Iterable<Text> values,
-				Context context) throws IOException, InterruptedException {
-
+		private void anonymizeReduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			for (Text value : values) {
-				mos.write(MULTIPLE_OUTPUTS_ANONYMIZE, value,
-						NullWritable.get(), MULTIPLE_OUTPUTS_ANONYMIZE
-								+ "/part");
+				mos.write(MULTIPLE_OUTPUTS_ANONYMIZE, value, NullWritable.get(), MULTIPLE_OUTPUTS_ANONYMIZE + "/part");
 			}
 		}
 
-		private void distinctReduce(Text key, Iterable<Text> values,
-				Context context) throws IOException, InterruptedException {
-			mos.write(MULTIPLE_OUTPUTS_DISTINCT, key, NullWritable.get(),
-					MULTIPLE_OUTPUTS_DISTINCT + "/part");
+		private void distinctReduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+			mos.write(MULTIPLE_OUTPUTS_DISTINCT, key, NullWritable.get(), MULTIPLE_OUTPUTS_DISTINCT + "/part");
 		}
 
 		@Override
-		protected void cleanup(Context context) throws IOException,
-				InterruptedException {
+		protected void cleanup(Context context) throws IOException, InterruptedException {
 			mos.close();
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 2) {
 			System.err.println("Usage: MergedJob <comment data> <out>");
 			System.exit(1);
@@ -171,10 +149,8 @@ public class MergedJobDriver {
 		TextInputFormat.setInputPaths(job, new Path(otherArgs[0]));
 		TextOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
 
-		MultipleOutputs.addNamedOutput(job, MULTIPLE_OUTPUTS_ANONYMIZE,
-				TextOutputFormat.class, Text.class, NullWritable.class);
-		MultipleOutputs.addNamedOutput(job, MULTIPLE_OUTPUTS_DISTINCT,
-				TextOutputFormat.class, Text.class, NullWritable.class);
+		MultipleOutputs.addNamedOutput(job, MULTIPLE_OUTPUTS_ANONYMIZE, TextOutputFormat.class, Text.class, NullWritable.class);
+		MultipleOutputs.addNamedOutput(job, MULTIPLE_OUTPUTS_DISTINCT, TextOutputFormat.class, Text.class, NullWritable.class);
 
 		job.setOutputKeyClass(TaggedText.class);
 		job.setOutputValueClass(Text.class);

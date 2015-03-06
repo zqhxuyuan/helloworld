@@ -195,6 +195,7 @@ public class ChainMapperDriver {
 			System.exit(2);
 		}
 
+        // 输入, 分布式缓存, 输出
 		Path postInput = new Path(otherArgs[0]);
 		Path userInput = new Path(otherArgs[1]);
 		Path outputDir = new Path(otherArgs[2]);
@@ -223,7 +224,7 @@ public class ChainMapperDriver {
 
 		conf.setCombinerClass(LongSumReducer.class);
 
-        // 现在只有一个作业了, 只需要配置一次输入和输出即可. 
+        // 现在只有一个作业了, 只需要配置一次输入和输出即可.
 		conf.setInputFormat(TextInputFormat.class);
 		TextInputFormat.setInputPaths(conf, postInput);
 
