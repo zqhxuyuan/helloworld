@@ -84,6 +84,10 @@ public class ReduceSideJoinDriver {
 			joinType = context.getConfiguration().get("join.type");
 		}
 
+        /**
+         * 同一个用户的信息, 和该用户创建的所有回复信息都会发到同一个Reduce里.
+         * Reduce的key是userId. values因为有2个Mapper, 所以会分别收到userinfo和comments
+         */
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {

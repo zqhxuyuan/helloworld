@@ -22,6 +22,9 @@ import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Job Merging
+ */
 public class MergedJobDriver {
 
 	public static final String MULTIPLE_OUTPUTS_ANONYMIZE = "anonymize";

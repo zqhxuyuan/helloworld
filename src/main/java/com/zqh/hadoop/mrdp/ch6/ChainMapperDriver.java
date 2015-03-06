@@ -35,12 +35,32 @@ import org.apache.hadoop.mapred.lib.MultipleOutputs;
 import org.apache.hadoop.mapred.lib.NullOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Chain Folding: Bin users by reputation
+ *
+ * This example is a slight modification of the job chaining example.
+ Here, we use two mapper implementations for the initial map phase.
+ The first formats each input XML record and writes out the user ID with a count of one.
+ The second mapper then enriches the user ID with his or her reputation,
+ which is read during the setup phase via the DistributedCache .
+
+ These two individual mapper classes are then chained together to feed a single reducer.
+ This reducer is a basic LongSumReducer that simply iterates through all the values and sums the numbers.
+ This sum is then output along with the input key.
+
+ Finally, a third mapper is called that will bin the records based on whether their reputation is below or above 5,000.
+ This entire flow is executed in one MapReduce job using ChainMapper and ChainReducer .
+
+ Problem: Given a set of user posts and user information, bin users based on whether
+ their reputation is below or above 5,000.
+ */
 public class ChainMapperDriver {
 
 	public static final String AVERAGE_CALC_GROUP = "AverageCalculation";
 	public static final String MULTIPLE_OUTPUTS_BELOW_5000 = "below5000";
 	public static final String MULTIPLE_OUTPUTS_ABOVE_5000 = "above5000";
 
+    // 输入posts, 输出userId-->Count
 	public static class UserIdCountMapper extends MapReduceBase implements
 			Mapper<Object, Text, Text, LongWritable> {
 
@@ -50,13 +70,10 @@ public class ChainMapperDriver {
 		private Text outkey = new Text();
 
 		@Override
-		public void map(Object key, Text value,
-				OutputCollector<Text, LongWritable> output, Reporter reporter)
-				throws IOException {
+		public void map(Object key, Text value, OutputCollector<Text, LongWritable> output, Reporter reporter) throws IOException {
 
 			// Parse the input into a nice map.
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Get the value for the OwnerUserId attribute
 			String userId = parsed.get("OwnerUserId");
@@ -81,24 +98,19 @@ public class ChainMapperDriver {
 				Path[] files = DistributedCache.getLocalCacheFiles(job);
 
 				if (files == null || files.length == 0) {
-					throw new RuntimeException(
-							"User information is not set in DistributedCache");
+					throw new RuntimeException("User information is not set in DistributedCache");
 				}
 
 				// Read all files in the DistributedCache
 				for (Path p : files) {
 					BufferedReader rdr = new BufferedReader(
-							new InputStreamReader(
-									new GZIPInputStream(new FileInputStream(
-											new File(p.toString())))));
+							new InputStreamReader(new GZIPInputStream(new FileInputStream(new File(p.toString())))));
 
 					String line;
 					// For each record in the user file
 					while ((line = rdr.readLine()) != null) {
-
 						// Get the user ID and reputation
-						Map<String, String> parsed = MRDPUtils
-								.transformXmlToMap(line);
+						Map<String, String> parsed = MRDPUtils.transformXmlToMap(line);
 						String userId = parsed.get("Id");
 						String reputation = parsed.get("Reputation");
 
@@ -108,20 +120,19 @@ public class ChainMapperDriver {
 						}
 					}
 				}
-
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
 		@Override
-		public void map(Text key, LongWritable value,
-				OutputCollector<Text, LongWritable> output, Reporter reporter)
-				throws IOException {
-
+		public void map(Text key, LongWritable value, OutputCollector<Text, LongWritable> output, Reporter reporter) throws IOException {
+            //key:userId, 即上一步UserIdCountMapper.map的key
 			String reputation = userIdToReputation.get(key.toString());
 			if (reputation != null) {
-				outkey.set(value.get() + "\t" + reputation);
+				//outkey.set(value.get() + "\t" + reputation);
+				outkey.set(key.toString() + "\t" + reputation);
+                //value是Count,还是1,注意这个Job还是Map,所以没有Reduce的迭代过程.
 				output.collect(outkey, value);
 			}
 		}
@@ -133,15 +144,13 @@ public class ChainMapperDriver {
 		private LongWritable outvalue = new LongWritable();
 
 		@Override
-		public void reduce(Text key, Iterator<LongWritable> values,
-				OutputCollector<Text, LongWritable> output, Reporter reporter)
-				throws IOException {
-
+		public void reduce(Text key, Iterator<LongWritable> values, OutputCollector<Text, LongWritable> output, Reporter reporter) throws IOException {
 			int sum = 0;
 			while (values.hasNext()) {
 				sum += values.next().get();
 			}
 			outvalue.set(sum);
+            // key=userId\tReputation,
 			output.collect(key, outvalue);
 		}
 	}
@@ -158,16 +167,12 @@ public class ChainMapperDriver {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void map(Text key, LongWritable value,
-				OutputCollector<Text, LongWritable> output, Reporter reporter)
-				throws IOException {
-
-			if (Integer.parseInt(key.toString().split("\t")[1]) < 5000) {
-				mos.getCollector(MULTIPLE_OUTPUTS_BELOW_5000, reporter)
-						.collect(key, value);
+		public void map(Text key, LongWritable value, OutputCollector<Text, LongWritable> output, Reporter reporter) throws IOException {
+			// the key has two parts: userId\tReputation. we only care Reputation for bin purpose
+            if (Integer.parseInt(key.toString().split("\t")[1]) < 5000) {
+				mos.getCollector(MULTIPLE_OUTPUTS_BELOW_5000, reporter).collect(key, value);
 			} else {
-				mos.getCollector(MULTIPLE_OUTPUTS_ABOVE_5000, reporter)
-						.collect(key, value);
+				mos.getCollector(MULTIPLE_OUTPUTS_ABOVE_5000, reporter).collect(key, value);
 			}
 		}
 
@@ -183,12 +188,10 @@ public class ChainMapperDriver {
 
 	public static void main(String[] args) throws Exception {
 		JobConf conf = new JobConf("ChainMapperReducer");
-		String[] otherArgs = new GenericOptionsParser(conf, args)
-				.getRemainingArgs();
+		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 
 		if (otherArgs.length != 3) {
-			System.err
-					.println("Usage: ChainMapperReducer <posts> <users> <out>");
+            System.err.println("Usage: ChainMapperReducer <posts> <users> <out>");
 			System.exit(2);
 		}
 
@@ -199,34 +202,36 @@ public class ChainMapperDriver {
 		// Setup first job to counter user posts
 		conf.setJarByClass(ChainMapperDriver.class);
 
+        /**
+         * The order in which they are added affects the execution of the different mapper implementations.
+         ChainMapper is first used to add the two map implementations that will be called back
+         to back before any sorting and shuffling occurs.
+         */
 		ChainMapper.addMapper(conf, UserIdCountMapper.class,
-				LongWritable.class, Text.class, Text.class, LongWritable.class,
-				false, new JobConf(false));
+				LongWritable.class, Text.class, Text.class, LongWritable.class, false, new JobConf(false));
 
 		ChainMapper.addMapper(conf, UserIdReputationEnrichmentMapper.class,
-				Text.class, LongWritable.class, Text.class, LongWritable.class,
-				false, new JobConf(false));
+				Text.class, LongWritable.class, Text.class, LongWritable.class, false, new JobConf(false));
 
 		ChainReducer.setReducer(conf, LongSumReducer.class, Text.class,
-				LongWritable.class, Text.class, LongWritable.class, false,
-				new JobConf(false));
+				LongWritable.class, Text.class, LongWritable.class, false, new JobConf(false));
 
+        // Note that you don’t use ChainMapper to add a mapper after a reducer: use ChainReducer .
+        // 在Reducer后执行一个Mapper, 不是使用ChainMapper, 而是使用ChainReducer.addMapper
 		ChainReducer.addMapper(conf, UserIdBinningMapper.class, Text.class,
-				LongWritable.class, Text.class, LongWritable.class, false,
-				new JobConf(false));
+				LongWritable.class, Text.class, LongWritable.class, false, new JobConf(false));
 
 		conf.setCombinerClass(LongSumReducer.class);
 
+        // 现在只有一个作业了, 只需要配置一次输入和输出即可. 
 		conf.setInputFormat(TextInputFormat.class);
 		TextInputFormat.setInputPaths(conf, postInput);
 
 		// Configure multiple outputs
 		conf.setOutputFormat(NullOutputFormat.class);
 		FileOutputFormat.setOutputPath(conf, outputDir);
-		MultipleOutputs.addNamedOutput(conf, MULTIPLE_OUTPUTS_ABOVE_5000,
-				TextOutputFormat.class, Text.class, LongWritable.class);
-		MultipleOutputs.addNamedOutput(conf, MULTIPLE_OUTPUTS_BELOW_5000,
-				TextOutputFormat.class, Text.class, LongWritable.class);
+		MultipleOutputs.addNamedOutput(conf, MULTIPLE_OUTPUTS_ABOVE_5000, TextOutputFormat.class, Text.class, LongWritable.class);
+		MultipleOutputs.addNamedOutput(conf, MULTIPLE_OUTPUTS_BELOW_5000, TextOutputFormat.class, Text.class, LongWritable.class);
 
 		conf.setOutputKeyClass(Text.class);
 		conf.setOutputValueClass(LongWritable.class);

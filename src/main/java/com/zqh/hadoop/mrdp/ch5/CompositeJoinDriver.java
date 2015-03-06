@@ -17,6 +17,13 @@ import org.apache.hadoop.mapred.join.CompositeInputFormat;
 import org.apache.hadoop.mapred.join.TupleWritable;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Composite user comment join 组合用户信息和回复信息
+ *
+ * Problem: Given two large formatted data sets of user information and comments,
+ * enrich the comments with user information data.
+ * 具有相同userId的用户信息和回复信息都组合在一起
+ */
 public class CompositeJoinDriver {
 
 	public static class CompositeMapper extends MapReduceBase implements
@@ -53,14 +60,20 @@ public class CompositeJoinDriver {
 		conf.setNumReduceTasks(0);
 
 		// Set the input format class to a CompositeInputFormat class.
-		// The CompositeInputFormat will parse all of our input files and output
-		// records to our mapper.
+		// The CompositeInputFormat will parse all of our input files and output records to our mapper.
 		conf.setInputFormat(CompositeInputFormat.class);
 
 		// The composite input format join expression will set how the records
 		// are going to be read in, and in what input format.
-		conf.set("mapred.join.expr", CompositeInputFormat.compose(joinType,
-				KeyValueTextInputFormat.class, userPath, commentPath));
+        /**
+         * To meet the preconditions of a composite join, both the user and comment data sets
+         have been preprocessed by MapReduce and output using the TextOutputFormat .
+         The key of each data set is the user ID, and the value is either the user XML or comment XML, based on the data set.
+         Hadoop has a KeyValueTextOutputFormat that can parse these formatted data sets exactly as required.
+         The key will be the output key of our format job (user ID) and the value will be the output value (user or comment data).
+         */
+		conf.set("mapred.join.expr", CompositeInputFormat.compose
+                (joinType, KeyValueTextInputFormat.class, userPath, commentPath));
 
 		TextOutputFormat.setOutputPath(conf, outputDir);
 
