@@ -1,5 +1,7 @@
 package bbejeck.mapred.coocurrance;
 
+import com.zqh.hadoop.mr.coocurrance.WordPair;
+import com.zqh.hadoop.mr.coocurrance.WordPairPartitioner;
 import org.apache.hadoop.io.IntWritable;
 import org.junit.Test;
 import static org.junit.Assert.*;

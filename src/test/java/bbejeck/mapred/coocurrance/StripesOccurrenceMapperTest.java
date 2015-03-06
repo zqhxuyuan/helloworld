@@ -1,5 +1,6 @@
 package bbejeck.mapred.coocurrance;
 
+import com.zqh.hadoop.mr.coocurrance.StripesOccurrenceMapper;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;

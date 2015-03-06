@@ -1,9 +1,9 @@
 package bbejeck.mapred.coocurrance;
 
+import com.zqh.hadoop.mr.coocurrance.WordPair;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

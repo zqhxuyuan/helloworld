@@ -18,6 +18,15 @@ import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Problem: Given a set of StackOverflow posts,
+ * bin the posts into four bins based on the tags hadoop, pig, hive, and hbase.
+ * Also, create a separate bin for posts mentioning hadoop in the text or title.
+ * 给数据分类. 类别的种类是固定的. 和分区Partitioner有点类似
+ * 不同的是对于Partitioner, 一条记录只能属于一个分区. 而Bin对于一条记录可能会被分在多个Bin里
+ * 比如一条记录既包含了hbase, 也包含了hadoop, 则这条记录会被分在hbase-tag, hadoop 2个Bin里
+ * 即输出结果有多个: multipleOutputs
+ */
 public class Binning {
 
 	public static class BinningMapper extends
@@ -37,17 +46,13 @@ public class Binning {
 				throws IOException, InterruptedException {
 
 			// Parse the input string into a nice map
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
-			String rawtags = parsed.get("Tags");
-			if (rawtags == null) {
-				return;
-			}
+            String rawtags = parsed.get("Tags");
+			if (rawtags == null) return;
 
 			// Tags are delimited by ><. i.e. <tag1><tag2><tag3>
-			String[] tagTokens = StringEscapeUtils.unescapeHtml(rawtags).split(
-					"><");
+			String[] tagTokens = StringEscapeUtils.unescapeHtml(rawtags).split("><");
 
 			// For each tag
 			for (String tag : tagTokens) {
@@ -74,10 +79,7 @@ public class Binning {
 
 			// Get the body of the post
 			String post = parsed.get("Body");
-
-			if (post == null) {
-				return;
-			}
+			if (post == null) return;
 
 			// If the post contains the word "hadoop", write it to its own bin
 			if (post.toLowerCase().contains("hadoop")) {

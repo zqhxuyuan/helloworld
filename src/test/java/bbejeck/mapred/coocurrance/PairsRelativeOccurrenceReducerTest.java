@@ -1,5 +1,7 @@
 package bbejeck.mapred.coocurrance;
 
+import com.zqh.hadoop.mr.coocurrance.PairsRelativeOccurrenceReducer;
+import com.zqh.hadoop.mr.coocurrance.WordPair;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;

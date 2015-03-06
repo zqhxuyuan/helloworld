@@ -16,6 +16,10 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Chapter 3 Filter Patterns: Distinct
+ * Problem: Given a list of user’s comments, determine the distinct set of user IDs.
+ */
 public class DistinctUserDriver {
 
 	public static class SODistinctUserMapper extends

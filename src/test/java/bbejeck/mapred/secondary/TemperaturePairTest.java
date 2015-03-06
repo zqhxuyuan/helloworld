@@ -1,5 +1,6 @@
 package bbejeck.mapred.secondary;
 
+import com.zqh.hadoop.mr.secondary.TemperaturePair;
 import org.junit.Test;
 
 import java.util.ArrayList;

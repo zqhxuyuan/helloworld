@@ -1,11 +1,10 @@
 package bbejeck.mapred.aggregation;
 
+import com.zqh.hadoop.mr.aggregation.AllDocumentMapper;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**

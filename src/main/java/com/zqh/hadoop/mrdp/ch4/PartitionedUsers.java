@@ -23,6 +23,10 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * Problem: Given a set of user information, partition the records based on the year of last
+ access date, one partition per year.
+ */
 public class PartitionedUsers {
 
 	public static class LastAccessDateMapper extends
@@ -53,6 +57,7 @@ public class PartitionedUsers {
 					cal.setTime(frmt.parse(strDate));
 					outkey.set(cal.get(Calendar.YEAR));
 					// Write out the year with the input value
+                    // 分区条件是年, 所以输出的key是年, value是map的每一条记录
 					context.write(outkey, value);
 				} catch (ParseException e) {
 					// An error occurred parsing the creation Date string
@@ -111,6 +116,8 @@ public class PartitionedUsers {
 
 		protected void reduce(IntWritable key, Iterable<Text> values,
 				Context context) throws IOException, InterruptedException {
+            // 分区只是输出的位置变化而已: 不同的数据放在对应的分区里. 数据的内容还是不变的.
+            // 这个Reduce的key是年. values就是属于这个年份的所有记录
 			for (Text t : values) {
 				context.write(t, NullWritable.get());
 			}

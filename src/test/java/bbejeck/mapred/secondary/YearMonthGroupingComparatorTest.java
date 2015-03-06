@@ -1,5 +1,7 @@
 package bbejeck.mapred.secondary;
 
+import com.zqh.hadoop.mr.secondary.TemperaturePair;
+import com.zqh.hadoop.mr.secondary.YearMonthGroupingComparator;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;

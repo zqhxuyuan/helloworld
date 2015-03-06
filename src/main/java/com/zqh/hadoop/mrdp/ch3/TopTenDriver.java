@@ -18,6 +18,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 /**
+ * Chapter 3 Filter Patterns : Top Ten
+ *
  * Problem: Given a list of user information, output the information of the top ten users based on reputation.
  */
 public class TopTenDriver {

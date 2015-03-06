@@ -22,6 +22,11 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ *
+ * Problem: Given a list of user’s comments, determine the first and last time a user com‐
+ mented and the total number of comments from that user.
+ */
 public class AverageDriver {
 
 	public static class SOAverageMapper extends

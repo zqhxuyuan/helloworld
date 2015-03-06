@@ -24,6 +24,8 @@ import org.apache.hadoop.util.bloom.BloomFilter;
 import org.apache.hadoop.util.bloom.Key;
 
 /**
+ * Chapter 3 Filter Patterns : Bloom Filter
+ *
  * Problem: Given a list of user’s comments, filter out a majority of the comments that do not contain a particular keyword
  */
 public class BloomFilteringDriver {
@@ -35,6 +37,8 @@ public class BloomFilteringDriver {
 
         /**
          * 在Map开始时,读取BloomFilter文件到BloomFilter中
+         * 注意: BloomFilter要事先运行,运行BloomFilterDriver的main函数
+         * 会在HDFS的DistributedCache中生成文件
          * @param context
          * @throws IOException
          * @throws InterruptedException
@@ -78,6 +82,10 @@ public class BloomFilteringDriver {
 				String cleanWord = tokenizer.nextToken().replaceAll("'", "").replaceAll("[^a-zA-Z]", " ");
 
 				// If the word is in the filter, output it and break
+                // 判断是否在Bloom Filter里. 如果BF判断不存在,则一定不存在. 有一种false positive:
+                // BF判断存在, 但是实际不存在.
+                // BF是ifExist的快速版本. 由于只是过滤数据. 如果存在的话,数据仍然原封不动输出
+                // key为数据本身, value为NULL. 而且没有reduce过程.
 				if (cleanWord.length() > 0 && filter.membershipTest(new Key(cleanWord.getBytes()))) {
 					context.write(value, NullWritable.get());
 					break;

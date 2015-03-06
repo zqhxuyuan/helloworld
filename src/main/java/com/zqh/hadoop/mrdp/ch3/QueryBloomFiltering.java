@@ -35,26 +35,21 @@ public class QueryBloomFiltering {
 		private HTable table = null;
 
 		@Override
-		protected void setup(Context context) throws IOException,
-				InterruptedException {
-			URI[] files = DistributedCache.getCacheFiles(context
-					.getConfiguration());
+		protected void setup(Context context) throws IOException, InterruptedException {
+			URI[] files = DistributedCache.getCacheFiles(context.getConfiguration());
 
 			// if the files in the distributed cache are set
 			if (files != null && files.length == 1) {
-				System.out.println("Reading Bloom filter from: "
-						+ files[0].getPath());
+				System.out.println("Reading Bloom filter from: " + files[0].getPath());
 
 				// Open local file for read.
-				DataInputStream strm = new DataInputStream(new FileInputStream(
-						files[0].getPath()));
+				DataInputStream strm = new DataInputStream(new FileInputStream(files[0].getPath()));
 
 				// Read into our Bloom filter.
 				filter.readFields(strm);
 				strm.close();
 			} else {
-				throw new IOException(
-						"Bloom filter file not set in the DistributedCache.");
+				throw new IOException("Bloom filter file not set in the DistributedCache.");
 			}
 
 			// Get HBase table of user info
@@ -63,29 +58,22 @@ public class QueryBloomFiltering {
 		}
 
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
 			// Parse the input into a nice map.
-			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value
-					.toString());
+			Map<String, String> parsed = MRDPUtils.transformXmlToMap(value.toString());
 
 			// Get the value for the comment
 			String userid = parsed.get("UserId");
-
 			// If it is null, skip this record
-			if (userid == null) {
-				return;
-			}
+			if (userid == null) return;
 
 			// If this user ID is in the set
 			if (filter.membershipTest(new Key(userid.getBytes()))) {
 				// Get the reputation from the HBase table
 				Result r = table.get(new Get(userid.getBytes()));
-				int reputation = Integer.parseInt(new String(r.getValue(
-						"attr".getBytes(), "Reputation".getBytes())));
-				// If the reputation is at least 1,500,
-				// write the record to the file system
+				int reputation = Integer.parseInt(new String(r.getValue("attr".getBytes(), "Reputation".getBytes())));
+				// If the reputation is at least 1,500, write the record to the file system
 				if (reputation >= 1500) {
 					context.write(value, NullWritable.get());
 				}

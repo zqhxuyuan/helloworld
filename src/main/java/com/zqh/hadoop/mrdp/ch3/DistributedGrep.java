@@ -11,6 +11,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * 分布式查找字符串
+ */
 public class DistributedGrep {
 
 	public static class GrepMapper extends
@@ -23,6 +26,8 @@ public class DistributedGrep {
 			String mapRegex = context.getConfiguration().get("mapregex");
 
 			if (txt.matches(mapRegex)) {
+                // key为NULL, value为本身
+                // 在有些地方key为本身, value为NULL
 				context.write(NullWritable.get(), value);
 			}
 		}

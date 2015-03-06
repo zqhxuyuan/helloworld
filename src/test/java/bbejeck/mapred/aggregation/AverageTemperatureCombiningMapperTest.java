@@ -1,5 +1,7 @@
 package bbejeck.mapred.aggregation;
 
+import com.zqh.hadoop.mr.aggregation.AverageTemperatureCombiningMapper;
+import com.zqh.hadoop.mr.aggregation.TemperatureAveragingPair;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;

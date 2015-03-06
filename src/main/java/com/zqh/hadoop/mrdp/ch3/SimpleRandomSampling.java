@@ -12,6 +12,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
+/**
+ * 随机取样
+ */
 public class SimpleRandomSampling {
 
 	public static class SRSMapper extends
@@ -21,20 +24,16 @@ public class SimpleRandomSampling {
 		private Double percentage;
 
 		@Override
-		protected void setup(Context context) throws IOException,
-				InterruptedException {
+		protected void setup(Context context) throws IOException, InterruptedException {
 			// retrieve the percentage that is passed in via the configuration
 			// like this: conf.set("filter_percentage", .5); for .5%
-			String strPercentage = context.getConfiguration().get(
-					"filter_percentage");
-
+			String strPercentage = context.getConfiguration().get("filter_percentage");
 			percentage = Double.parseDouble(strPercentage) / 100.0;
 		}
 
 		@Override
-		public void map(Object key, Text value, Context context)
-				throws IOException, InterruptedException {
-
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+            // 对于map进来的每一条记录, 会有一个随机数. 用每次生成的随机数和设定好的值比较.
 			if (rands.nextDouble() < percentage) {
 				context.write(NullWritable.get(), value);
 			}

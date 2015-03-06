@@ -1,5 +1,7 @@
 package bbejeck.mapred.secondary;
 
+import com.zqh.hadoop.mr.secondary.SecondarySortingTemperatureMapper;
+import com.zqh.hadoop.mr.secondary.TemperaturePair;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;

@@ -20,9 +20,11 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 /**
- * Problem: Given a large data set of StackOverflow comments, anonymize each comment
- by removing IDs, removing the time from the record, and then randomly shuffling the
- records within the data set.
+ * Shuffling
+ *
+ * Problem: Given a large data set of StackOverflow comments,
+ * anonymize each comment by removing IDs, removing the time from the record,
+ * and then randomly shuffling the records within the data set.
  */
 public class AnonymizeDriver {
 
@@ -46,36 +48,29 @@ public class AnonymizeDriver {
 				bldr.append("<row ");
 				for (Entry<String, String> entry : parsed.entrySet()) {
 
-					if (entry.getKey().equals("UserId")
-							|| entry.getKey().equals("Id")) {
+					if (entry.getKey().equals("UserId") || entry.getKey().equals("Id")) {
 						// ignore these fields
 					} else if (entry.getKey().equals("CreationDate")) {
-						// Strip out the time, anything after the 'T' in the
-						// value
-						bldr.append(entry.getKey()
-								+ "=\""
-								+ entry.getValue().substring(0,
-										entry.getValue().indexOf('T')) + "\" ");
+						// Strip out the time, anything after the 'T' in the value
+						bldr.append(entry.getKey() + "=\"" + entry.getValue().substring(0, entry.getValue().indexOf('T')) + "\" ");
 					} else {
 						// Otherwise, output this.
-						bldr.append(entry.getKey() + "=\"" + entry.getValue()
-								+ "\" ");
+						bldr.append(entry.getKey() + "=\"" + entry.getValue() + "\" ");
 					}
 
 				}
 				bldr.append(">");
 				outkey.set(rndm.nextInt());
 				outvalue.set(bldr.toString());
+                // key是随机数, 对Map的每条记录, 都会产生一个随机数. 从而达到shuffle的目的
 				context.write(outkey, outvalue);
 			}
 		}
 	}
 
-	public static class ValueReducer extends
-			Reducer<IntWritable, Text, Text, NullWritable> {
+	public static class ValueReducer extends Reducer<IntWritable, Text, Text, NullWritable> {
 		@Override
-		protected void reduce(IntWritable key, Iterable<Text> values,
-				Context context) throws IOException, InterruptedException {
+		protected void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 			for (Text t : values) {
 				context.write(t, NullWritable.get());

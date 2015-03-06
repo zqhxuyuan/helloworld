@@ -1,5 +1,7 @@
 package bbejeck.mapred.secondary;
 
+import com.zqh.hadoop.mr.secondary.TemperaturePair;
+import com.zqh.hadoop.mr.secondary.TemperaturePartitioner;
 import org.apache.hadoop.io.NullWritable;
 import org.junit.Test;
 import static org.junit.Assert.*;

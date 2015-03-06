@@ -34,8 +34,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.xml.sax.InputSource;
 
+/**
+ * Structured to Hierarchical 由结构化的数据转成按等级划分
+ *
+ * Problem: Given a list of posts and comments, create a structured XML hierarchy to nest
+ comments with their related post.
+ */
 public class PostCommentBuildingDriver {
 
+    // 帖子
 	public static class PostMapper extends Mapper<Object, Text, Text, Text> {
 
 		private Text outkey = new Text();
@@ -64,6 +71,7 @@ public class PostCommentBuildingDriver {
 		}
 	}
 
+    // 回复
 	public static class CommentMapper extends Mapper<Object, Text, Text, Text> {
 		private Text outkey = new Text();
 		private Text outvalue = new Text();
@@ -94,10 +102,11 @@ public class PostCommentBuildingDriver {
 			Reducer<Text, Text, Text, NullWritable> {
 
 		private ArrayList<String> comments = new ArrayList<String>();
-		private DocumentBuilderFactory dbf = DocumentBuilderFactory
-				.newInstance();
+		private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		private String post = null;
 
+        // 一个帖子的所有回复记录都会到同一个reduce里.
+        // 因为有2个mapper, 所以这个reduce会接收帖子信息和所有该帖子的回复信息
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {
@@ -109,13 +118,10 @@ public class PostCommentBuildingDriver {
 			for (Text t : values) {
 				// If this is the post record, store it, minus the flag
 				if (t.charAt(0) == 'P') {
-					post = t.toString().substring(1, t.toString().length())
-							.trim();
+					post = t.toString().substring(1, t.toString().length()).trim();
 				} else {
-					// Else, it is a comment record. Add it to the list, minus
-					// the flag
-					comments.add(t.toString()
-							.substring(1, t.toString().length()).trim());
+					// Else, it is a comment record. Add it to the list, minus the flag
+					comments.add(t.toString().substring(1, t.toString().length()).trim());
 				}
 			}
 
@@ -125,8 +131,7 @@ public class PostCommentBuildingDriver {
 				String postWithCommentChildren = nestElements(post, comments);
 
 				// write out the XML
-				context.write(new Text(postWithCommentChildren),
-						NullWritable.get());
+				context.write(new Text(postWithCommentChildren), NullWritable.get());
 			}
 		}
 

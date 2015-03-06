@@ -1,5 +1,7 @@
 package bbejeck.mapred.coocurrance;
 
+import com.zqh.hadoop.mr.coocurrance.PairsOccurrenceMapper;
+import com.zqh.hadoop.mr.coocurrance.WordPair;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
