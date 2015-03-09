@@ -255,11 +255,6 @@ public class RedisCache implements ConfigurationWatcher, ICache {
 			return cacheClient.getList(dbIndex, key);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ai.paas.client.cache.CacheSvc#flushDB()
-	 */
 	@Override
 	public String flushDB() {
 		return cacheClient.flushDB(dbIndex);
@@ -284,33 +279,4 @@ public class RedisCache implements ConfigurationWatcher, ICache {
 	public void delMapItem(String key, String field) {
 		cacheClient.delMapItem(key, field);
 	}
-	
-	@SuppressWarnings("resource")
-	public static void main(String[] args) throws PaasException {
-		// /com/ai/paas/cache/conf/session
-		// {'host':'192.168.117.80','port':'6379','timeOut':'20000','maxActive':'100','maxIdle':'100','maxWait':'1000','testOnBorrow':'true','testOnReturn':'true','dbIndex':'0'}
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(
-				new String[] { "paasContext.xml" });
-		 ICache cacheSv = (RedisCache) ctx.getBean("cacheSv");
-		// System.out.println("112");
-		// cacheSv.addItem("country", "weme");
-		// cacheSv.addItem("sex", "8");
-		// System.out.println(cacheSv.getItem("country"));
-		// System.out.println(cacheSv.getItem("sex"));
-		// while (true) {
-		// try {
-		// Thread.sleep(5000);
-		// System.out.println(cacheSv.getItem("country"));
-		// System.out.println(cacheSv.getItem("sex"));
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		 cacheSv.getIncrement("1");
-//		((ClassPathXmlApplicationContext) ctx).close();
-	}
-
-
-	
-
 }

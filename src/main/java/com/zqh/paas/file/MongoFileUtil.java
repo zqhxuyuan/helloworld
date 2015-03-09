@@ -84,15 +84,4 @@ public class MongoFileUtil {
 	public static String getFileName(String fileId){
 		return getInstance().getFileName(fileId);
 	}
-	
-	public static void main(String[] args) {
-		String fileId = saveFile("/home/hadoop/data/helloworld.txt","txt");
-        readFileByName("helloworld.txt","/home/hadoop/data/helloworld_mongo.txt");
-        deleteFileByName("helloworld.txt");
-
-        String fileId2 = saveFile("/home/hadoop/data/helloworld2.txt","txt");
-        readFile(fileId2, "/home/hadoop/data/helloworld_mongoid.txt");
-        System.out.println(getFileName(fileId2));
-        deleteFile(fileId2);
-	}
 }

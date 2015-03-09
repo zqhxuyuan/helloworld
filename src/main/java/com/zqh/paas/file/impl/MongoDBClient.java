@@ -46,15 +46,13 @@ public class MongoDBClient {
 					sa.add(new ServerAddress(json.getString(IP_KEY), json.getInt(PORT_KEY)));
 				}
 				mongo = new MongoClient(sa);
-
 			}
 		} catch (UnknownHostException e) {
 			log.error("", e);
 		}
 	}
 
-	public MongoDBClient(String addr, String database, String userName,
-			String password) {
+	public MongoDBClient(String addr, String database, String userName, String password) {
 		try {
 			JSONArray array = JSONArray.fromObject(addr);
 			if (array != null && array.size() > 0) {
@@ -202,8 +200,7 @@ public class MongoDBClient {
 			return null;
 		}
 		GridFS fs = new GridFS(mongo.getDB(dbName));
-		GridFSDBFile dbFile = fs
-				.findOne(new BasicDBObject(FILE_NAME, fileName));
+		GridFSDBFile dbFile = fs.findOne(new BasicDBObject(FILE_NAME, fileName));
 		if (dbFile == null) {
 			return null;
 		}
@@ -252,8 +249,7 @@ public class MongoDBClient {
 
 	}
 
-	public void readFileByName(String dbName, String fileName,
-			String localFileName) {
+	public void readFileByName(String dbName, String fileName, String localFileName) {
 		if (fileName == null) {
 			return;
 		}

@@ -11,7 +11,7 @@
 		<constructor-arg value="P" />
 		<constructor-arg>
 			<list>
-				<value>/paasConf-dev.properties</value>
+				<value>/paasConf.properties</value>
 			</list>
 		</constructor-arg>
 		<property name="createZKNode" value="true" />
@@ -27,24 +27,37 @@
         <property name="confPath" value="/com/zqh/paas/file/conf" />
     </bean>
 
+    <bean id="logMessageSender" class="com.zqh.paas.message.impl.MessageSender" init-method="init" destroy-method="destroy">
+        <property name="confCenter" ref="confCenter" />
+        <property name="confPath" value="/com/zqh/paas/message/logMessageSender" />
+    </bean>
+    <bean id="messageSender" class="com.zqh.paas.message.impl.MessageSender" init-method="init" destroy-method="destroy">
+        <property name="confCenter" ref="confCenter" />
+        <property name="confPath" value="/com/zqh/paas/message/messageSender" />
+    </bean>
+
+    <bean id="logWriter" class="com.zqh.paas.log.impl.MongoLogWriter" init-method="init">
+        <property name="confCenter" ref="confCenter" />
+        <property name="confPath" value="/com/zqh/paas/logger/conf" />
+    </bean>
+    <bean id="logMessageListener" class="com.zqh.paas.message.impl.KafkaLogMessageListener">
+        <property name="logTopic" value="paas_log_mongo_topic"/>
+        <property name="logWriter" ref="logWriter"/>
+    </bean>
+
+    <bean id="messageConsumer" class="com.zqh.paas.message.impl.MessageConsumer" init-method="init">
+        <property name="confCenter" ref="confCenter"/>
+        <property name="listener" ref="logMessageListener"/>
+        <property name="confPath" value="/com/zqh/paas/message/messageConsumer"/>
+        <property name="groupId" value="kafka_log_message_group"/>
+        <property name="monitorTopicList">
+            <list>
+                <value>paas_log_mongo_topic</value>
+            </list>
+        </property>
+    </bean>
+
     <!--
-	<bean id="logMessageSender" class="com.ai.paas.message.impl.MessageSender"
-		init-method="init" destroy-method="destroy">
-		<property name="confCenter" ref="confCenter" />
-		<property name="confPath" value="/com/ai/paas/message/logMessageSender" />
-	</bean>
-	<bean id="messageSender" class="com.ai.paas.message.impl.MessageSender"
-		init-method="init" destroy-method="destroy">
-		<property name="confCenter" ref="confCenter" />
-		<property name="confPath" value="/com/ai/paas/message/messageSender" />
-	</bean>
-
-	<bean id="logWriter" class="com.ai.paas.log.impl.MongoLogWriter"
-		init-method="init">
-		<property name="confCenter" ref="confCenter" />
-		<property name="confPath" value="/com/ai/paas/logger/conf" />
-	</bean>
-
 	<bean id="sessionManager" class="com.ai.paas.session.impl.SessionManager"
 		init-method="init">
 		<property name="confCenter" ref="confCenter" />

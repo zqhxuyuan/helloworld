@@ -14,7 +14,7 @@ import com.zqh.paas.util.JSONValidator;
 public class MongoFileManager implements ConfigurationWatcher, IFileManager {
 	private static final Logger log = Logger.getLogger(MongoFileManager.class);
 
-	private String confPath = "/com/ai/paas/file/conf";
+	private String confPath = "/com/zqh/paas/file/conf";
 
 	private static final String File_SERVER_KEY = "fileServer";
 	private static final String File_REPO_KEY = "fileRepo";
@@ -29,25 +29,16 @@ public class MongoFileManager implements ConfigurationWatcher, IFileManager {
 	private ConfigurationCenter confCenter = null;
 
 	public MongoFileManager() {
-
 	}
 
 	public void init() {
 		try {
 			process(confCenter.getConfAndWatch(confPath, this));
-
 		} catch (PaasException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/*
-	 * { logServer : [{ip:
-	 * '133.0.43.195',port:'27017'},{ip:'133.0.43.196',port:'27017'},{ip:'133.0.43.196',port:'27027'}],
-	 * logRepo : 'aipayLogDB', logPath : 'aipayLogCollection' }
-	 * 
-	 * @see com.ai.paas.client.ConfigurationWatcher#process(java.lang.String)
-	 */
 	public void process(String conf) {
 		if (log.isInfoEnabled()) {
 			log.info("new log configuration is received: " + conf);
@@ -73,11 +64,9 @@ public class MongoFileManager implements ConfigurationWatcher, IFileManager {
 			}
 			if (changed) {
 				if (fileServer != null) {
-					mongo = new MongoDBClient(fileServer, fileRepo, userName,
-							password);
+					mongo = new MongoDBClient(fileServer, fileRepo, userName, password);
 					if (log.isInfoEnabled()) {
-						log.info("log server address is changed to "
-								+ fileServer);
+						log.info("log server address is changed to " + fileServer);
 					}
 				}
 			}
@@ -139,20 +128,6 @@ public class MongoFileManager implements ConfigurationWatcher, IFileManager {
 			mongo.destroyMongoDB();
 			mongo = null;
 		}
-	}
-
-	public static void main(String[] args) throws PaasException {
-		// ApplicationContext ctx = new ClassPathXmlApplicationContext(new
-		// String[] { "clientSenderContext.xml" });
-		IFileManager manager = (IFileManager) PaasContextHolder.getContext()
-				.getBean("fileManager");
-//		System.out.println(manager.saveFile("d:/jarscan.jar", "jar"));
-		//manager.readFileByName("mongo-2.6.1.jar","/Users/liwenxian/Downloads/aaaa.jar");
-//		manager.deleteFileByName("mongo-2.6.1.jar");
-		System.out.println(manager.readFile("53a13d2d7e3401fd7757df7b"));
-		//manager.readFile("53980fa930047481d096ef2c","/Users/liwenxian/Downloads/cccc.jar");
-//		manager.deleteFile("53980fa930047481d096ef2c");
-		log.error("aaaaaaaaaa");
 	}
 
 	@Override

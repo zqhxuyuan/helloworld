@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import com.zqh.paas.util.CiperTools;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
@@ -33,7 +34,6 @@ public class ConfigurationCenter {
 
 	private String centerAddr = null;
 	private boolean createZKNode = false;
-
 	private int timeOut = 2000;
 
 	private String runMode = PROD_MODE;// P:product mode; D:dev mode
@@ -41,6 +41,8 @@ public class ConfigurationCenter {
 	public static final String PROD_MODE = "P";
 	private List<String> configurationFiles = new ArrayList<String>();
 	private Properties props = new Properties();
+
+    private String auth = null;
 
     // 订阅者. key:path, value:AppImpl
 	private HashMap<String, ArrayList<ConfigurationWatcher>> subsMap = null;
@@ -112,6 +114,8 @@ public class ConfigurationCenter {
 					}
 				}
 			});
+            if ((this.auth != null) && (this.auth.length() > 0))
+                this.zk.addAuthInfo("digest", CiperTools.decrypt(this.auth).getBytes());
 			return zk;
 		}
 	}
@@ -197,6 +201,11 @@ public class ConfigurationCenter {
 		this.configurationFiles.addAll(configurationFiles);
 	}
 
+    /**
+     * 订阅者的实现类在初始化后应该注册到ConfCenter
+     * @param confPath
+     * @param warcher
+     */
     public String getConfAndWatch(String confPath, ConfigurationWatcher warcher) throws PaasException {
         ArrayList<ConfigurationWatcher> watcherList = subsMap.get(confPath);
         if (watcherList == null) {
@@ -251,19 +260,11 @@ public class ConfigurationCenter {
 		this.createZKNode = createZKNode;
 	}
 
-	@SuppressWarnings("resource")
-	public static void main(String[] args) throws PaasException {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] { "paasContext.xml" });
-		ConfigurationCenter confCenter = (ConfigurationCenter) ctx
-				.getBean("confCenter");
-		log.error(confCenter.getConf("/com/ai/paas/session/conf"));
-		// MongoLogWriter logWriter = (MongoLogWriter)ctx.getBean("logWriter");
-		// while(true) {
-		// try {
-		// Thread.sleep(1000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-	}
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
 }
