@@ -1,3 +1,5 @@
+package com.zqh.hadoop.mr.weblog;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -8,8 +10,6 @@ import java.io.InputStreamReader;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
-import com.example.hadoop.io.CommonWebLog;
-import com.example.hadoop.io.CommonWebLogRecordReader;
 
 /* A simple client that tests the record reader locally.
  * Takes a log file as an argument and passes each line of text to the record reader.

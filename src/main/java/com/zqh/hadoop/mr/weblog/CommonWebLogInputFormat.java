@@ -1,4 +1,4 @@
-package com.example.hadoop.io;
+package com.zqh.hadoop.mr.weblog;
 
 import java.io.IOException;
 
